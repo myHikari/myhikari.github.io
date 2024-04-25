@@ -1,0 +1,759 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/ico/go.ico">
+  <link rel="icon" href="/images/ico/go.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="myHiakri">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Eureka1、概述Eureka 是 Netflix 开源的一个基于 REST 的服务治理框架，用于服务注册和服务发现。它是 Netflix OSS（Open Source Software）中的一部分，设计用于构建基于云的微服务架构。 Eureka 服务器 Eureka 服务器是服务注册中心，负责接收各个微服务实例的注册信息，并存储这些信息。 它维护一个服务注册表，记录了所有已注册的微服务实例的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eureka">
+<meta property="og:url" content="http://myhikari.github.io/2024/04/25/Eureka/index.html">
+<meta property="og:site_name" content="myHikari">
+<meta property="og:description" content="Eureka1、概述Eureka 是 Netflix 开源的一个基于 REST 的服务治理框架，用于服务注册和服务发现。它是 Netflix OSS（Open Source Software）中的一部分，设计用于构建基于云的微服务架构。 Eureka 服务器 Eureka 服务器是服务注册中心，负责接收各个微服务实例的注册信息，并存储这些信息。 它维护一个服务注册表，记录了所有已注册的微服务实例的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://myhikari.github.io/images/eureka-framework.png">
+<meta property="og:image" content="http://myhikari.github.io/images/ribbon.png">
+<meta property="og:image" content="http://myhikari.github.io/images/Ribbon-IRule.png">
+<meta property="article:published_time" content="2024-04-25T09:58:34.000Z">
+<meta property="article:modified_time" content="2024-04-25T09:58:57.312Z">
+<meta property="article:author" content="myHiakri">
+<meta property="article:tag" content="Eureka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://myhikari.github.io/images/eureka-framework.png">
+  
+  
+  
+  <title>Eureka - myHikari</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"myhikari.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>myHiakri</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/bg/alice.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Eureka"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-25 17:58" pubdate>
+          2024年4月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Eureka</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p>Eureka 是 Netflix 开源的一个基于 REST 的服务治理框架，用于服务注册和服务发现。它是 Netflix OSS（Open Source Software）中的一部分，设计用于构建基于云的微服务架构。</p>
+<h3 id="Eureka-服务器"><a href="#Eureka-服务器" class="headerlink" title="Eureka 服务器"></a>Eureka 服务器</h3><ul>
+<li>Eureka 服务器是服务注册中心，负责接收各个微服务实例的注册信息，并存储这些信息。</li>
+<li>它维护一个服务注册表，记录了所有已注册的微服务实例的信息，包括它们的网络位置（IP 地址和端口号）、健康状态、元数据等。</li>
+<li>Eureka 服务器使用心跳机制来监控微服务实例的健康状态，并在实例不再发送心跳时将其标记为不可用。</li>
+<li>通过提供 RESTful API，其他服务可以查询 Eureka 服务器以获取可用的服务实例列表。</li>
+</ul>
+<h3 id="Eureka-客户端"><a href="#Eureka-客户端" class="headerlink" title="Eureka 客户端"></a>Eureka 客户端</h3><ul>
+<li>Eureka 客户端是微服务应用程序中集成的库，负责向 Eureka 服务器注册自己的实例信息，并定期发送心跳来告知自己的健康状态。</li>
+<li>客户端还会从 Eureka 服务器获取其他服务实例的信息，以便进行服务调用。它会缓存这些信息，以提高性能并减少对 Eureka 服务器的请求次数。</li>
+<li>当服务实例启动或关闭时，Eureka 客户端会自动与 Eureka 服务器同步状态。</li>
+</ul>
+<blockquote>
+<p>EurekaServer：服务端，注册中心</p>
+<ul>
+<li>记录服务信息</li>
+<li>心跳监控</li>
+</ul>
+<p>EurekaClient：客户端</p>
+<ol>
+<li>Provider：服务提供者 service<ul>
+<li>注册自己的信息到 EurekaServer</li>
+<li>每隔 30 秒向 EurekaServer 发送心跳</li>
+</ul>
+</li>
+<li>consumer：服务消费者 client<ul>
+<li>根据服务名称从 EurekaServer 拉取服务列表</li>
+<li>基于服务列表做负载均衡，选中一个微服务后发起远程调用</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="提供者与消费者"><a href="#提供者与消费者" class="headerlink" title="提供者与消费者"></a>提供者与消费者</h3><p>在服务调用关系中，会有两个不同的角色：</p>
+<p><strong>服务提供者</strong>：一次业务中，被其它微服务调用的服务。（提供接口给其它微服务）</p>
+<p><strong>服务消费者</strong>：一次业务中，调用其它微服务的服务。（调用其它微服务提供的接口）</p>
+<p>注意 ⚠️：对于某个服务来说，它既可以是服务的提供者，也可以是服务的消费者</p>
+<h2 id="2、运行机制"><a href="#2、运行机制" class="headerlink" title="2、运行机制"></a>2、运行机制</h2><h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><blockquote>
+<h3 id="服务注册："><a href="#服务注册：" class="headerlink" title="服务注册："></a>服务注册：</h3><p>微服务应用启动时，会通过 Eureka 客户端向 Eureka 注册中心注册自己的实例信息。<br>注册信息包括服务名称、网络位置（IP 地址和端口号）、健康状态等。<br>注册中心将这些信息存储在注册表中。</p>
+<h3 id="服务发现："><a href="#服务发现：" class="headerlink" title="服务发现："></a>服务发现：</h3><p>其他微服务需要调用某个服务时，会向 Eureka 注册中心发送 RESTful 请求，请求可用的服务实例列表。<br>注册中心会返回符合请求条件的服务实例信息，供调用方选择合适的实例进行服务调用。</p>
+<h3 id="心跳与健康检查："><a href="#心跳与健康检查：" class="headerlink" title="心跳与健康检查："></a>心跳与健康检查：</h3><p>微服务实例在注册后会定期向 Eureka 注册中心发送心跳。<br>心跳表示该实例仍然处于健康状态。<br>注册中心会根据心跳信息来监控服务实例的健康状态，如果一段时间内未收到某个实例的心跳，则将其标记为不可用。</p>
+<h3 id="自我保护机制："><a href="#自我保护机制：" class="headerlink" title="自我保护机制："></a>自我保护机制：</h3><p>Eureka 注册中心具有自我保护机制，用于防止网络分区或其他异常情况下出现服务丢失的情况。<br>当注册中心在一段时间内未收到足够数量的心跳时，它会进入自我保护模式，不再剔除健康的服务实例。<br>这样可以保证即使在网络故障等异常情况下，服务仍然能够被正常发现和调用。</p>
+</blockquote>
+<h3 id="运行原理图"><a href="#运行原理图" class="headerlink" title="运行原理图"></a>运行原理图</h3><p><img src="/images/eureka-framework.png" srcset="/img/loading.gif" lazyload alt="eureka"></p>
+<h2 id="3、快速入门"><a href="#3、快速入门" class="headerlink" title="3、快速入门"></a>3、快速入门</h2><h4 id="EurekaSewrver"><a href="#EurekaSewrver" class="headerlink" title="EurekaSewrver"></a>EurekaSewrver</h4><h5 id="1、Maven-依赖"><a href="#1、Maven-依赖" class="headerlink" title="1、Maven 依赖"></a>1、Maven 依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Eureka服务器端 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="2、添加注释"><a href="#2、添加注释" class="headerlink" title="2、添加注释"></a>2、添加注释</h5><p>启动类添加注释：<code>@EnableEurekaServer</code></p>
+<h5 id="3、编写配置文件"><a href="#3、编写配置文件" class="headerlink" title="3、编写配置文件"></a>3、编写配置文件</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">10086</span><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">eureka-server</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="服务端-Service"><a href="#服务端-Service" class="headerlink" title="服务端 Service"></a>服务端 Service</h4><h5 id="1、Maven-依赖-1"><a href="#1、Maven-依赖-1" class="headerlink" title="1、Maven 依赖"></a>1、Maven 依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Eureka服务端 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="2、配置文件"><a href="#2、配置文件" class="headerlink" title="2、配置文件"></a>2、配置文件</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">service</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="客户端-Client"><a href="#客户端-Client" class="headerlink" title="客户端 Client"></a>客户端 Client</h4><h5 id="1、Maven-依赖-2"><a href="#1、Maven-依赖-2" class="headerlink" title="1、Maven 依赖"></a>1、Maven 依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Eureka客户端 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="2、配置文件-1"><a href="#2、配置文件-1" class="headerlink" title="2、配置文件"></a>2、配置文件</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">client</span><br><span class="hljs-attr">eureka:</span><br>  <span class="hljs-attr">client:</span><br>    <span class="hljs-attr">service-url:</span><br>      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="3、服务拉取"><a href="#3、服务拉取" class="headerlink" title="3、服务拉取"></a>3、服务拉取</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.cloud.client.loadbalancer.LoadBalanced;<br><span class="hljs-keyword">import</span> org.springframework.cloud.netflix.eureka.EnableEurekaClient;<br><span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;<br><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span> <span class="hljs-comment">// 启用eurekaclient，新版本可以省略</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServiceApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(ServiceApplication.class, args);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建RestTemplate并注入Spring容器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@LoadBalanced</span>  <span class="hljs-comment">// 负载均衡注解</span><br>    <span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title function_">restTemplate</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="4、调用服务"><a href="#4、调用服务" class="headerlink" title="4、调用服务"></a>4、调用服务</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Service</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RestTemplate restTemplate;<br><br>    <span class="hljs-keyword">public</span> Order <span class="hljs-title function_">queryById</span><span class="hljs-params">(Long id)</span> &#123;<br>        <span class="hljs-comment">// ...</span><br><br>        <span class="hljs-comment">// 利用RestTemplate发起http请求</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;http://service/user/&quot;</span> + id;<br>        <span class="hljs-comment">// 发送http get请求，实现远程调用服务</span><br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> restTemplate.getForObject(url, User.class);<br><br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="4、Ribbon-负载均衡"><a href="#4、Ribbon-负载均衡" class="headerlink" title="4、Ribbon 负载均衡"></a>4、Ribbon 负载均衡</h2><blockquote>
+<p>@LoadBalanced 注解，实现负载均衡功能的原理？</p>
+</blockquote>
+<h3 id="4-1、原理"><a href="#4-1、原理" class="headerlink" title="4.1、原理"></a>4.1、原理</h3><p><img src="/images/ribbon.png" srcset="/img/loading.gif" lazyload alt="ribbon"></p>
+<h3 id="4-2、负载均衡策略"><a href="#4-2、负载均衡策略" class="headerlink" title="4.2、负载均衡策略"></a>4.2、负载均衡策略</h3><p><img src="/images/Ribbon-IRule.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th><strong>内置负载均衡规则类</strong></th>
+<th><strong>规则描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RoundRobinRule</td>
+<td>简单轮询服务列表来选择服务器。它是 Ribbon 默认的负载均衡规则。</td>
+</tr>
+<tr>
+<td>AvailabilityFilteringRule</td>
+<td>对以下两种服务器进行忽略： （1）在默认情况下，这台服务器如果 3 次连接失败，这台服务器就会被设置为“短路”状态。短路状态将持续 30 秒，如果再次连接失败，短路的持续时间就会几何级地增加。 （2）并发数过高的服务器。如果一个服务器的并发连接数过高，配置了 AvailabilityFilteringRule 规则的客户端也会将其忽略。并发连接数的上限，可以由客户端的<clientName>.<clientConfigNameSpace>.ActiveConnectionsLimit 属性进行配置。</td>
+</tr>
+<tr>
+<td>WeightedResponseTimeRule</td>
+<td>为每一个服务器赋予一个权重值。服务器响应时间越长，这个服务器的权重就越小。这个规则会随机选择服务器，这个权重值会影响服务器的选择。</td>
+</tr>
+<tr>
+<td><strong>ZoneAvoidanceRule</strong></td>
+<td>以区域可用的服务器为基础进行服务器的选择。使用 Zone 对服务器进行分类，这个 Zone 可以理解为一个机房、一个机架等。而后再对 Zone 内的多个服务做轮询。</td>
+</tr>
+<tr>
+<td>BestAvailableRule</td>
+<td>忽略那些短路的服务器，并选择并发数较低的服务器。</td>
+</tr>
+<tr>
+<td>RandomRule</td>
+<td>随机选择一个可用的服务器。</td>
+</tr>
+<tr>
+<td>RetryRule</td>
+<td>重试机制的选择逻辑</td>
+</tr>
+</tbody></table>
+<h3 id="4-3、自定义负载均衡策略"><a href="#4-3、自定义负载均衡策略" class="headerlink" title="4.3、自定义负载均衡策略"></a>4.3、自定义负载均衡策略</h3><p>代码方式：启动类中定义新的 IRule</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableEurekaClient</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">erviceApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(ServiceApplication.class, args);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建RestTemplate并注入Spring容器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@LoadBalanced</span>  <span class="hljs-comment">// 负载均衡注解</span><br>    <span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title function_">restTemplate</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();<br>    &#125;<br><br>     <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> IRule <span class="hljs-title function_">randomRule</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 指定负载均衡策略为随机</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RandomRule</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>配置文件方式：在 application.yml 文件中添加新的配置修改规则</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">XXXservice:</span> <span class="hljs-comment"># 指定给某个目标服务发起请求时的负载均衡规则，这里是目标服务的服务名称(如：UserService)</span><br>  <span class="hljs-attr">ribbon:</span><br>    <span class="hljs-attr">NFLoadBalancerRuleClassName:</span> <span class="hljs-string">com.netflix.loadbalancer.RandomRule</span> <span class="hljs-comment"># 负载均衡规则：指定的是随机访问</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-4、Ribbon-的饥饿加载"><a href="#4-4、Ribbon-的饥饿加载" class="headerlink" title="4.4、Ribbon 的饥饿加载"></a>4.4、Ribbon 的饥饿加载</h3><p>Ribbon 默认是采用懒加载，即第一次访问时才会去创建 LoadBalanceClient，请求时间会很长。而饥饿加载则会在项目启动时创建，降低第一次访问的耗时。</p>
+<p>通过下面配置开启饥饿加载</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">ribbon:</span><br>  <span class="hljs-attr">eager-load:</span><br>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">clients:</span> <span class="hljs-string">XXXservice</span> <span class="hljs-comment"># 如：userservice</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Eureka/" class="category-chain-item">Eureka</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Eureka/" class="print-no-link">#Eureka</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Eureka</div>
+      <div>http://myhikari.github.io/2024/04/25/Eureka/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>myHiakri</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/25/EnvConfig/" title="EnvConfig">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">EnvConfig</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/25/Git/" title="GitGit">
+                        <span class="hidden-mobile">GitGit</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
