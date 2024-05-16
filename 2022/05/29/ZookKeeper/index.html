@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Zookeeper1、概念 Zookeeper 是 Apache Hadoop 项目下的一个子项目，是一个树形目录服务。  Zookeeper 翻译过来就是 动物园管理员，他是用来管 Hadoop（大象）、Hive(蜜蜂)、Pig(小 猪)的管理员。简称 zk  Zookeeper 是一个分布式的、开源的分布式应用程序的协调服务。  Zookeeper 提供的主要功能包括：   配置管理 分布式锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZookKeeper">
+<meta property="og:url" content="http://myhikari.github.io/2022/05/29/ZookKeeper/index.html">
+<meta property="og:site_name" content="myHikari">
+<meta property="og:description" content="Zookeeper1、概念 Zookeeper 是 Apache Hadoop 项目下的一个子项目，是一个树形目录服务。  Zookeeper 翻译过来就是 动物园管理员，他是用来管 Hadoop（大象）、Hive(蜜蜂)、Pig(小 猪)的管理员。简称 zk  Zookeeper 是一个分布式的、开源的分布式应用程序的协调服务。  Zookeeper 提供的主要功能包括：   配置管理 分布式锁">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-29T09:50:12.000Z">
+<meta property="article:modified_time" content="2024-04-26T07:55:22.143Z">
+<meta property="article:author" content="myHikari">
+<meta property="article:tag" content="Zookeeper">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ZookKeeper</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/06/12/ElasticSearch/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/05/11/OpenFeign/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://myhikari.github.io/2022/05/29/ZookKeeper/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&text=ZookKeeper"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&is_video=false&description=ZookKeeper"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ZookKeeper&body=Check out this article: http://myhikari.github.io/2022/05/29/ZookKeeper/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&name=ZookKeeper&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://myhikari.github.io/2022/05/29/ZookKeeper/&t=ZookKeeper"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Zookeeper"><span class="toc-number">1.</span> <span class="toc-text">Zookeeper</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1、概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81%E8%A7%A3%E5%8E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1、解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E3%80%81%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2、配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81ZooKeeper-%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">2、ZooKeeper 命令操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81ZooKeeper-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1、ZooKeeper 数据模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81Zookeeper-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2、Zookeeper 服务端常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81Zookeeper-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3、Zookeeper 客户端常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1%E3%80%81%E7%BB%93%E7%82%B9%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">2.3.1、结点数据信息解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2%E3%80%81%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2.3.2、命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81Java-API-%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">3、Java API 操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81Curator"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1、Curator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81Curator-API-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2、Curator API 常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E3%80%81%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.2.1、建立连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2%E3%80%81%E6%B7%BB%E5%8A%A0%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.2.2、添加节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3%E3%80%81%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">3.2.3、删除节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4%E3%80%81%E4%BF%AE%E6%94%B9%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">3.2.4、修改节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5%E3%80%81%E6%9F%A5%E8%AF%A2%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">3.2.5、查询节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-6%E3%80%81Watch-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">3.2.6、Watch 事件监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZooKeeper-%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%89%E7%A7%8D-Watcher"><span class="toc-number">1.3.2.7.</span> <span class="toc-text">ZooKeeper 提供了三种 Watcher</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-7%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.3.2.8.</span> <span class="toc-text">3.2.7、分布式锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3、分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%EF%BC%9A%E5%BD%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%A6%81%E8%8E%B7%E5%8F%96%E9%94%81%EF%BC%8C%E5%88%99%E5%88%9B%E5%BB%BA%E8%8A%82%E7%82%B9%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%8C%E9%94%81%EF%BC%8C%E5%88%99%E5%88%A0%E9%99%A4%E8%AF%A5%E8%8A%82%E7%82%B9%E3%80%82"><span class="toc-number">1.3.3.0.0.1.</span> <span class="toc-text">核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.</span> <span class="toc-text">4、集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E9%9B%86%E7%BE%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1、集群介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1%E3%80%81Leader-%E9%80%89%E4%B8%BE"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">4.1.1、Leader 选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2%E3%80%81%E9%9B%86%E7%BE%A4%E8%A7%92%E8%89%B2"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">4.1.2、集群角色</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2、集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">4.2.1、准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2%E3%80%81%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">4.2.2、配置集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3%E3%80%81%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">4.2.3、启动集群</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        ZookKeeper
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">myHikari</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-29T09:50:12.000Z" class="dt-published" itemprop="datePublished">2022-05-29</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/ZookKeeper/">ZookKeeper</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Zookeeper/" rel="tag">Zookeeper</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><ol>
+<li><p>Zookeeper 是 Apache Hadoop 项目下的一个子项目，是一个树形目录服务。</p>
+</li>
+<li><p>Zookeeper 翻译过来就是 动物园管理员，他是用来管 Hadoop（大象）、Hive(蜜蜂)、Pig(小 猪)的管理员。简称 zk</p>
+</li>
+<li><p>Zookeeper 是一个分布式的、开源的分布式应用程序的协调服务。</p>
+</li>
+<li><p>Zookeeper 提供的主要功能包括：</p>
+<blockquote>
+<ul>
+<li>配置管理</li>
+<li>分布式锁</li>
+<li>集群管理</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h3 id="1-1、解压"><a href="#1-1、解压" class="headerlink" title="1.1、解压"></a>1.1、解压</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar -zxvf apache-ZooKeeper-x.x.x-bin.tar.gz<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2、配置"><a href="#1-2、配置" class="headerlink" title="1.2、配置"></a>1.2、配置</h3><blockquote>
+<p>配置 <code>zoo.cfg</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs sh">1、步骤<br><span class="hljs-comment">#进入到 conf 目录</span><br><span class="hljs-built_in">cd</span> /opt/zooKeeper/apache-zooKeeper-3.5.6-bin/conf/<br><span class="hljs-comment">#拷贝</span><br><span class="hljs-built_in">cp</span> zoo_sample.cfg  zoo.cfg<br><br>2、步骤<br><span class="hljs-comment">#打开目录</span><br><span class="hljs-built_in">cd</span> /opt/zooKeeper/<br><span class="hljs-comment">#创建 zooKeeper 存储目录</span><br><span class="hljs-built_in">mkdir</span> zkdata<br><span class="hljs-comment">#修改 zoo.cfg</span><br>vim /opt/zooKeeper/apache-zooKeeper-3.5.6-bin/conf/zoo.cfg<br><br>3、步骤<br><span class="hljs-comment"># 修改存储目录</span><br>dataDir=/opt/zookeeper/zkdata<br></code></pre></td></tr></table></figure>
+
+<p>启动 <code>ZooKeeper</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#启动</span><br>./zkServer.sh start<br><br><span class="hljs-comment"># 查看ZooKeeper状态</span><br>./zkServer.sh status<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="2、ZooKeeper-命令操作"><a href="#2、ZooKeeper-命令操作" class="headerlink" title="2、ZooKeeper 命令操作"></a>2、ZooKeeper 命令操作</h2><h3 id="2-1、ZooKeeper-数据模型"><a href="#2-1、ZooKeeper-数据模型" class="headerlink" title="2.1、ZooKeeper 数据模型"></a>2.1、ZooKeeper 数据模型</h3><ol>
+<li><p><code>ZooKeeper</code> 是一个树形目录服务,其数据模型和 Unix 的文件系统目录树很类似，拥有一个层次化结构。</p>
+</li>
+<li><p>这里面的每一个节点都被称为： <code>ZNode</code>，每个节点上都会保存自己的数据和节点信息。</p>
+</li>
+<li><p>节点可以拥有子节点，同时也允许少量（1MB）数据存储在该节点之下。</p>
+</li>
+<li><p>节点可以分为四大类：</p>
+<blockquote>
+<ul>
+<li>PERSISTENT 持久化节点</li>
+<li>EPHEMERAL 临时节点 ：-e</li>
+<li>PERSISTENT_SEQUENTIAL 持久化顺序节点 ：-s</li>
+<li>EPHEMERAL_SEQUENTIAL 临时顺序节点 ：-es</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h3 id="2-2、Zookeeper-服务端常用命令"><a href="#2-2、Zookeeper-服务端常用命令" class="headerlink" title="2.2、Zookeeper 服务端常用命令"></a>2.2、Zookeeper 服务端常用命令</h3><ul>
+<li>启动 <code>ZooKeeper</code> 服务: .&#x2F;zkServer.sh start</li>
+<li>查看 <code>ZooKeeper</code> 服务状态: .&#x2F;zkServer.sh status</li>
+<li>停止 <code>ZooKeeper</code> 服务: .&#x2F;zkServer.sh stop</li>
+<li>重启 <code>ZooKeeper</code> 服务: .&#x2F;zkServer.sh restart</li>
+</ul>
+<h3 id="2-3、Zookeeper-客户端常用命令"><a href="#2-3、Zookeeper-客户端常用命令" class="headerlink" title="2.3、Zookeeper 客户端常用命令"></a>2.3、Zookeeper 客户端常用命令</h3><h4 id="2-3-1、结点数据信息解析"><a href="#2-3-1、结点数据信息解析" class="headerlink" title="2.3.1、结点数据信息解析"></a>2.3.1、结点数据信息解析</h4><blockquote>
+<ul>
+<li>czxid：节点被创建的事务 ID</li>
+<li>ctime: 创建时间</li>
+<li>mzxid: 最后一次被更新的事务 ID</li>
+<li>mtime: 修改时间</li>
+<li>pzxid：子节点列表最后一次被更新的事务 ID</li>
+<li>cversion：子节点的版本号</li>
+<li>dataversion：数据版本号</li>
+<li>aclversion：权限版本号</li>
+<li>ephemeralOwner：用于临时节点，代表临时节点的事务 ID，如果为持久节点则为 0</li>
+<li>dataLength：节点存储的数据的长度</li>
+<li>numChildren：当前节点的子节点个数</li>
+</ul>
+</blockquote>
+<h4 id="2-3-2、命令"><a href="#2-3-2、命令" class="headerlink" title="2.3.2、命令"></a>2.3.2、命令</h4><blockquote>
+<ul>
+<li><p>连接<code>ZooKeeper</code>服务端</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">./zkCli.sh –server ip:port<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>断开连接</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">quit<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看命令帮助</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>显示指定目录下节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> 目录<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>创建节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">create /节点path value<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>获取节点值</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">get /节点path<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>设置节点值</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-built_in">set</span> /节点<span class="hljs-built_in">path</span> value<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除单个节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">delete /节点path<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除带有子节点的节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">deleteall /节点path<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>创建临时节点</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> -<span class="hljs-built_in">e</span> /节点<span class="hljs-keyword">path</span> <span class="hljs-keyword">value</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>创建顺序节点</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lua"><span class="hljs-built_in">create</span> -s /节点<span class="hljs-built_in">path</span> value<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查询节点详细信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> –s /节点path<br></code></pre></td></tr></table></figure></li>
+</ul>
+</blockquote>
+<h2 id="3、Java-API-操作"><a href="#3、Java-API-操作" class="headerlink" title="3、Java API 操作"></a>3、Java API 操作</h2><h3 id="3-1、Curator"><a href="#3-1、Curator" class="headerlink" title="3.1、Curator"></a>3.1、Curator</h3><p>官网：<a target="_blank" rel="noopener" href="http://curator.apache.org/">Curator </a></p>
+<ol>
+<li><p>Curator 是 Apache <code>ZooKeeper</code> 的 Java 客户端库。</p>
+</li>
+<li><p>常见的<code>ZooKeeper</code> Java API ：</p>
+<blockquote>
+<ul>
+<li>原生 Java API</li>
+<li>ZkClient</li>
+<li>Curator</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Curator 项目的目标是简化 <code>ZooKeeper</code> 客户端的使用。</p>
+</li>
+</ol>
+<h3 id="3-2、Curator-API-常用操作"><a href="#3-2、Curator-API-常用操作" class="headerlink" title="3.2、Curator API 常用操作"></a>3.2、Curator API 常用操作</h3><h4 id="3-2-1、建立连接"><a href="#3-2-1、建立连接" class="headerlink" title="3.2.1、建立连接"></a>3.2.1、建立连接</h4><h4 id="3-2-2、添加节点"><a href="#3-2-2、添加节点" class="headerlink" title="3.2.2、添加节点"></a>3.2.2、添加节点</h4><h4 id="3-2-3、删除节点"><a href="#3-2-3、删除节点" class="headerlink" title="3.2.3、删除节点"></a>3.2.3、删除节点</h4><h4 id="3-2-4、修改节点"><a href="#3-2-4、修改节点" class="headerlink" title="3.2.4、修改节点"></a>3.2.4、修改节点</h4><h4 id="3-2-5、查询节点"><a href="#3-2-5、查询节点" class="headerlink" title="3.2.5、查询节点"></a>3.2.5、查询节点</h4><h4 id="3-2-6、Watch-事件监听"><a href="#3-2-6、Watch-事件监听" class="headerlink" title="3.2.6、Watch 事件监听"></a>3.2.6、Watch 事件监听</h4><ol>
+<li><p><code>ZooKeeper</code> 允许用户在指定节点上注册一些 Watcher，并且在一些特定事件触发的时候，<code>ZooKeeper</code> 服务端会将事件通知到感兴趣的客户端上去，该机制是 <code>ZooKeeper</code> 实现分布式协调服务的重要特性。</p>
+</li>
+<li><p><code>ZooKeeper</code> 中引入了 Watcher 机制来实现了发布&#x2F;订阅功能能，能够让多个订阅者同时监听某一个对象，当一个对象自身状态变化时，会通知所有订阅者</p>
+</li>
+<li><h4 id="ZooKeeper-提供了三种-Watcher"><a href="#ZooKeeper-提供了三种-Watcher" class="headerlink" title="ZooKeeper 提供了三种 Watcher"></a><code>ZooKeeper</code> 提供了三种 Watcher</h4></li>
+</ol>
+<blockquote>
+<ul>
+<li>NodeCache : 只是监听某一个特定的节点</li>
+<li>PathChildrenCache : 监控一个 ZNode 的子节点.</li>
+<li>TreeCache : 可以监控整个树上的所有节点，类似于 PathChildrenCache 和 NodeCache 的组合</li>
+</ul>
+</blockquote>
+<h4 id="3-2-7、分布式锁"><a href="#3-2-7、分布式锁" class="headerlink" title="3.2.7、分布式锁"></a>3.2.7、分布式锁</h4><p>Curator 的五种锁方案：</p>
+<blockquote>
+<ul>
+<li>InterProcessSemaphoreMutex：分布式排它锁（非可重入锁）</li>
+<li>InterProcessMutex：分布式可重入排它锁</li>
+<li>InterProcessReadWriteLock：分布式读写锁</li>
+<li>InterProcessMultiLock：将多个锁作为单个实体管理的容器</li>
+<li>InterProcessSemaphoreV2：共享信号量</li>
+</ul>
+</blockquote>
+<h3 id="3-3、分布式锁"><a href="#3-3、分布式锁" class="headerlink" title="3.3、分布式锁"></a>3.3、分布式锁</h3><p>⚠️ 分布式锁的应用场景：处理种跨机器的进程之间的数据同步问题</p>
+<p>ZooKeeper 分布式锁原理</p>
+<blockquote>
+<h6 id="核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。"><a href="#核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。" class="headerlink" title="核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。"></a>核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。</h6><ol>
+<li>客户端获取锁时，在 lock 节点下创建临时顺序节点。</li>
+<li>然后获取 lock 下面的所有子节点，客户端获取到所有的子节点之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。使用完锁后，将该节点删除。</li>
+<li>如果发现自己创建的节点并非 lock 所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，同时对其注册事件监听器，监听删除事件。</li>
+<li>如果发现比自己小的那个节点被删除，则客户端的 Watcher 会收到相应通知，此时再次判断自己创建的节点是否是 lock 子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听。</li>
+</ol>
+</blockquote>
+<h2 id="4、集群搭建"><a href="#4、集群搭建" class="headerlink" title="4、集群搭建"></a>4、集群搭建</h2><h3 id="4-1、集群介绍"><a href="#4-1、集群介绍" class="headerlink" title="4.1、集群介绍"></a>4.1、集群介绍</h3><h4 id="4-1-1、Leader-选举"><a href="#4-1-1、Leader-选举" class="headerlink" title="4.1.1、Leader 选举"></a>4.1.1、Leader 选举</h4><blockquote>
+<ol>
+<li><p>Serverid：服务器 ID</p>
+<p>比如有三台服务器，编号分别是 1、2、3。编号越大在选择算法中的权重越大。</p>
+</li>
+<li><p>Zxid：数据 ID</p>
+<p>服务器中存放的最大数据 ID 值越大说明数据越新，在选举算法中数据越新权重越大。</p>
+</li>
+<li><p>在 Leader 选举的过程中，如果某台 ZooKeeper 获得了超过半数的选票，则此 ZooKeeper 就可以成为 Leader 了。</p>
+</li>
+</ol>
+</blockquote>
+<h4 id="4-1-2、集群角色"><a href="#4-1-2、集群角色" class="headerlink" title="4.1.2、集群角色"></a>4.1.2、集群角色</h4><blockquote>
+<p>ZooKeeper 集群服务中的三种角色：</p>
+<ol>
+<li><p>Leader 领导者</p>
+<ul>
+<li><p>处理事务请求</p>
+</li>
+<li><p>集群内部各服务器的调度者</p>
+</li>
+</ul>
+</li>
+<li><p>Follower 跟随者</p>
+<ul>
+<li><p>处理客户端非事务请求，转发事务请求给 Leader 服务器</p>
+</li>
+<li><p>参与 Leader 选举投票</p>
+</li>
+</ul>
+</li>
+<li><p>Observer 观察者：</p>
+<ul>
+<li>处理客户端非事务请求，转发事务请求给 Leader 服务器</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="4-2、集群搭建"><a href="#4-2、集群搭建" class="headerlink" title="4.2、集群搭建"></a>4.2、集群搭建</h3><h4 id="4-2-1、准备"><a href="#4-2-1、准备" class="headerlink" title="4.2.1、准备"></a>4.2.1、准备</h4><blockquote>
+<ol>
+<li><p>将解压后目录复制多份</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cp</span> -r  apache-zookeeper-x.x.x-bin /usr/local/zookeeper-cluster/zookeeper-1<br><span class="hljs-built_in">cp</span> -r  apache-zookeeper-x.x.x-bin /usr/local/zookeeper-cluster/zookeeper-2<br><span class="hljs-built_in">cp</span> -r  apache-zookeeper-x.x.x-bin /usr/local/zookeeper-cluster/zookeeper-3<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改启动端口及存储目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cfg"># 启动端口<br>clientPort=2181<br># 存储目录<br>dataDir=/usr/local/zookeeper-cluster/zookeeper-1/data<br></code></pre></td></tr></table></figure></li>
+</ol>
+</blockquote>
+<h4 id="4-2-2、配置集群"><a href="#4-2-2、配置集群" class="headerlink" title="4.2.2、配置集群"></a>4.2.2、配置集群</h4><ol>
+<li><p>在每个 zookeeper 的 data 目录下创建一个 myid 文件（记录每个服务器的 ID）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> 1 &gt;/usr/local/zookeeper-cluster/zookeeper-1/data/myid<br><span class="hljs-built_in">echo</span> 2 &gt;/usr/local/zookeeper-cluster/zookeeper-2/data/myid<br><span class="hljs-built_in">echo</span> 3 &gt;/usr/local/zookeeper-cluster/zookeeper-3/data/myid<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在每一个 zookeeper 的 zoo.cfg 配置客户端访问端口（clientPort）和集群服务器 IP 列表</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">vim /usr/local/zookeeper-cluster/zookeeper-1/conf/zoo.cfg<br>vim /usr/local/zookeeper-cluster/zookeeper-2/conf/zoo.cfg<br>vim /usr/local/zookeeper-cluster/zookeeper-3/conf/zoo.cfg<br><br>server.1=x.x.x.x:2881:3881<br>server.2=x.x.x.x:2882:3882<br>server.3=x.x.x.x:2883:3883<br></code></pre></td></tr></table></figure>
+
+<p>解释：server.服务器 ID &#x3D; 服务器 IP 地址 : 服务器之间通信端口 : 服务器之间投票选举端口</p>
+</li>
+</ol>
+<p>server.服务器 ID&#x3D;服务器 IP 地址：服务器之间通信端口：服务器之间投票选举端口</p>
+<h4 id="4-2-3、启动集群"><a href="#4-2-3、启动集群" class="headerlink" title="4.2.3、启动集群"></a>4.2.3、启动集群</h4><ul>
+<li><p>启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">/usr/local/zookeeper-cluster/zookeeper-1/bin/zkServer.sh start<br>/usr/local/zookeeper-cluster/zookeeper-2/bin/zkServer.sh start<br>/usr/local/zookeeper-cluster/zookeeper-3/bin/zkServer.sh start<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看状态</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">/usr/local/zookeeper-cluster/zookeeper-1/bin/zkServer.sh status<br>/usr/local/zookeeper-cluster/zookeeper-2/bin/zkServer.sh status<br>/usr/local/zookeeper-cluster/zookeeper-3/bin/zkServer.sh status<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>停止</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">/usr/local/zookeeper-cluster/zookeeper-1/bin/zkServer.sh stop<br>/usr/local/zookeeper-cluster/zookeeper-2/bin/zkServer.sh stop<br>/usr/local/zookeeper-cluster/zookeeper-3/bin/zkServer.sh stop<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Zookeeper"><span class="toc-number">1.</span> <span class="toc-text">Zookeeper</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1、概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81%E8%A7%A3%E5%8E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1、解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E3%80%81%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2、配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81ZooKeeper-%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">2、ZooKeeper 命令操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81ZooKeeper-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1、ZooKeeper 数据模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81Zookeeper-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2、Zookeeper 服务端常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81Zookeeper-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3、Zookeeper 客户端常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1%E3%80%81%E7%BB%93%E7%82%B9%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">2.3.1、结点数据信息解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2%E3%80%81%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2.3.2、命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81Java-API-%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">3、Java API 操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81Curator"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1、Curator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81Curator-API-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2、Curator API 常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E3%80%81%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.2.1、建立连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2%E3%80%81%E6%B7%BB%E5%8A%A0%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.2.2、添加节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3%E3%80%81%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">3.2.3、删除节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4%E3%80%81%E4%BF%AE%E6%94%B9%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">3.2.4、修改节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5%E3%80%81%E6%9F%A5%E8%AF%A2%E8%8A%82%E7%82%B9"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">3.2.5、查询节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-6%E3%80%81Watch-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">3.2.6、Watch 事件监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZooKeeper-%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%89%E7%A7%8D-Watcher"><span class="toc-number">1.3.2.7.</span> <span class="toc-text">ZooKeeper 提供了三种 Watcher</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-7%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.3.2.8.</span> <span class="toc-text">3.2.7、分布式锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3、分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%EF%BC%9A%E5%BD%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%A6%81%E8%8E%B7%E5%8F%96%E9%94%81%EF%BC%8C%E5%88%99%E5%88%9B%E5%BB%BA%E8%8A%82%E7%82%B9%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%8C%E9%94%81%EF%BC%8C%E5%88%99%E5%88%A0%E9%99%A4%E8%AF%A5%E8%8A%82%E7%82%B9%E3%80%82"><span class="toc-number">1.3.3.0.0.1.</span> <span class="toc-text">核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.</span> <span class="toc-text">4、集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E9%9B%86%E7%BE%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1、集群介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1%E3%80%81Leader-%E9%80%89%E4%B8%BE"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">4.1.1、Leader 选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2%E3%80%81%E9%9B%86%E7%BE%A4%E8%A7%92%E8%89%B2"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">4.1.2、集群角色</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2、集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">4.2.1、准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2%E3%80%81%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">4.2.2、配置集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3%E3%80%81%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">4.2.3、启动集群</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://myhikari.github.io/2022/05/29/ZookKeeper/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&text=ZookKeeper"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&is_video=false&description=ZookKeeper"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ZookKeeper&body=Check out this article: http://myhikari.github.io/2022/05/29/ZookKeeper/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&title=ZookKeeper"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://myhikari.github.io/2022/05/29/ZookKeeper/&name=ZookKeeper&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://myhikari.github.io/2022/05/29/ZookKeeper/&t=ZookKeeper"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    myHikari
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="常用命令： 1、杀掉某占用端口号的进程 12345678910111213#window#1、查找对应进程netstat -ano | findstr &quot;端口号&quot;#2、关闭进程taskkill &#x2F;f &#x2F;t &#x2F;im &quot;进程id号&quot;#linux#1、查找对应进程netstat -tln | grep &quot;端口号&quot;ps -ef | grep j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EnvConfig">
+<meta property="og:url" content="http://myhikari.github.io/2021/11/09/EnvConfig/index.html">
+<meta property="og:site_name" content="myHikari">
+<meta property="og:description" content="常用命令： 1、杀掉某占用端口号的进程 12345678910111213#window#1、查找对应进程netstat -ano | findstr &quot;端口号&quot;#2、关闭进程taskkill &#x2F;f &#x2F;t &#x2F;im &quot;进程id号&quot;#linux#1、查找对应进程netstat -tln | grep &quot;端口号&quot;ps -ef | grep j">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-09T09:59:33.000Z">
+<meta property="article:modified_time" content="2024-04-26T07:52:39.103Z">
+<meta property="article:author" content="myHikari">
+<meta property="article:tag" content="EnvConfig">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>EnvConfig</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/12/16/Git/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://myhikari.github.io/2021/11/09/EnvConfig/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://myhikari.github.io/2021/11/09/EnvConfig/&text=EnvConfig"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myhikari.github.io/2021/11/09/EnvConfig/&is_video=false&description=EnvConfig"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=EnvConfig&body=Check out this article: http://myhikari.github.io/2021/11/09/EnvConfig/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://myhikari.github.io/2021/11/09/EnvConfig/&name=EnvConfig&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://myhikari.github.io/2021/11/09/EnvConfig/&t=EnvConfig"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Window"><span class="toc-number">1.</span> <span class="toc-text">Window</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81JDK%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">一、JDK环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MySQL%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-%E5%8E%8B%E7%BC%A9%E5%8C%85%E8%A7%A3%E5%8E%8B%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">二、MySQL环境配置(压缩包解压方式)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">2.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%9D%99%E6%80%81-IP"><span class="toc-number">2.1.</span> <span class="toc-text">设置虚拟机静态 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">防火墙命令操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81JDK-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">一、JDK 环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MySQL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.4.</span> <span class="toc-text">二、MySQL 环境配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker"><span class="toc-number">3.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Docker-%E5%BC%95%E6%93%8E"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">安装 Docker 引擎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81MySQL%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">一、MySQL环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Redis-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">二、Redis 环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Nacos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">三、Nacos环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81ElasticSerch"><span class="toc-number">3.4.</span> <span class="toc-text">四、ElasticSerch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Kibana"><span class="toc-number">3.5.</span> <span class="toc-text">五、Kibana</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Nginx"><span class="toc-number">3.6.</span> <span class="toc-text">六、Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81RabbitMQ"><span class="toc-number">3.7.</span> <span class="toc-text">七、RabbitMQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81Seata"><span class="toc-number">3.8.</span> <span class="toc-text">八、Seata</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81Sentinel"><span class="toc-number">3.9.</span> <span class="toc-text">九、Sentinel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81mongo"><span class="toc-number">3.10.</span> <span class="toc-text">十、mongo</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        EnvConfig
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">myHikari</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-11-09T09:59:33.000Z" class="dt-published" itemprop="datePublished">2021-11-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/EnvConfig/">EnvConfig</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/EnvConfig/" rel="tag">EnvConfig</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>常用命令：</p>
+<p>1、杀掉某占用端口号的进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">window</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">1、查找对应进程</span><br>netstat -ano | findstr &quot;端口号&quot;<br><span class="hljs-meta prompt_">#</span><span class="language-bash">2、关闭进程</span><br>taskkill /f /t /im &quot;进程id号&quot;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">linux</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">1、查找对应进程</span><br>netstat -tln | grep &quot;端口号&quot;<br>ps -ef | grep java  	# 查看 java 是否彻底关闭<br>ps -ef | grep tomcat  	# 查看 tomcat 是否开启<br><span class="hljs-meta prompt_">#</span><span class="language-bash">2、关闭进程</span><br>kill -9 &quot;进程id号&quot;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="Window"><a href="#Window" class="headerlink" title="Window"></a><code>Window</code></h1><h2 id="一、JDK环境配置"><a href="#一、JDK环境配置" class="headerlink" title="一、JDK环境配置"></a>一、<code>JDK</code>环境配置</h2><p>1、在高级环境设置中的系统变量 <code>path</code> 添加 <code>JDK</code> 的资源配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># bin目录</span><br>jdkInstallPath\bin<br><span class="hljs-comment"># jre\bin 目录</span><br>jdkInstallPath\jre\bin<br></code></pre></td></tr></table></figure>
+
+<p>2、 验证配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 打开终端cmd</span><br>java -version<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、MySQL环境配置-压缩包解压方式"><a href="#二、MySQL环境配置-压缩包解压方式" class="headerlink" title="二、MySQL环境配置(压缩包解压方式)"></a>二、<code>MySQL</code>环境配置(压缩包解压方式)</h2><p>1、在安装添加文件 <code>mysql.ini</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs sh">[mysql]<br><span class="hljs-comment"># 设置mysql客户端默认字符集</span><br>default-character-set=utf8<br><br>[mysqld]<br><span class="hljs-comment">#设置3306端口</span><br>port = 3306<br><span class="hljs-comment"># 设置mysql的安装目录（重点）</span><br>basedir=mysqlInstallPath<br><span class="hljs-comment"># 设置mysql数据库的数据的存放目录（重点）</span><br>datadir=mysqlInstallPath\data<br><span class="hljs-comment"># 允许最大连接数</span><br>max_connections=200<br><span class="hljs-comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span><br>character-set-server=utf8<br><span class="hljs-comment"># 创建新表时将使用的默认存储引擎</span><br>default-storage-engine=INNODB<br></code></pre></td></tr></table></figure>
+
+<p>2、在高级环境设置中的系统变量 <code>path</code> 添加 <code>mysql</code> 的资源配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># bin目录</span><br>mysqlInstallPath\bin<br></code></pre></td></tr></table></figure>
+
+<p>3、打开终端 <code>cmd</code> 进入到 <code>mysql\bin</code> 目录下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 初始化数据库</span><br>mysqld --initialize<br><span class="hljs-comment"># 完成后安装目录下会出现文件夹data,该文件夹下的xxx.err文件里有mysql的root用户的临时密码</span><br></code></pre></td></tr></table></figure>
+
+<p>4、以管理员身份打开终端并进入到安装目录：<code>mysql\bin</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 若并非首次安装MySQL需要先执行：sc delete mysql（防止上次安装的MySQL服务冲突）</span><br><span class="hljs-comment"># 开启mysql服务</span><br>mysqld --install<br>net start mysql<br><br><span class="hljs-comment"># 进入MySQL并输入临时生成的密码</span><br>mysql -uroot -p<br><br><span class="hljs-comment"># 修改密码(newPassword:替换为新密码)</span><br>alter user <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span> identified with mysql_native_password by <span class="hljs-string">&#x27;newPassword&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a><code>Linux</code></h1><h2 id="设置虚拟机静态-IP"><a href="#设置虚拟机静态-IP" class="headerlink" title="设置虚拟机静态 IP"></a>设置虚拟机静态 IP</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">BOOTPROTO=&quot;static&quot; # 默认dhcp动态IP<br>IPADDR=&quot;192.168.100.134&quot;<br>NETMASK=&quot;255.255.255.0&quot;<br>GATEWAY=&quot;192.168.100.2&quot;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">静态IP及网关前三位与虚拟机配置须一致</span><br></code></pre></td></tr></table></figure>
+
+<p>重启网络</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">service network restart<br>或<br>systemctl restart network<br></code></pre></td></tr></table></figure>
+
+<h2 id="防火墙命令操作"><a href="#防火墙命令操作" class="headerlink" title="防火墙命令操作"></a>防火墙命令操作</h2><p>1、查看开启关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">查看防火墙状态</span><br>systemctl status firewalld<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">开启</span><br>systemctl start firewalld<br><span class="hljs-meta prompt_">#</span><span class="language-bash">关闭</span><br>systemctl stop firewalld<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">永久关闭</span><br>systemctl disable firewalld<br><span class="hljs-meta prompt_">#</span><span class="language-bash">恢复</span><br>systemctl enable firewalld<br></code></pre></td></tr></table></figure>
+
+<p>2、开放&#x2F;关闭指定端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开放指定端口</span><br>firewall-cmd --zone=public --add-port=3306/tcp --permanent 		# 永久开启<br>firewall-cmd --zone=public --add-port=3306/tcp 				   # 临时<br><span class="hljs-meta prompt_"># </span><span class="language-bash">关闭指定端口</span><br>firewall-cmd --zone=public --remove-port=3306/tcp --permanent 	#永久关闭<br><br>命令含义：<br>--zone 								# 作用域<br>--add-port=3306/tcp					 # 添加端口，格式为：端口/通讯协议<br>--remove-port=3306/tcp				 # 移除端口，格式为：端口/通讯协议<br>--permanent 						# 永久生效，没有此参数重启后失效<br><br><br></code></pre></td></tr></table></figure>
+
+<p>3、重新加载防火墙配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --reload<br></code></pre></td></tr></table></figure>
+
+<p>4、查看端口号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">netstat -ntlp  					# 查看当前所有tcp端口<br>netstat -ntulp | grep 1935  		# 查看所有1935端口使用情况<br></code></pre></td></tr></table></figure>
+
+<p>5、查看已开放端口号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --zone=public --list-ports<br></code></pre></td></tr></table></figure>
+
+<p>6、查看防火墙状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --state 			# 查看状态<br></code></pre></td></tr></table></figure>
+
+<h2 id="一、JDK-环境配置"><a href="#一、JDK-环境配置" class="headerlink" title="一、JDK 环境配置"></a>一、JDK 环境配置</h2><p>解压安装 jdk</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">进入存放安装包的 /root/ 目录</span><br>cd /root/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">创建安装目录</span><br>mkdir /usr/local/java/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">解压安装包</span><br>tar -zxvf jdk-8u341-linux-x64.tar.gz -C /usr/local/java/<br></code></pre></td></tr></table></figure>
+
+<p>配置环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">用vi命令打开全局配置文件/etc/profile</span><br>vi /etc/profile<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">文件末尾添加环境变量配置：</span><br>export JAVA_HOME=/usr/local/java/jdk1.8.0_341<br>export PATH=$JAVA_HOME/bin:$PATH<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash"><span class="hljs-comment"># export JRE_HOME=$JAVA_HOME/jre</span></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">export</span> CLASSPATH=.:<span class="hljs-variable">$JAVA_HOME</span>/lib/dt.jar:<span class="hljs-variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">按 i键：进入文本输入模式</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">按 Esc 键：退出文本输入模式</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">按 <span class="hljs-built_in">shift</span>+i 键：进入末行模式</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">输入 wq 回车：保存并退出</span><br></code></pre></td></tr></table></figure>
+
+<p>使配置文件生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">source /etc/profile<br></code></pre></td></tr></table></figure>
+
+<p>检查</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">检查 java 命令</span><br>java<br><span class="hljs-meta prompt_"># </span><span class="language-bash">检查编译命令</span><br>javac<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看JDK版本</span><br>java -version<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、MySQL-环境配置"><a href="#二、MySQL-环境配置" class="headerlink" title="二、MySQL 环境配置"></a>二、MySQL 环境配置</h2><p><strong>解压并安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">解压MySQL压缩包</span><br>tar -zvxf mysql-(x.x.x).tar -C /usr/local/mysql<br><br>-- 参数解析<br>-C /usr/local/mysql # 指定解压到目录<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">按顺序安装下列内容</span><br>rpm -ivh mysql-community-common-5.7.31-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-libs-5.7.31-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-libs-compat-5.7.31-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-client-5.7.31-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.7.31-1.el7.x86_64.rpm<br></code></pre></td></tr></table></figure>
+
+<p><strong>启动 MySQL 命令</strong></p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs gauss">systemctl start mysqld  	<span class="hljs-comment">//开启</span><br>systemctl status mysqld  	<span class="hljs-comment">//查看状态</span><br>systemctl <span class="hljs-keyword">stop</span> mysqld  		<span class="hljs-comment">//停止</span><br>systemctl restart mysqld  	<span class="hljs-comment">//重启</span><br>systemctl <span class="hljs-keyword">disable</span> mysqld  	<span class="hljs-comment">//禁止开机自动启动</span><br>systemctl <span class="hljs-keyword">enable</span> mysqld 	<span class="hljs-comment">//允许开机自动启动</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>搜索临时密码</strong></p>
+<p>临时 root 密码在<code>/var/log/mysqld.log</code>文件中<br>① 进入编辑器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">vi /var/log/mysqld.log<br><span class="hljs-meta prompt_">#</span><span class="language-bash">非编辑状态输入搜索目标</span><br>:/password<br></code></pre></td></tr></table></figure>
+
+<p>② 用 grep 命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">grep &quot;password&quot; /var/log/mysqld.log<br></code></pre></td></tr></table></figure>
+
+<p><strong>登录连接 MySQL</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">mysql -uroot -p<br></code></pre></td></tr></table></figure>
+
+<p><strong>修改密码并设置权限</strong></p>
+<p>① 取消密码复杂度的验证 (默认要求密码中必须包含大小写字母、数字和特殊字符，安全性要求非常高)，降低策略要求</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> validate_password_policy=<span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+
+<p>② 取消密码的长度限制 (默认要求密码必须大于 8 位)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> validate_password_length=<span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p>③ 修改 root 用户的密码为 root 或自定义密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ALTER USER <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="hljs-string">&#x27;root&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a><code>Docker</code></h1><p><strong><code>建议：在根目录创建“myData目录”，每创建一个容器就创建以容器命名的目录，存放其配置文件</code></strong></p>
+<blockquote>
+<p>安装流程：(CentOS)</p>
+<p>当您卸载 Docker 时， <code>/var/lib/docker/</code> 中存储的图像、容器、卷和网络不会自动删除</p>
+<ol>
+<li><p>卸载旧版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum remove docker \<br>                  docker-client \<br>                  docker-client-latest \<br>                  docker-common \<br>                  docker-latest \<br>                  docker-latest-logrotate \<br>                  docker-logrotate \<br>                  docker-engine<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>使用 rpm 存储库安装</p>
+<p>安装 <code>yum-utils</code> 包（提供 <code>yum-config-manager</code> 实用程序）并设置存储库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum install -y yum-utils device-mapper-persistent-data lvm2<br>sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo<br></code></pre></td></tr></table></figure>
+</li>
+<li><h4 id="安装-Docker-引擎"><a href="#安装-Docker-引擎" class="headerlink" title="安装 Docker 引擎"></a>安装 Docker 引擎</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动 Docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl start docker<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>设置开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl enable docker<br></code></pre></td></tr></table></figure>
+
+<p>配置镜像加速：</p>
+<p><code>通过修改daemon配置文件/etc/docker/daemon.json来使用加速器</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo mkdir -p /etc/docker<br>sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;<br>&#123;<br>  &quot;registry-mirrors&quot;: [&quot;https://7b7tdpps.mirror.aliyuncs.com&quot;]<br>&#125;<br>EOF<br>sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
+
+<p><strong>Docker 常用命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">启动docker</span><br>systemctl start docker<br><span class="hljs-meta prompt_"># </span><span class="language-bash">设置开机自启docker</span><br>systemctl enable docker<br><span class="hljs-meta prompt_"># </span><span class="language-bash">重启docker</span><br>systemctl restart docker<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">设置某容器开机自启</span><br>docker update xxx --restart=always<br><span class="hljs-meta prompt_"># </span><span class="language-bash">例：docker update redis --restart=always</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="一、MySQL环境配置"><a href="#一、MySQL环境配置" class="headerlink" title="一、MySQL环境配置"></a>一、<code>MySQL</code>环境配置</h2><p><strong>安装步骤</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 安装最新版本</span><br>docker pull mysql<br><span class="hljs-comment">#安装指定版本</span><br>docker pull mysql:x.x.x<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建实例并启动</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -p 3306:3306 --name mysql \<br>-v /mydata/mysql/log:/var/log/mysql \<br>-v /mydata/mysql/data:/var/lib/mysql \<br>-v /mydata/mysql/conf:/etc/mysql \<br>-e MYSQL_ROOT_PASSWORD=root \<br>-d mysql:5.7<br><br>参数说明<br>-p 3306:3306：将容器的 3306 端口映射到主机的 3306 端口<br>-v /mydata/mysql/conf:/etc/mysql：将配置文件夹挂载到主机<br>-v /mydata/mysql/log:/var/log/mysql：将日志文件夹挂载到主机<br>-v /mydata/mysql/data:/var/lib/mysql/：将配置文件夹挂载到主机-e MYSQL_ROOT_PASSWORD=root：初始化 root 用户的密码<br></code></pre></td></tr></table></figure>
+
+<p><strong>进入容器内部</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker exec -it mysql /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p><strong>配置 MySQL 配置文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">使用vi编译my.cnf文件</span><br>vi /mydata/mysql/conf/my.cnf<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">将以下内容写入my.cnf文件</span><br>[client]<br>default-character-set=utf8<br><br>[mysql]<br>default-character-set=utf8<br><br>[mysqld]<br>init_connect=&#x27;SET collation_connection = utf8_unicode_ci&#x27;<br>init_connect=&#x27;SET NAMES utf8&#x27;<br>character-set-server=utf8<br>collation-server=utf8_unicode_ci<br>skip-character-set-client-handshake<br>skip-name-resolve<br></code></pre></td></tr></table></figure>
+
+<p>注意：解决 MySQL 连接慢的问题</p>
+<p>在配置文件中加入如下，并重启 mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">[mysqld]<br>skip-name-resolve<br><br>解释：<br>skip-name-resolve：跳过域名解析<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、Redis-环境配置"><a href="#二、Redis-环境配置" class="headerlink" title="二、Redis 环境配置"></a>二、<code>Redis </code>环境配置</h2><p>1、下载镜像文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull redis<br></code></pre></td></tr></table></figure>
+
+<p>2、创建实例并启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir -p /mydata/redis/conf<br>touch /mydata/redis/conf/redis.conf<br><br>docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data \<br>-v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf \<br>-d redis redis-server /etc/redis/redis.conf<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、Nacos环境配置"><a href="#三、Nacos环境配置" class="headerlink" title="三、Nacos环境配置"></a>三、<code>Nacos</code>环境配置</h2><p>1、下载镜像文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull nacos/nacos-server:1.1.3<br></code></pre></td></tr></table></figure>
+
+<p>2、查看并开放指定端口号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=8848/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>3、创建容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name nacos \<br>-e MODE=standalone -p 8848:8848 \<br>-d nacos/nacos-server:1.1.3<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、ElasticSerch"><a href="#四、ElasticSerch" class="headerlink" title="四、ElasticSerch"></a>四、<code>ElasticSerch</code></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=9200/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull elasticsearch:7.4.2  	# 存储和检索数据<br></code></pre></td></tr></table></figure>
+
+<p>2、创建配置存放目录及关联配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">配置文件目录</span><br>mkdir -p /mydata/elasticsearch/config<br>mkdir -p /mydata/elasticsearch/data<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">关联配置文件</span><br>echo &quot;http.host: 0.0.0.0&quot; &gt;&gt; /mydata/elasticsearch/config/elasticsearch.yml<br></code></pre></td></tr></table></figure>
+
+<p>3、开放读写权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">保证权限</span><br>chmod -R 777 /mydata/elasticsearch/<br></code></pre></td></tr></table></figure>
+
+<p>4、创建容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \<br>-e &quot;discovery.type=single-node&quot; \<br>-e ES_JAVA_OPTS=&quot;-Xms64m -Xmx512m&quot; \<br>-v /mydata/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \<br>-v /mydata/elasticsearch/data:/usr/share/elasticsearch/data \<br>-v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins \<br>-d elasticsearch:7.4.2<br></code></pre></td></tr></table></figure>
+
+<h2 id="五、Kibana"><a href="#五、Kibana" class="headerlink" title="五、Kibana"></a>五、<code>Kibana</code></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=5601/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull kibana:7.4.2  			# 可视化检索数据<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.100.134:9200 -p 5601:5601 \<br>-d kibana:7.4.2<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、Nginx"><a href="#六、Nginx" class="headerlink" title="六、Nginx"></a>六、<code>Nginx</code></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开放指定防火墙端口</span><br>firewall-cmd --zone=public --add-port=80/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull nginx:1.10<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -p 80:80 --name nginx -d nginx:1.10<br></code></pre></td></tr></table></figure>
+
+<p>附：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -p 80:80 --name nginx \<br>-v /mydata/nginx/html:/usr/share/nginx/html \<br>-v /mydata/nginx/logs:/var/log/nginx \<br>-v /mydata/nginx/conf:/etc/nginx \<br>-d nginx:1.10<br></code></pre></td></tr></table></figure>
+
+<p>Nginx 反向代理：<a href="ShopMall.md">Nginx 的简单使用</a></p>
+<h2 id="七、RabbitMQ"><a href="#七、RabbitMQ" class="headerlink" title="七、RabbitMQ"></a>七、<code>RabbitMQ</code></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=15671/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker pull rabbitmq:management<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run -d --name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25672 -p 15671:15671 -p 15672:15672 rabbitmq:management<br></code></pre></td></tr></table></figure>
+
+<h2 id="八、Seata"><a href="#八、Seata" class="headerlink" title="八、Seata"></a>八、<code>Seata</code></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=8091/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker pull seataio/seata-server:1.0.0<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run -d --name seata -p 8091:8091 -e SEATA_IP=192.168.100.134 -e SEATA_PORT=8091 seataio/seata-server:1.0.0<br></code></pre></td></tr></table></figure>
+
+<p>3、修改配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">将容器内的目录复制到主机目录中（/mydata/seata）</span><br>docker cp seata:seata-server/resources /mydata/seata<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">修改文件：register.conf</span><br>registry &#123;<br><span class="hljs-meta prompt_">  # </span><span class="language-bash">file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span><br>  type = &quot;nacos&quot;<br><br>  nacos &#123;<br>    serverAddr = &quot;192.168.100.134:8848&quot;<br>    namespace = &quot;public&quot;<br>    cluster = &quot;default&quot;<br>  &#125;<br>&#125;<br>config &#123;<br><span class="hljs-meta prompt_">  # </span><span class="language-bash">file、nacos 、apollo、zk、consul、etcd3</span><br><br>  type = &quot;file&quot;<br>  file &#123;<br>    name = &quot;file.conf&quot;<br>  &#125;<br>&#125;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">修改文件：file.conf</span><br>service &#123;<br>  vgroup_mapping.my_test_tx_group = &quot;default&quot;<br>  default.grouplist = &quot;192.168.100.134:8091&quot;<br><span class="hljs-meta prompt_">  #</span><span class="language-bash"><span class="hljs-built_in">disable</span> seata</span><br>  disableGlobalTransaction = false<br>&#125;<br><br>store &#123;<br><span class="hljs-meta prompt_">  # </span><span class="language-bash">store mode: file、db</span><br>  mode = &quot;db&quot;<br>  db &#123;<br>    datasource = &quot;dbcp&quot;<br><br>    # 手动创建mysql数据库（seata）及表（undo_log）<br>    db-type = &quot;mysql&quot;<br>    driver-class-name = &quot;com.mysql.jdbc.Driver&quot;<br>    url = &quot;jdbc:mysql://192.168.100.134:3306/seata&quot;<br>    user = &quot;root&quot;<br>    password = &quot;root&quot;<br>  &#125;<br>&#125;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">将修改后的数据覆盖容器内的数据</span><br>docker cp /mydata/seata/resources/registry.conf seata:seata-server/resources/<br></code></pre></td></tr></table></figure>
+
+<h2 id="九、Sentinel"><a href="#九、Sentinel" class="headerlink" title="九、Sentinel"></a>九、<code>Sentinel</code></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=8858/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker pull bladex/sentinel-dashboard:1.6.3<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run --name sentinel  -d -p 8858:8858 -d  bladex/sentinel-dashboard:1.6.3<br></code></pre></td></tr></table></figure>
+
+<h2 id="十、mongo"><a href="#十、mongo" class="headerlink" title="十、mongo"></a>十、mongo</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 开放指定防火墙端口(访问客户端的端口号)</span><br>firewall-cmd --zone=public --add-port=27017/tcp --permanent<br></code></pre></td></tr></table></figure>
+
+<p>1、下载镜像文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#拉取镜像</span><br>docker pull mongo:latest<br></code></pre></td></tr></table></figure>
+
+<p>2、创建容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#创建和启动容器</span><br>docker run -d --restart=always -p 27017:27017 --name mymongo -v /mydata/mongodb:/data/db -d mongo<br></code></pre></td></tr></table></figure>
+
+<p>3、使用 mongo</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#进入容器</span><br>docker <span class="hljs-built_in">exec</span> -it mymongo /bin/bash<br><span class="hljs-comment">#使用MongoDB客户端进行操作</span><br>mongo<br></code></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Window"><span class="toc-number">1.</span> <span class="toc-text">Window</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81JDK%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">一、JDK环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MySQL%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-%E5%8E%8B%E7%BC%A9%E5%8C%85%E8%A7%A3%E5%8E%8B%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">二、MySQL环境配置(压缩包解压方式)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">2.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%9D%99%E6%80%81-IP"><span class="toc-number">2.1.</span> <span class="toc-text">设置虚拟机静态 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">防火墙命令操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81JDK-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">一、JDK 环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MySQL-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.4.</span> <span class="toc-text">二、MySQL 环境配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker"><span class="toc-number">3.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Docker-%E5%BC%95%E6%93%8E"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">安装 Docker 引擎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81MySQL%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">一、MySQL环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Redis-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">二、Redis 环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Nacos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.</span> <span class="toc-text">三、Nacos环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81ElasticSerch"><span class="toc-number">3.4.</span> <span class="toc-text">四、ElasticSerch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Kibana"><span class="toc-number">3.5.</span> <span class="toc-text">五、Kibana</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Nginx"><span class="toc-number">3.6.</span> <span class="toc-text">六、Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81RabbitMQ"><span class="toc-number">3.7.</span> <span class="toc-text">七、RabbitMQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81Seata"><span class="toc-number">3.8.</span> <span class="toc-text">八、Seata</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81Sentinel"><span class="toc-number">3.9.</span> <span class="toc-text">九、Sentinel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81mongo"><span class="toc-number">3.10.</span> <span class="toc-text">十、mongo</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://myhikari.github.io/2021/11/09/EnvConfig/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://myhikari.github.io/2021/11/09/EnvConfig/&text=EnvConfig"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myhikari.github.io/2021/11/09/EnvConfig/&is_video=false&description=EnvConfig"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=EnvConfig&body=Check out this article: http://myhikari.github.io/2021/11/09/EnvConfig/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://myhikari.github.io/2021/11/09/EnvConfig/&title=EnvConfig"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://myhikari.github.io/2021/11/09/EnvConfig/&name=EnvConfig&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://myhikari.github.io/2021/11/09/EnvConfig/&t=EnvConfig"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    myHikari
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
