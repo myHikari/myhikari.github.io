@@ -1,302 +1,162 @@
 
 
+
+
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/ico/go.ico">
-  <link rel="icon" href="/images/ico/go.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="myHikari">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="Java 虚拟机面试（Jvm 面试题）1、什么是 JVM？1.1、定义JVM 指的是 Java 虚拟机（ Java Virtual Machine ）。JVM 本质上是一个运行在计算机上的程序， 他的职责是运行 Java 字节码文件，Java 虚拟机上可以运行 Java、Kotlin、Scala、Groovy 等语言。 1.2、作用为了支持 Java 中 Write Once，Run Anywhe">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Jvm">
-<meta property="og:url" content="http://myhikari.github.io/2024/02/24/jvm/index.html">
-<meta property="og:site_name" content="myHikari">
-<meta property="og:description" content="Java 虚拟机面试（Jvm 面试题）1、什么是 JVM？1.1、定义JVM 指的是 Java 虚拟机（ Java Virtual Machine ）。JVM 本质上是一个运行在计算机上的程序， 他的职责是运行 Java 字节码文件，Java 虚拟机上可以运行 Java、Kotlin、Scala、Groovy 等语言。 1.2、作用为了支持 Java 中 Write Once，Run Anywhe">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-c&c++.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-java.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-constitute.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-classFileConstitute.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-runtimeArea.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-jdk6~8-methodArea.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-jdk6~8-finalStringArea.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-classLife.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-jdk~8-classLoader.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-jdk9-classLoader.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-classLoaderMachanism.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-tomcat-classLoader.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-paralleWebappClassLoader.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-serialgc.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-parallelScavenge.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-parnew.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-cmsgc.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-normalMemory.png">
-<meta property="og:image" content="http://myhikari.github.io/images/jvm-abnormalMemory.png">
-<meta property="article:published_time" content="2024-02-24T06:11:02.000Z">
-<meta property="article:modified_time" content="2024-04-26T07:53:58.318Z">
-<meta property="article:author" content="myHikari">
-<meta property="article:tag" content="Jvm, 面试题">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://myhikari.github.io/images/jvm-c&c++.png">
-  
-  
-  
-  <title>Jvm - myHikari</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 
+<link rel="alternate" type="application/rss+xml" title="myHikari" href="http://myhikari.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="myHikari" href="http://myhikari.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="myHikari" href="http://myhikari.github.io/feed.json" />
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"myhikari.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
+  <meta name="keywords" content="Jvm, 面试题" />
+
+
+<link rel="canonical" href="http://myhikari.github.io/2024/02/24/jvm/">
+
+
+
+  <title>
+Jvm - Java虚拟机, 面试题 |
+Yume Shoka = myHikari = myHikari</title>
 <meta name="generator" content="Hexo 7.2.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>myHikari</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
     </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Jvm
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2024-02-24 14:11:02">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-02-24T14:11:02+08:00">2024-02-24</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
   </div>
 </nav>
 
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/images/bg/alice.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Jvm"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-02-24 14:11" pubdate>
-          2024年2月24日 下午
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          11k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          91 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
       </div>
-
-      
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipevarprfj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclip4jbpj20zk0m87cv.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicliwyw55j20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipexw3o58j20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giciukx8a7j20zk0m8aio.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclhnx9glj20zk0m8npd.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
     </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
     
-      
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="item" rel="index" title="分类于 Java虚拟机, 面试题"><span itemprop="name">Java虚拟机, 面试题</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://myhikari.github.io/2024/02/24/jvm/">
 
-    </div>
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="myHikari">
+    <meta itemprop="description" content="myHikari, myHikari 个人博客">
+  </span>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Jvm</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="Java-虚拟机面试（Jvm-面试题）"><a href="#Java-虚拟机面试（Jvm-面试题）" class="headerlink" title="Java 虚拟机面试（Jvm 面试题）"></a>Java 虚拟机面试（Jvm 面试题）</h1><h2 id="1、什么是-JVM？"><a href="#1、什么是-JVM？" class="headerlink" title="1、什么是 JVM？"></a>1、什么是 JVM？</h2><h3 id="1-1、定义"><a href="#1-1、定义" class="headerlink" title="1.1、定义"></a>1.1、定义</h3><p>JVM 指的是 Java 虚拟机（ Java Virtual Machine ）。JVM 本质上是一个运行在计算机上的程序， 他的职责是运行 Java 字节码文件，Java 虚拟机上可以运行 Java、Kotlin、Scala、Groovy 等语言。</p>
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="myHikari">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="Java-虚拟机面试（Jvm-面试题）"><a href="#Java-虚拟机面试（Jvm-面试题）" class="headerlink" title="Java 虚拟机面试（Jvm 面试题）"></a>Java 虚拟机面试（Jvm 面试题）</h1><h2 id="1、什么是-JVM？"><a href="#1、什么是-JVM？" class="headerlink" title="1、什么是 JVM？"></a>1、什么是 JVM？</h2><h3 id="1-1、定义"><a href="#1-1、定义" class="headerlink" title="1.1、定义"></a>1.1、定义</h3><p>JVM 指的是 Java 虚拟机（ Java Virtual Machine ）。JVM 本质上是一个运行在计算机上的程序， 他的职责是运行 Java 字节码文件，Java 虚拟机上可以运行 Java、Kotlin、Scala、Groovy 等语言。</p>
 <h3 id="1-2、作用"><a href="#1-2、作用" class="headerlink" title="1.2、作用"></a>1.2、作用</h3><p>为了支持 Java 中 Write Once，Run Anywhere；编写一次，到处运行的跨平台特性。</p>
-<p><img src="/images/jvm-c&c++.png" srcset="/img/loading.gif" lazyload alt="c/C++"></p>
-<p><img src="/images/jvm-java.png" srcset="/img/loading.gif" lazyload alt="Java"></p>
+<p><img src="/images/jvm-c&c++.png" alt="c/C++"></p>
+<p><img src="/images/jvm-java.png" alt="Java"></p>
 <h3 id="1-3、JVM-的功能"><a href="#1-3、JVM-的功能" class="headerlink" title="1.3、JVM 的功能"></a>1.3、JVM 的功能</h3><ol>
 <li>解释和运行<ul>
 <li>把字节码文件中的指令实时的解释成机器码， 并让计算机执行</li>
@@ -312,7 +172,7 @@
 </ul>
 </li>
 </ol>
-<h3 id="1-4、JVM-的组成"><a href="#1-4、JVM-的组成" class="headerlink" title="1.4、JVM 的组成"></a>1.4、JVM 的组成</h3><p><img src="/images/jvm-constitute.png" srcset="/img/loading.gif" lazyload alt="JVM组成"></p>
+<h3 id="1-4、JVM-的组成"><a href="#1-4、JVM-的组成" class="headerlink" title="1.4、JVM 的组成"></a>1.4、JVM 的组成</h3><p><img src="/images/jvm-constitute.png" alt="JVM组成"></p>
 <h3 id="1-5、常见的-JVM"><a href="#1-5、常见的-JVM" class="headerlink" title="1.5、常见的 JVM"></a>1.5、常见的 JVM</h3><ol>
 <li>最常用的 JVM<ul>
 <li>Oracle 提供的 Hotspot</li>
@@ -351,7 +211,7 @@
 <li>开发环境使用 jclasslib 插件</li>
 <li>服务器环境使用 javap –v 命令</li>
 </ul>
-<p><img src="/images/jvm-classFileConstitute.png" srcset="/img/loading.gif" lazyload alt="字节码文件组成"></p>
+<p><img src="/images/jvm-classFileConstitute.png" alt="字节码文件组成"></p>
 <h2 id="3、说一下运行时数据区？"><a href="#3、说一下运行时数据区？" class="headerlink" title="3、说一下运行时数据区？"></a>3、说一下运行时数据区？</h2><p>运行时数据区指的是 JVM 所管理的内存区域，其中分成两大类：</p>
 <ul>
 <li>线程共享 – 方法区、堆</li>
@@ -360,7 +220,7 @@
 <blockquote>
 <p>（可选）直接内存主要是 NIO 使用，由操作系统直接管理，不属于 JVM 内存。</p>
 </blockquote>
-<p><img src="/images/jvm-runtimeArea.png" srcset="/img/loading.gif" lazyload alt="运行时数据区"></p>
+<p><img src="/images/jvm-runtimeArea.png" alt="运行时数据区"></p>
 <h3 id="3-1、组成结构？"><a href="#3-1、组成结构？" class="headerlink" title="3.1、组成结构？"></a>3.1、组成结构？</h3><h4 id="3-1-1、程序计数器"><a href="#3-1-1、程序计数器" class="headerlink" title="3.1.1、程序计数器"></a>3.1.1、程序计数器</h4><p>程序计数器（Program Counter Register）也叫 PC 寄存器，每个线程会通过程序计数器记录当前要执行的的字节码指令的地址。</p>
 <p>主要有两个作用：</p>
 <ol>
@@ -453,21 +313,21 @@
 <li>JDK7 及之前的版本将方法区存放在堆区域中的永久代空间，堆的大小由虚拟机参数来控制。</li>
 <li>JDK8 及之后的版本将方法区存放在元空间中，元空间位于操作系统维护的直接内存中，默认情况下只要不 超过操作系统承受的上限，可以一直分配。也可以手动设置最大大小。</li>
 </ul>
-<p><img src="/images/jvm-jdk6~8-methodArea.png" srcset="/img/loading.gif" lazyload alt="methodArea"></p>
+<p><img src="/images/jvm-jdk6~8-methodArea.png" alt="methodArea"></p>
 <p>使用元空间替换永久代的原因：</p>
 <ol>
 <li>提高内存上限：元空间使用的是操作系统内存，而不是 JVM 内存。如果不设置上限，只要不超过操作系统内存 上限，就可以持续分配。而永久代在堆中，可使用的内存上限是有限的。所以使用元空间可以有效减少 OOM 情况 的出现。</li>
 <li>优化垃圾回收的策略：永久代在堆上，垃圾回收机制一般使用老年代的垃圾回收方式，不够灵活。使用元空间 之后单独设计了一套适合方法区的垃圾回收机制。</li>
 </ol>
 <h4 id="3-3-2、字符串常量池的位置"><a href="#3-3-2、字符串常量池的位置" class="headerlink" title="3.3.2、字符串常量池的位置"></a>3.3.2、字符串常量池的位置</h4><p>早期设计时，字符串常量池是属于运行时常量池的一部分，他们存储的位置也是一致的。后续做出了调整， 将字符串常量池和运行时常量池做了拆分。</p>
-<p><img src="/images/jvm-jdk6~8-finalStringArea.png" srcset="/img/loading.gif" lazyload alt="finalString"></p>
+<p><img src="/images/jvm-jdk6~8-finalStringArea.png" alt="finalString"></p>
 <p>字符串常量池从方法区移动到堆的原因：</p>
 <ol>
 <li>垃圾回收优化：字符串常量池的回收逻辑和对象的回收逻辑类似，内存不足的情况下，如果字符串常量池中的 常量不被使用就可以被回收；方法区中的类的元信息回收逻辑更复杂一些。移动到堆之后，就可以利用对象的垃圾 回收器，对字符串常量池进行回收。</li>
 <li>让方法区大小更可控：一般在项目中，类的元信息不会占用特别大的空间，所以会给方法区设置一个比较小的 上限。如果字符串常量池在方法区中，会让方法区的空间大小变得不可控。</li>
 <li>intern 方法的优化：JDK6 版本中 intern () 方法会把第一次遇到的字符串实例复制到永久代的字符串常量 池中。JDK7 及之后版本中由于字符串常量池在堆上，就可以进行优化：字符串保存在堆上，把字符串的引用放入 字符串常量池，减少了复制的操作。</li>
 </ol>
-<h2 id="4、类的生命周期？"><a href="#4、类的生命周期？" class="headerlink" title="4、类的生命周期？"></a>4、类的生命周期？</h2><p><img src="/images/jvm-classLife.png" srcset="/img/loading.gif" lazyload alt="ClassLife"></p>
+<h2 id="4、类的生命周期？"><a href="#4、类的生命周期？" class="headerlink" title="4、类的生命周期？"></a>4、类的生命周期？</h2><p><img src="/images/jvm-classLife.png" alt="ClassLife"></p>
 <p><strong>加载(Loading)阶段</strong></p>
 <ol>
 <li>类加载器根据类的全限定名通过不同的渠道以二进制流的方式获取字节码信息。 程序员可以使用 Java 代码拓展的不同的渠道。</li>
@@ -522,9 +382,9 @@
 <li>初始化：执行静态代码块和静态变量的赋值。</li>
 </ul>
 <h2 id="5、什么是类加载器？"><a href="#5、什么是类加载器？" class="headerlink" title="5、什么是类加载器？"></a>5、什么是类加载器？</h2><h3 id="5-1、什么是类加载器？"><a href="#5-1、什么是类加载器？" class="headerlink" title="5.1、什么是类加载器？"></a>5.1、什么是类加载器？</h3><p>类加载器负载在类的加载过程中将字节码信息以流的方式获取并加载到内存中。JDK8 及之前如下：</p>
-<p><img src="/images/jvm-jdk~8-classLoader.png" srcset="/img/loading.gif" lazyload alt="jdk~8"></p>
+<p><img src="/images/jvm-jdk~8-classLoader.png" alt="jdk~8"></p>
 <p>类加载器负载在类的加载过程中将字节码信息以流的方式获取并加载到内存中。JDK9 之后均由 Java 实现：</p>
-<p><img src="/images/jvm-jdk9-classLoader.png" srcset="/img/loading.gif" lazyload alt="jdk9"></p>
+<p><img src="/images/jvm-jdk9-classLoader.png" alt="jdk9"></p>
 <h3 id="5-2、有哪些常见的类加载器？"><a href="#5-2、有哪些常见的类加载器？" class="headerlink" title="5.2、有哪些常见的类加载器？"></a>5.2、有哪些常见的类加载器？</h3><ol>
 <li>启动类加载器（Bootstrap ClassLoader）<ul>
 <li>由 Hotspot 虚拟机提供的类加载器，JDK9 前使用 C++编写的、JDK9 后使用 Java 编写。</li>
@@ -557,7 +417,7 @@
 <p>JDK9 及之后扩展类加载器（Extension ClassLoader）变成平台类加载器（Platform ClassLoader）</p>
 </blockquote>
 <h2 id="6、什么是双亲委派机制"><a href="#6、什么是双亲委派机制" class="headerlink" title="6、什么是双亲委派机制"></a>6、什么是双亲委派机制</h2><p>双亲委派机制：指的是当一个类加载器接收到加载类的任务时，会向上查找是否加载过，再由顶向下进行加载。</p>
-<p><img src="/images/jvm-classLoaderMachanism.png" srcset="/img/loading.gif" lazyload alt="双亲委派机制"></p>
+<p><img src="/images/jvm-classLoaderMachanism.png" alt="双亲委派机制"></p>
 <p>每个类加载器都有一个父类加载器，在类加载的过程中，每个类加载器都会先检查是否已经加载了该类，如果已经加载则直接返回，否则会将加载请求委派给父类加载器</p>
 <h3 id="6-1、双亲委派机制有什么用？"><a href="#6-1、双亲委派机制有什么用？" class="headerlink" title="6.1、双亲委派机制有什么用？"></a>6.1、双亲委派机制有什么用？</h3><ol>
 <li>保证类加载的安全性：通过该机制避免恶意代码替换 JDK 中的核心类库。比如 <code>java.lang.String</code> 确保核心类库的完整性和安全性。</li>
@@ -583,7 +443,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>打破双亲委派机制的方法：实现自定义类加载器，重写 defineClass 方法，将双亲委派机制的代码去除。</li>
 </ul>
 <blockquote>
-<h2 id="Tomcat-的自定义类加载器"><a href="#Tomcat-的自定义类加载器" class="headerlink" title="Tomcat 的自定义类加载器"></a>Tomcat 的自定义类加载器</h2><p><img src="/images/jvm-tomcat-classLoader.png" srcset="/img/loading.gif" lazyload alt="TomcatClassLoader"></p>
+<h2 id="Tomcat-的自定义类加载器"><a href="#Tomcat-的自定义类加载器" class="headerlink" title="Tomcat 的自定义类加载器"></a>Tomcat 的自定义类加载器</h2><p><img src="/images/jvm-tomcat-classLoader.png" alt="TomcatClassLoader"></p>
 <ol>
 <li>common 类加载：主要加载 tomcat 自身使用以及应用使用的 jar 包，默认配置在 catalina.properties 文件中。<ul>
 <li>common.loader&#x3D;”${catalina.base}&#x2F;lib”,”${catalina.base}&#x2F;lib&#x2F;*.jar”</li>
@@ -602,7 +462,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <p>为什么每个应用会拥有一个独立的 ParallelWebappClassLoader 类加载器呢？</p>
 <p>同一个类加载器，只能加载一个同名的类。两个应用中相同名称的类都必须要加载。</p>
 <p>ParallelWebappClassLoader 的执行流程：</p>
-<p><img src="/images/jvm-paralleWebappClassLoader.png" srcset="/img/loading.gif" lazyload alt="ParallelWebappClassLoader"></p>
+<p><img src="/images/jvm-paralleWebappClassLoader.png" alt="ParallelWebappClassLoader"></p>
 <p>默认打破双亲委派机制(不开启代理)，应用中的类如果没有加载过。先会从当前类加载器加载，然后再交给父类加载器通过双亲委派机制加载。</p>
 <p>JasperLoader 类加载器负责加载 JSP 文件编译出来的 class 字节码文件，为了实现热部署（不重启让修改的 jsp 生效），每一个 jsp 文件都由一个独立的 JasperLoader 负责加载。</p>
 </blockquote>
@@ -805,7 +665,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>缺点：多 CPU 下吞吐量不如其他垃圾回收器，堆如果偏大会让用户线程处于长时间的等待</li>
 <li>适用场景：Java 编写的客户端程序或者硬件配置有限的场景</li>
 </ul>
-<p><img src="/images/jvm-serialgc.png" srcset="/img/loading.gif" lazyload alt="serial"></p>
+<p><img src="/images/jvm-serialgc.png" alt="serial"></p>
 </li>
 <li><p>Parallel Scavenge 垃圾回收器 + Parallel Old 垃圾回收器</p>
 <p>PS+PO 是 JDK8 默认的垃圾回收器，多线程并行回收， 关注的是系统的吞吐量。具备自动调整堆内存大小的特点。</p>
@@ -815,7 +675,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>缺点：不能保证单次的停顿时间</li>
 <li>适用场景：后台任务，不需要与用户交互，并且容易产生大量的对象 比如：大数据的处理，大文件导出</li>
 </ul>
-<p><img src="/images/jvm-parallelScavenge.png" srcset="/img/loading.gif" lazyload alt="parallel"></p>
+<p><img src="/images/jvm-parallelScavenge.png" alt="parallel"></p>
 </li>
 <li><p>年轻代-ParNew 垃圾回收器</p>
 <p>ParNew 垃圾回收器本质上是对 Serial 在多 CPU 下的优化，使用多线程进行垃圾回收</p>
@@ -826,7 +686,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>缺点：吞吐量和停顿时间不如 G1， 所以在 JDK9 之后不建议使用</li>
 <li>适用场景：JDK8 及之前的版本中，与 CMS 老年代垃圾回收器搭配使用</li>
 </ul>
-<p><img src="/images/jvm-parnew.png" srcset="/img/loading.gif" lazyload alt="parNew"></p>
+<p><img src="/images/jvm-parnew.png" alt="parNew"></p>
 </li>
 <li><p>老年代- CMS(Concurrent Mark Sweep)垃圾回收器</p>
 <p>CMS 垃圾回收器关注的是系统的暂停时间， 允许用户线程和垃圾回收线程在某些步骤中 同时执行，减少了用户线程的等待时间</p>
@@ -837,7 +697,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>缺点：内存碎片问题、退化问题、浮动垃圾问题</li>
 <li>适用场景：大型的互联网系统中用户请求数 据量大、频率高的场景 比如订单接口、商品接口等</li>
 </ul>
-<p><img src="/images/jvm-cmsgc.png" srcset="/img/loading.gif" lazyload alt="cms"></p>
+<p><img src="/images/jvm-cmsgc.png" alt="cms"></p>
 <blockquote>
 <p>CMS 垃圾回收器存在的问题</p>
 <ol>
@@ -887,7 +747,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>手动执行 FULL GC 之后，内存大小会骤降，而且每次降完之后的大小是接近的。</li>
 <li>长时间观察内存曲线应该是在一个范围内。</li>
 </ul>
-<p><img src="/images/jvm-normalMemory.png" srcset="/img/loading.gif" lazyload alt="normalMemory"></p>
+<p><img src="/images/jvm-normalMemory.png" alt="normalMemory"></p>
 </li>
 <li><p>出现内存泄漏</p>
 <ul>
@@ -895,7 +755,7 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>手动 FULL GC 之后的内存量每一 次都在增长</li>
 <li>长时间观察内存曲线持续增长</li>
 </ul>
-<p><img src="/images/jvm-abnormalMemory.png" srcset="/img/loading.gif" lazyload alt="abnormal"></p>
+<p><img src="/images/jvm-abnormalMemory.png" alt="abnormal"></p>
 </li>
 </ul>
 <blockquote>
@@ -1018,372 +878,343 @@ loadClass:类加载入口/双亲委派机制--&gt;resolveClass:类的连接阶�
 <li>堆内存大小和栈内存大小根据实际情况灵活调整。</li>
 </ul>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="category-chain-item">Java虚拟机, 面试题</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Jvm-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="print-no-link">#Jvm, 面试题</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Jvm</div>
-      <div>http://myhikari.github.io/2024/02/24/jvm/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>myHikari</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年2月24日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
+      <div class="tags">
+          <a href="/tags/Jvm-%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"><i class="ic i-tag"></i> Jvm, 面试题</a>
+      </div>
   </div>
 
+   <footer>
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/04/25/designModel/" title="designModel">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">designModel</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/02/13/Jvms/" title="Jvms">
-                        <span class="hidden-mobile">Jvms</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-04-26 15:53:58" itemprop="dateModified" datetime="2024-04-26T15:53:58+08:00">2024-04-26</time>
+  </span>
 </div>
 
-
-
-  </aside>
-
-
-    </div>
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> 赞赏</button>
+  <p>请我喝[茶]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="myHikari 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="myHikari 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="myHikari 贝宝">
+        <p>贝宝</p>
+      </div>
   </div>
 </div>
 
+      
 
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>myHikari <i class="ic i-at"><em>@</em></i>myHikari
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://myhikari.github.io/2024/02/24/jvm/" title="Jvm">http://myhikari.github.io/2024/02/24/jvm/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
   </footer>
 
-  <!-- Scripts -->
+</article>
+
+  </div>
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
+<div class="post-nav">
+    <div class="item left">
       
-        typing(text);
+
+  <a href="/2024/02/13/Jvms/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipewkhf1zj20zk0m81kx.jpg" title="Jvms">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Java虚拟机</span>
+  <h3>Jvms</h3>
+  </a>
+
+    </div>
+    <div class="item right">
       
-    })(window, document);
-  </script>
 
+  <a href="/2024/04/25/designModel/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciszlczyj20zk0m816d.jpg" title="designModel">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> 设计模式</span>
+  <h3>designModel</h3>
+  </a>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
+    </div>
+</div>
 
   
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
+  <div class="wrap" id="comments"></div>
 
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
 
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%9D%A2%E8%AF%95%EF%BC%88Jvm-%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Java 虚拟机面试（Jvm 面试题）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-JVM%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">1、什么是 JVM？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1、定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E3%80%81%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2、作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3%E3%80%81JVM-%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3、JVM 的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4%E3%80%81JVM-%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.4、JVM 的组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84-JVM"><span class="toc-number">1.1.5.</span> <span class="toc-text">1.5、常见的 JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.6.</span> <span class="toc-text">1.6、总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E4%BA%86%E8%A7%A3%E8%BF%87%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%84%E6%88%90%E5%90%97%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">2、了解过字节码文件的组成吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E8%AF%B4%E4%B8%80%E4%B8%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%EF%BC%9F"><span class="toc-number">1.3.</span> <span class="toc-text">3、说一下运行时数据区？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81%E7%BB%84%E6%88%90%E7%BB%93%E6%9E%84%EF%BC%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1、组成结构？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1%E3%80%81%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.1.1、程序计数器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2%E3%80%81Java-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">3.1.2、Java 虚拟机栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3%E3%80%81%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">3.1.3、本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4%E3%80%81%E5%A0%86"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">3.1.4、堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-5%E3%80%81%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">3.1.5、方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-6%E3%80%81%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-number">1.3.1.6.</span> <span class="toc-text">3.1.6、直接内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-7%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.1.7.</span> <span class="toc-text">3.1.7、总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%9F%9F%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%EF%BC%8C%E4%BC%9A%E6%9C%89%E4%BB%80%E4%B9%88%E7%8E%B0%E8%B1%A1%EF%BC%9F"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2、哪些区域会出现内存溢出，会有什么现象？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E3%80%81%E5%A0%86%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.2.1、堆内存溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2%E3%80%81%E6%A0%88%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.2.2、栈内存溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3%E3%80%81%E6%96%B9%E6%B3%95%E5%8C%BA%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">3.2.3、方法区内存溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4%E3%80%81%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">3.2.4、直接内存溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">3.2.5、总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E3%80%81JVM-%E5%9C%A8-JDK6-8-%E4%B9%8B%E9%97%B4%E5%9C%A8%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8A%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C-%EF%BC%9F"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3、JVM 在 JDK6-8 之间在内存区域上有什么不同 ？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1%E3%80%81%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">3.3.1、方法区的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">3.3.2、字符串常量池的位置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">4、类的生命周期？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%9F"><span class="toc-number">1.5.</span> <span class="toc-text">5、什么是类加载器？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%9F"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1、什么是类加载器？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2%E3%80%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%9F"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2、有哪些常见的类加载器？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="toc-number">1.6.</span> <span class="toc-text">6、什么是双亲委派机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1%E3%80%81%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1、双亲委派机制有什么用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2%E3%80%81%E6%89%93%E7%A0%B4%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2、打破双亲委派机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.3.</span> <span class="toc-text">6.3、总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat-%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="toc-number">1.7.</span> <span class="toc-text">Tomcat 的自定义类加载器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%A0%86%E4%B8%8A%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%B2%A1%E6%9C%89%E8%A2%AB%E5%BC%95%E7%94%A8%EF%BC%9F"><span class="toc-number">1.8.</span> <span class="toc-text">7、如何判断堆上的对象没有被引用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8%E3%80%81JVM-%E4%B8%AD%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">1.9.</span> <span class="toc-text">8、JVM 中都有哪些引用类型？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9%E3%80%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-number">1.10.</span> <span class="toc-text">9、有哪些常见的垃圾回收算法？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A%E6%AF%8F%E6%AC%A1-Minor-GC-%E4%B8%AD%E9%83%BD%E4%BC%9A%E4%B8%BA%E5%AF%B9%E8%B1%A1%E8%AE%B0%E5%BD%95%E4%BB%96%E7%9A%84%E5%B9%B4%E9%BE%84%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%80%BC%E4%B8%BA-0%EF%BC%8C%E6%AF%8F%E6%AC%A1-GC-%E5%AE%8C%E5%8A%A0-1%E3%80%82"><span class="toc-number">1.10.0.1.</span> <span class="toc-text">注意：每次 Minor GC 中都会为对象记录他的年龄，初始值为 0，每次 GC 完加 1。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10%E3%80%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%EF%BC%9F"><span class="toc-number">1.11.</span> <span class="toc-text">10、有哪些常用的垃圾回收器？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">1.11.1.</span> <span class="toc-text">10.1、常用的垃圾回收器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-Shenandoah%EF%BC%9F"><span class="toc-number">1.11.2.</span> <span class="toc-text">10.2、什么是 Shenandoah？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-ZGC%EF%BC%9F"><span class="toc-number">1.11.3.</span> <span class="toc-text">10.3、什么是 ZGC？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11%E3%80%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.12.</span> <span class="toc-text">11、如何解决内存泄漏问题？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%8C%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.12.1.</span> <span class="toc-text">11.1、什么是内存泄漏，如何解决内存泄漏问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2%E3%80%81%E8%A7%A3%E5%86%B3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E9%97%AE%E9%A2%98%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="toc-number">1.12.2.</span> <span class="toc-text">11.2、解决内存泄漏问题的思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84-JVM-%E5%8F%82%E6%95%B0"><span class="toc-number">1.13.</span> <span class="toc-text">12、常见的 JVM 参数</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li class="active"><a href="/2024/02/24/jvm/" rel="bookmark" title="Jvm">Jvm</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="myHikari"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">myHikari</p>
+  <div class="description" itemprop="description">myHikari 个人博客</div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">15</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">14</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">15</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2024/02/13/Jvms/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2024/04/25/designModel/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Eureka/" title="分类于 Eureka">Eureka</a>
+</div>
+
+    <span><a href="/2022/02/15/Eureka/" title="Eureka">Eureka</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Spring/" title="分类于 Spring">Spring</a>
+</div>
+
+    <span><a href="/2022/01/16/Spring/" title="Spring">Spring</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Git/" title="分类于 Git">Git</a>
+</div>
+
+    <span><a href="/2021/12/16/Git/" title="Git">Git</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/docker/" title="分类于 docker">docker</a>
+</div>
+
+    <span><a href="/2024/04/25/Docker/" title="Docker">Docker</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ElasticSearch/" title="分类于 ElasticSearch">ElasticSearch</a>
+</div>
+
+    <span><a href="/2022/06/12/ElasticSearch/" title="ElasticSearch">ElasticSearch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/OpenFeign/" title="分类于 OpenFeign">OpenFeign</a>
+</div>
+
+    <span><a href="/2022/05/11/OpenFeign/" title="OpenFeign">OpenFeign</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Redis/" title="分类于 Redis">Redis</a>
+</div>
+
+    <span><a href="/2023/09/15/Redis/" title="Redis">Redis</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Dubbo/" title="分类于 Dubbo">Dubbo</a>
+</div>
+
+    <span><a href="/2023/09/21/Dubbo/" title="Dubbo">Dubbo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ZookKeeper/" title="分类于 ZookKeeper">ZookKeeper</a>
+</div>
+
+    <span><a href="/2022/05/29/ZookKeeper/" title="ZookKeeper">ZookKeeper</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E9%9D%A2%E8%AF%95%E9%A2%98/" title="分类于 Java虚拟机, 面试题">Java虚拟机, 面试题</a>
+</div>
+
+    <span><a href="/2024/02/24/jvm/" title="Jvm">Jvm</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">myHikari @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/02/24/jvm/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
       }
-    });
-  });
+    ]
+  };
 </script>
 
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/app.js?v=0.2.5"></script>
 
 
 
 
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 </body>
 </html>

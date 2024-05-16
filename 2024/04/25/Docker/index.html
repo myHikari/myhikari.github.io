@@ -1,300 +1,159 @@
 
 
+
+
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/ico/go.ico">
-  <link rel="icon" href="/images/ico/go.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="myHikari">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="Docker 重要概念： Docker 客户端（Docker Client） Docker 客户端是与用户交互的主要方式。用户可以通过 Docker 客户端执行命令来管理 Docker 容器、镜像、网络和数据卷等资源。   Docker 守护进程（Docker Daemon） Docker 守护进程是在主机上运行的后台服务，负责管理 Docker 对象（如容器、镜像、网络等），并响应来自 Dock">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Docker">
-<meta property="og:url" content="http://myhikari.github.io/2024/04/25/Docker/index.html">
-<meta property="og:site_name" content="myHikari">
-<meta property="og:description" content="Docker 重要概念： Docker 客户端（Docker Client） Docker 客户端是与用户交互的主要方式。用户可以通过 Docker 客户端执行命令来管理 Docker 容器、镜像、网络和数据卷等资源。   Docker 守护进程（Docker Daemon） Docker 守护进程是在主机上运行的后台服务，负责管理 Docker 对象（如容器、镜像、网络等），并响应来自 Dock">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-appEnv.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-depsProblem.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-systemEnvProblem.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-linuxLibDiffer.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-DifferSystem-Mysql.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-resolveDifferSystem.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-dockerCompareVM.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-DifferSystemCharacter.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-image.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-dockerHUb.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-dockerServerClient.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-images.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-shell.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-run.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-datas.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-data-volume.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-dataVolume-relation.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-mysql-structure.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-dockerfile-shell.png">
-<meta property="og:image" content="http://myhikari.github.io/images/docker-DockerCompose.png">
-<meta property="article:published_time" content="2024-04-25T10:02:46.000Z">
-<meta property="article:modified_time" content="2024-04-25T10:03:22.861Z">
-<meta property="article:author" content="myHikari">
-<meta property="article:tag" content="docker">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://myhikari.github.io/images/docker-appEnv.png">
-  
-  
-  
-  <title>Docker - myHikari</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 
+<link rel="alternate" type="application/rss+xml" title="myHikari" href="http://myhikari.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="myHikari" href="http://myhikari.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="myHikari" href="http://myhikari.github.io/feed.json" />
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"myhikari.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
+  <meta name="keywords" content="docker" />
+
+
+<link rel="canonical" href="http://myhikari.github.io/2024/04/25/Docker/">
+
+
+
+  <title>
+Docker - docker |
+Yume Shoka = myHikari = myHikari</title>
 <meta name="generator" content="Hexo 7.2.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>myHikari</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
     </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Docker
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2024-04-25 18:02:46">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-04-25T18:02:46+08:00">2024-04-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
   </div>
 </nav>
 
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/images/bg/alice.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Docker"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-25 18:02" pubdate>
-          2024年4月25日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          6.4k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          54 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
       </div>
-
-      
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeu1usa7j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclfw2t96j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipevgoki5j20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclxfdlttj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicitf0kl1j20zk0m87fe.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
     </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
     
-      
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/docker/" itemprop="item" rel="index" title="分类于 docker"><span itemprop="name">docker</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://myhikari.github.io/2024/04/25/Docker/">
 
-    </div>
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="myHikari">
+    <meta itemprop="description" content="myHikari, myHikari 个人博客">
+  </span>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Docker</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><blockquote>
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="myHikari">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><blockquote>
 <h3 id="重要概念："><a href="#重要概念：" class="headerlink" title="重要概念："></a>重要概念：</h3><ol>
 <li><h4 id="Docker-客户端（Docker-Client）"><a href="#Docker-客户端（Docker-Client）" class="headerlink" title="Docker 客户端（Docker Client）"></a>Docker 客户端（Docker Client）</h4><ul>
 <li>Docker 客户端是与用户交互的主要方式。用户可以通过 Docker 客户端执行命令来管理 Docker 容器、镜像、网络和数据卷等资源。</li>
@@ -341,7 +200,7 @@
 <li><p>开发、测试、生产环境有差异</p>
 </li>
 </ul>
-<p><img src="/images/docker-appEnv.png" srcset="/img/loading.gif" lazyload alt="image-20210731141907366"></p>
+<p><img src="/images/docker-appEnv.png" alt="image-20210731141907366"></p>
 <p>例如一个项目中，部署时需要依赖于 node.js、Redis、RabbitMQ、MySQL 等，这些服务部署时所需要的函数库、依赖项各不相同，甚至会有冲突。给部署带来了极大的困难。</p>
 <h4 id="1-1-2-Docker-解决依赖兼容问题"><a href="#1-1-2-Docker-解决依赖兼容问题" class="headerlink" title="1.1.2.Docker 解决依赖兼容问题"></a>1.1.2.Docker 解决依赖兼容问题</h4><p>Docker 为了解决依赖的兼容问题的，采用了两个手段：</p>
 <ul>
@@ -350,10 +209,10 @@
 <li><p>将每个应用放到一个隔离<strong>容器</strong>去运行，避免互相干扰</p>
 </li>
 </ul>
-<p><img src="/images/docker-depsProblem.png" srcset="/img/loading.gif" lazyload alt="image-20210731142219735"></p>
+<p><img src="/images/docker-depsProblem.png" alt="image-20210731142219735"></p>
 <p>这样打包好的应用包中，既包含应用本身，也保护应用所需要的 Libs、Deps，无需再操作系统上安装这些，自然就不存在不同应用之间的兼容问题了。</p>
 <h4 id="1-1-3-Docker-解决操作系统环境差异"><a href="#1-1-3-Docker-解决操作系统环境差异" class="headerlink" title="1.1.3.Docker 解决操作系统环境差异"></a>1.1.3.Docker 解决操作系统环境差异</h4><p>要解决不同操作系统环境差异问题，必须先了解操作系统结构。以一个 Ubuntu 操作系统为例，结构如下：</p>
-<p><img src="/images/docker-systemEnvProblem.png" srcset="/img/loading.gif" lazyload alt="image-20210731143401460"></p>
+<p><img src="/images/docker-systemEnvProblem.png" alt="image-20210731143401460"></p>
 <p>结构包括：</p>
 <ul>
 <li>计算机硬件：例如 CPU、内存、磁盘等</li>
@@ -365,16 +224,16 @@
 <p>2）系统函数库是对内核指令集的封装，会调用内核指令</p>
 <p>3）内核指令操作计算机硬件</p>
 <p>Ubuntu 和 CentOSpringBoot 都是基于 Linux 内核，无非是系统应用不同，提供的函数库有差异：</p>
-<p><img src="/images/docker-linuxLibDiffer.png" srcset="/img/loading.gif" lazyload alt="image-20210731144304990"></p>
+<p><img src="/images/docker-linuxLibDiffer.png" alt="image-20210731144304990"></p>
 <p>此时，如果将一个 Ubuntu 版本的 MySQL 应用安装到 CentOS 系统，MySQL 在调用 Ubuntu 函数库时，会发现找不到或者不匹配，就会报错了：</p>
-<p><img src="/images/docker-DifferSystem-Mysql.png" srcset="/img/loading.gif" lazyload alt="image-20210731144458680"></p>
+<p><img src="/images/docker-DifferSystem-Mysql.png" alt="image-20210731144458680"></p>
 <p>Docker 如何解决不同系统环境的问题？</p>
 <ul>
 <li>Docker 将用户程序与所需要调用的系统(比如 Ubuntu)函数库一起打包</li>
 <li>Docker 运行到不同操作系统时，直接基于打包的函数库，借助于操作系统的 Linux 内核来运行</li>
 </ul>
 <p>如图：</p>
-<p><img src="/images/docker-resolveDifferSystem.png" srcset="/img/loading.gif" lazyload alt="image-20210731144820638"></p>
+<p><img src="/images/docker-resolveDifferSystem.png" alt="image-20210731144820638"></p>
 <h4 id="1-1-4-小结"><a href="#1-1-4-小结" class="headerlink" title="1.1.4.小结"></a>1.1.4.小结</h4><blockquote>
 <ol>
 <li>Docker 如何解决大型项目依赖关系复杂，不同组件依赖的兼容性问题？<ul>
@@ -396,9 +255,9 @@
 </blockquote>
 <h3 id="1-2-Docker-和虚拟机的区别"><a href="#1-2-Docker-和虚拟机的区别" class="headerlink" title="1.2.Docker 和虚拟机的区别"></a>1.2.Docker 和虚拟机的区别</h3><p><strong>虚拟机</strong>（virtual machine）是在操作系统中<strong>模拟</strong>硬件设备，然后运行另一个操作系统，比如在 Windows 系统里面运行 Ubuntu 系统，这样就可以运行任意的 Ubuntu 应用了。</p>
 <p><strong>Docker</strong>仅仅是封装函数库，并没有模拟完整的操作系统，如图：</p>
-<p><img src="/images/docker-dockerCompareVM.png" srcset="/img/loading.gif" lazyload alt="image-20210731145914960"></p>
+<p><img src="/images/docker-dockerCompareVM.png" alt="image-20210731145914960"></p>
 <p>对比来看：</p>
-<p><img src="/images/docker-DifferSystemCharacter.png" srcset="/img/loading.gif" lazyload alt="image-20210731152243765"></p>
+<p><img src="/images/docker-DifferSystemCharacter.png" alt="image-20210731152243765"></p>
 <p>小结：</p>
 <p>Docker 和虚拟机的差异：</p>
 <ul>
@@ -413,7 +272,7 @@
 <p>一切应用最终都是代码组成，都是硬盘中的一个个的字节形成的<strong>文件</strong>。只有运行时，才会加载到内存，形成进程。</p>
 <p>而<strong>镜像</strong>，就是把一个应用在硬盘上的文件、及其运行环境、部分系统函数库文件一起打包形成的文件包。这个文件包是只读的。</p>
 <p><strong>容器</strong>呢，就是将这些文件中编写的程序、函数加载到内存中允许，形成进程，只不过要隔离起来。因此一个镜像可以启动多次，形成多个容器进程。</p>
-<p><img src="/images/docker-image.png" srcset="/img/loading.gif" lazyload alt="image-20210731153059464"></p>
+<p><img src="/images/docker-image.png" alt="image-20210731153059464"></p>
 <p>例如你下载了一个 QQ，如果我们将 QQ 在磁盘上的运行<strong>文件</strong>及其运行的操作系统依赖打包，形成 QQ 镜像。然后你可以启动多次，双开、甚至三开 QQ，跟多个妹子聊天。</p>
 <h4 id="1-3-2-DockerHub"><a href="#1-3-2-DockerHub" class="headerlink" title="1.3.2.DockerHub"></a>1.3.2.DockerHub</h4><p>开源应用程序非常多，打包这些应用往往是重复的劳动。为了避免这些重复劳动，人们就会将自己打包的应用镜像，例如 Redis、MySQL 镜像放到网络上，共享使用，就像 GitHub 的代码共享一样。</p>
 <ul>
@@ -423,7 +282,7 @@
 </li>
 </ul>
 <p>我们一方面可以将自己的镜像共享到 DockerHub，另一方面也可以从 DockerHub 拉取镜像：</p>
-<p><img src="/images/docker-dockerHUb.png" srcset="/img/loading.gif" lazyload alt="image-20210731153743354"></p>
+<p><img src="/images/docker-dockerHUb.png" alt="image-20210731153743354"></p>
 <h4 id="1-3-3-Docker-架构"><a href="#1-3-3-Docker-架构" class="headerlink" title="1.3.3.Docker 架构"></a>1.3.3.Docker 架构</h4><p>我们要使用 Docker 来操作镜像、容器，就必须要安装 Docker。</p>
 <p>Docker 是一个 CS 架构的程序，由两部分组成：</p>
 <ul>
@@ -433,7 +292,7 @@
 </li>
 </ul>
 <p>如图：</p>
-<p><img src="/images/docker-dockerServerClient.png" srcset="/img/loading.gif" lazyload alt="image-20210731154257653"></p>
+<p><img src="/images/docker-dockerServerClient.png" alt="image-20210731154257653"></p>
 <h4 id="1-3-4-小结"><a href="#1-3-4-小结" class="headerlink" title="1.3.4.小结"></a>1.3.4.小结</h4><p>镜像：</p>
 <ul>
 <li>将应用程序及其依赖、环境、配置打包在一起</li>
@@ -483,9 +342,9 @@
 <li>在没有指定 tag 时，默认是 latest，代表最新版本的镜像</li>
 </ul>
 <p>如图：镜像名称: <code>mysql</code> 是 <code>repository</code>，5.7 是 <code>tag</code> ，代表着 5.7 版本的 MySQL 镜像</p>
-<p><img src="/images/docker-images.png" srcset="/img/loading.gif" lazyload alt="镜像文件"></p>
+<p><img src="/images/docker-images.png" alt="镜像文件"></p>
 <h4 id="2-1-2-镜像命令"><a href="#2-1-2-镜像命令" class="headerlink" title="2.1.2.镜像命令"></a>2.1.2.镜像命令</h4><p>常见的镜像操作命令如图：</p>
-<p><img src="/images/docker-shell.png" srcset="/img/loading.gif" lazyload alt="镜像操作命令"></p>
+<p><img src="/images/docker-shell.png" alt="镜像操作命令"></p>
 <h4 id="2-1-3-案例-1-拉取、查看镜像"><a href="#2-1-3-案例-1-拉取、查看镜像" class="headerlink" title="2.1.3.案例 1-拉取、查看镜像"></a>2.1.3.案例 1-拉取、查看镜像</h4><p>需求：从 DockerHub 中拉取一个 nginx 镜像并查看</p>
 <p>1）首先去镜像仓库搜索 nginx 镜像，比如 <a target="_blank" rel="noopener" href="https://hub.docker.com/">DockerHub</a>:</p>
 <p>2）根据查看到的镜像名称，拉取自己需要的镜像，通过命令：docker pull nginx</p>
@@ -502,7 +361,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除本地的旧版 nginx 镜像</span><br>docker rmi nginx:latest<br><span class="hljs-comment"># 加载本地文件</span><br>docker load -i nginx.tar<br></code></pre></td></tr></table></figure>
 
 <h3 id="2-2-容器操作"><a href="#2-2-容器操作" class="headerlink" title="2.2.容器操作"></a>2.2.容器操作</h3><h4 id="2-2-1-容器相关命令"><a href="#2-2-1-容器相关命令" class="headerlink" title="2.2.1.容器相关命令"></a>2.2.1.容器相关命令</h4><p>容器操作的命令如图：</p>
-<p><img src="/images/docker-run.png" srcset="/img/loading.gif" lazyload alt="容器命令"></p>
+<p><img src="/images/docker-run.png" alt="容器命令"></p>
 <p>容器保护三个状态：</p>
 <ul>
 <li>运行：进程正常运行</li>
@@ -575,9 +434,9 @@
 <li>docker ps -a 查看所有容器，包括已经停止的</li>
 </ul>
 <h3 id="2-3-数据卷（容器数据管理）"><a href="#2-3-数据卷（容器数据管理）" class="headerlink" title="2.3.数据卷（容器数据管理）"></a>2.3.数据卷（容器数据管理）</h3><p>容器与数据（容器内文件）耦合带来的后果：修改内部文件需要进入容器内部再编辑！</p>
-<p><img src="/images/docker-datas.png" srcset="/img/loading.gif" lazyload alt="数据卷"></p>
+<p><img src="/images/docker-datas.png" alt="数据卷"></p>
 <h4 id="2-3-1-什么是数据卷"><a href="#2-3-1-什么是数据卷" class="headerlink" title="2.3.1.什么是数据卷"></a>2.3.1.什么是数据卷</h4><p><strong>数据卷（volume）</strong>是一个虚拟目录，指向宿主机文件系统中的某个目录。</p>
-<p><img src="/images/docker-data-volume.png" srcset="/img/loading.gif" lazyload alt="数据卷"></p>
+<p><img src="/images/docker-data-volume.png" alt="数据卷"></p>
 <blockquote>
 <p>🔔 一旦完成数据卷挂载，对容器的一切操作都会作用在数据卷对应的宿主机目录，即操作宿主机的 <code>/var/lib/docker/volumes/html</code> 目录等于操作容器内的 <code>/usr/share/nginx/html</code> 目录。</p>
 </blockquote>
@@ -639,7 +498,7 @@
 <li>直接挂载模式：宿主机目录 —&gt; 容器内目录</li>
 </ul>
 <p>如图：</p>
-<p><img src="/images/docker-dataVolume-relation.png" srcset="/img/loading.gif" lazyload alt="数据关联"></p>
+<p><img src="/images/docker-dataVolume-relation.png" alt="数据关联"></p>
 <p><strong>语法</strong>：</p>
 <p>目录挂载与数据卷挂载的语法是类似的：</p>
 <ul>
@@ -662,7 +521,7 @@
 </blockquote>
 <h3 id="4-1、镜像结构"><a href="#4-1、镜像结构" class="headerlink" title="4.1、镜像结构"></a>4.1、镜像结构</h3><p>镜像是将应用程序及其需要的系统函数库、环境、配置、依赖打包而成。</p>
 <p>以 MySQL 为例，来看看镜像的组成结构：</p>
-<p><img src="/images/docker-mysql-structure.png" srcset="/img/loading.gif" lazyload alt="Mysql镜像结构"></p>
+<p><img src="/images/docker-mysql-structure.png" alt="Mysql镜像结构"></p>
 <blockquote>
 <p>总结：镜像就是在系统函数库、运行环境基础上，添加应用程序文件、配置文件、依赖文件等组合，然后编写好启动脚本打包在一起形成的文件。</p>
 </blockquote>
@@ -671,7 +530,7 @@
 </blockquote>
 <p>构建自定义的镜像时，并不需要一个个文件去拷贝，打包。只需要告诉 Docker，我们的镜像的组成，需要哪些 BaseImage、需要拷贝什么文件、需要安装什么依赖、启动脚本是什么，将来 Docker 会帮助我们构建镜像。而描述上述信息的文件就是 Dockerfile 文件。</p>
 <p><strong>Dockerfile</strong>就是一个文本文件，其中包含一个个的**指令(Instruction)**，用指令来说明要执行什么操作来构建镜像。每一个指令都会形成一层 Layer。</p>
-<p><img src="/images/docker-dockerfile-shell.png" srcset="/img/loading.gif" lazyload alt="Dockerfile命令"></p>
+<p><img src="/images/docker-dockerfile-shell.png" alt="Dockerfile命令"></p>
 <h3 id="4-3、构建-Java-项目"><a href="#4-3、构建-Java-项目" class="headerlink" title="4.3、构建 Java 项目"></a>4.3、构建 Java 项目</h3><h4 id="4-3-1、基于-Ubuntu-构建-Java-项目"><a href="#4-3-1、基于-Ubuntu-构建-Java-项目" class="headerlink" title="4.3.1、基于 Ubuntu 构建 Java 项目"></a>4.3.1、基于 Ubuntu 构建 Java 项目</h4><p>需求：基于 Ubuntu 镜像构建一个新镜像并运行一个 Java 项目</p>
 <ul>
 <li><p>步骤 1：新建一个空文件夹 docker-demo</p>
@@ -753,7 +612,7 @@
 </ul>
 <h3 id="6-2、部署微服务集群"><a href="#6-2、部署微服务集群" class="headerlink" title="6.2、部署微服务集群"></a>6.2、部署微服务集群</h3><p><strong>需求</strong>：将 cloud-demo 微服务集群利用 DockerCompose 部署</p>
 <h4 id="6-2-1、compose-文件"><a href="#6-2-1、compose-文件" class="headerlink" title="6.2.1、compose 文件"></a>6.2.1、compose 文件</h4><p>将编写好的 docker-compose 文件放进 Spring Cloud 微服务项目 cloud-demo 的文件夹中（每个微服务都准备一个独立的目录）</p>
-<p><img src="/images/docker-DockerCompose.png" srcset="/img/loading.gif" lazyload alt="DockerCompose"></p>
+<p><img src="/images/docker-DockerCompose.png" alt="DockerCompose"></p>
 <p>内容如下：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.2&#x27;</span><br><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">nacos:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">nacos/nacos-server</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MODE:</span> <span class="hljs-string">standalone</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;8848:8848&#x27;</span><br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7.25</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;$PWD/mysql/data:/var/lib/mysql&#x27;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;$PWD/mysql/conf:/etc/mysql/conf.d/&#x27;</span><br>  <span class="hljs-attr">userservice:</span><br>    <span class="hljs-attr">build:</span> <span class="hljs-string">./user-service</span><br>  <span class="hljs-attr">orderservice:</span><br>    <span class="hljs-attr">build:</span> <span class="hljs-string">./order-service</span><br>  <span class="hljs-attr">gateway:</span><br>    <span class="hljs-attr">build:</span> <span class="hljs-string">./gateway</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;10010:10010&#x27;</span><br></code></pre></td></tr></table></figure>
 
@@ -828,366 +687,333 @@
 <p>③ 拉取镜像</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker pull 192.168.150.101:8080/nginx:1.0<br></code></pre></td></tr></table></figure>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/docker/" class="category-chain-item">docker</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/docker/" class="print-no-link">#docker</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Docker</div>
-      <div>http://myhikari.github.io/2024/04/25/Docker/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>myHikari</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年4月25日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
+      <div class="tags">
+          <a href="/tags/docker/" rel="tag"><i class="ic i-tag"></i> docker</a>
+      </div>
   </div>
 
+   <footer>
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/04/25/designModel/" title="designModel">
-                        <span class="hidden-mobile">designModel</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-04-25 18:03:22" itemprop="dateModified" datetime="2024-04-25T18:03:22+08:00">2024-04-25</time>
+  </span>
 </div>
 
-
-
-  </aside>
-
-
-    </div>
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> 赞赏</button>
+  <p>请我喝[茶]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="myHikari 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="myHikari 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="myHikari 贝宝">
+        <p>贝宝</p>
+      </div>
   </div>
 </div>
 
+      
 
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>myHikari <i class="ic i-at"><em>@</em></i>myHikari
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://myhikari.github.io/2024/04/25/Docker/" title="Docker">http://myhikari.github.io/2024/04/25/Docker/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
   </footer>
 
-  <!-- Scripts -->
+</article>
+
+  </div>
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
+<div class="post-nav">
+    <div class="item left">
       
-        typing(text);
+
+  <a href="/2024/04/25/designModel/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeybxm1pj20zk0m8niv.jpg" title="designModel">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> 设计模式</span>
+  <h3>designModel</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">1.0.1.</span> <span class="toc-text">重要概念：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88Docker-Client%EF%BC%89"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">Docker 客户端（Docker Client）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%EF%BC%88Docker-Daemon%EF%BC%89"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">Docker 守护进程（Docker Daemon）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E9%95%9C%E5%83%8F%EF%BC%88Docker-Images%EF%BC%89"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">Docker 镜像（Docker Images）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E5%AE%B9%E5%99%A8%EF%BC%88Docker-Containers%EF%BC%89"><span class="toc-number">1.0.1.4.</span> <span class="toc-text">Docker 容器（Docker Containers）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Registry%EF%BC%88Docker-Hub%EF%BC%89"><span class="toc-number">1.0.1.5.</span> <span class="toc-text">Docker Registry（Docker Hub）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E7%BD%91%E7%BB%9C%EF%BC%88Docker-Networking%EF%BC%89"><span class="toc-number">1.0.1.6.</span> <span class="toc-text">Docker 网络（Docker Networking）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-%E6%95%B0%E6%8D%AE%E5%8D%B7%EF%BC%88Docker-Volumes%EF%BC%89"><span class="toc-number">1.0.1.7.</span> <span class="toc-text">Docker 数据卷（Docker Volumes）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">1、介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF-Docker"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.什么是 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%E7%9A%84%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1.1.应用部署的环境问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-Docker-%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">1.1.2.Docker 解决依赖兼容问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-3-Docker-%E8%A7%A3%E5%86%B3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%B7%AE%E5%BC%82"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">1.1.3.Docker 解决操作系统环境差异</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-4-%E5%B0%8F%E7%BB%93"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">1.1.4.小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Docker-%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2.Docker 和虚拟机的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-Docker-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3.Docker 架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E9%95%9C%E5%83%8F%E5%92%8C%E5%AE%B9%E5%99%A8"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">1.3.1.镜像和容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-DockerHub"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">1.3.2.DockerHub</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-Docker-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">1.3.3.Docker 架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-4-%E5%B0%8F%E7%BB%93"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">1.3.4.小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81CentOS-%E5%AE%89%E8%A3%85-Docker"><span class="toc-number">1.2.</span> <span class="toc-text">2、CentOS 安装 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81%E5%8D%B8%E8%BD%BD"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1、卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81%E5%AE%89%E8%A3%85-docker"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.1、安装 docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81%E5%90%AF%E5%8A%A8-docker"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3、启动 docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-docker-%E5%89%8D%EF%BC%8C%E4%B8%80%E5%AE%9A%E8%A6%81%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99%E5%90%8E%EF%BC%81%E2%9A%A0%EF%B8%8F"><span class="toc-number">1.2.4.</span> <span class="toc-text">启动 docker 前，一定要关闭防火墙后！⚠️</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E3%80%81%E9%85%8D%E7%BD%AE%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.4、配置镜像加速</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81Docker-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">3、Docker 的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1、镜像操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1%E3%80%81%E9%95%9C%E5%83%8F%E5%90%8D%E7%A7%B0"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.1.1、镜像名称</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">2.1.2.镜像命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3-%E6%A1%88%E4%BE%8B-1-%E6%8B%89%E5%8F%96%E3%80%81%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">2.1.3.案例 1-拉取、查看镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-4-%E6%A1%88%E4%BE%8B-2-%E4%BF%9D%E5%AD%98%E3%80%81%E5%AF%BC%E5%85%A5%E9%95%9C%E5%83%8F"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">2.1.4.案例 2-保存、导入镜像</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2.容器操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">2.2.1.容器相关命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%A1%88%E4%BE%8B-%E5%88%9B%E5%BB%BA%E5%B9%B6%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%AE%B9%E5%99%A8"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">2.2.2.案例-创建并运行一个容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E7%BC%96%E8%BE%91"><span class="toc-number">1.3.3.</span> <span class="toc-text">进入容器编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">2.2.4.小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%95%B0%E6%8D%AE%E5%8D%B7%EF%BC%88%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%EF%BC%89"><span class="toc-number">1.3.4.</span> <span class="toc-text">2.3.数据卷（容器数据管理）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">2.3.1.什么是数据卷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E6%95%B0%E6%8D%AE%E9%9B%86%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">2.3.2.数据集操作命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E5%88%9B%E5%BB%BA%E5%92%8C%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">2.3.3.创建和查看数据卷</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="toc-number">1.3.5.</span> <span class="toc-text">小结：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E6%8C%82%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">2.3.4.挂载数据卷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-%E6%A1%88%E4%BE%8B-%E7%BB%99-nginx-%E6%8C%82%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-number">1.3.5.2.</span> <span class="toc-text">2.3.5.案例-给 nginx 挂载数据卷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-%E6%A1%88%E4%BE%8B-%E7%BB%99-MySQL-%E6%8C%82%E8%BD%BD%E6%9C%AC%E5%9C%B0%E7%9B%AE%E5%BD%95"><span class="toc-number">1.3.5.3.</span> <span class="toc-text">2.3.6.案例-给 MySQL 挂载本地目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-7-%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.5.4.</span> <span class="toc-text">2.3.7.小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81Dockerfile-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-number">1.4.</span> <span class="toc-text">4、Dockerfile 自定义镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E9%95%9C%E5%83%8F%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1、镜像结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81Dockerfile-%E8%AF%AD%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2、Dockerfile 语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3%E3%80%81%E6%9E%84%E5%BB%BA-Java-%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3、构建 Java 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1%E3%80%81%E5%9F%BA%E4%BA%8E-Ubuntu-%E6%9E%84%E5%BB%BA-Java-%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">4.3.1、基于 Ubuntu 构建 Java 项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-2-%E5%9F%BA%E4%BA%8E-java8-%E6%9E%84%E5%BB%BA-Java-%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">4.3.2.基于 java8 构建 Java 项目</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4、小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81CentOS7-%E5%AE%89%E8%A3%85-DockerCompose"><span class="toc-number">1.5.</span> <span class="toc-text">5、CentOS7 安装 DockerCompose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1%E3%80%81%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1、下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2%E3%80%81%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2、修改文件权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3%E3%80%81Base-%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.5.3.</span> <span class="toc-text">5.3、Base 自动补全命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81Docker-Compose"><span class="toc-number">1.6.</span> <span class="toc-text">6、Docker-Compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1%E3%80%81%E5%88%9D%E8%AF%86-DockerCompose"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1、初识 DockerCompose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2%E3%80%81%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9B%86%E7%BE%A4"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2、部署微服务集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-1%E3%80%81compose-%E6%96%87%E4%BB%B6"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">6.2.1、compose 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-2%E3%80%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">6.2.2、修改微服务配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-3%E3%80%81%E6%89%93%E5%8C%85"><span class="toc-number">1.6.2.3.</span> <span class="toc-text">6.3.3、打包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-4%E3%80%81%E6%8B%B7%E8%B4%9D-jar-%E5%8C%85%E5%88%B0%E9%83%A8%E7%BD%B2%E7%9B%AE%E5%BD%95"><span class="toc-number">1.6.2.4.</span> <span class="toc-text">6.2.4、拷贝 jar 包到部署目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-5%E3%80%81%E9%83%A8%E7%BD%B2"><span class="toc-number">1.6.2.5.</span> <span class="toc-text">6.2.5、部署</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81Docker-%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93"><span class="toc-number">1.7.</span> <span class="toc-text">7、Docker 镜像仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%AE%80%E5%8C%96%E7%89%88%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.1.简化版镜像仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E5%B8%A6%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2%E7%89%88%E6%9C%AC"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2.带有图形化界面版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E9%85%8D%E7%BD%AE-Docker-%E4%BF%A1%E4%BB%BB%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.3.</span> <span class="toc-text">7.3.配置 Docker 信任地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4%E3%80%81%E6%8E%A8%E9%80%81%E3%80%81%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-number">1.7.4.</span> <span class="toc-text">7.4、推送、拉取镜像</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li class="active"><a href="/2024/04/25/Docker/" rel="bookmark" title="Docker">Docker</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="myHikari"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">myHikari</p>
+  <div class="description" itemprop="description">myHikari 个人博客</div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">15</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">14</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">15</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
       
-    })(window, document);
-  </script>
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/EnvConfig/" title="分类于 EnvConfig">EnvConfig</a>
+</div>
 
+    <span><a href="/2021/11/09/EnvConfig/" title="EnvConfig">EnvConfig</a></span>
+  </li>
 
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Nacos/" title="分类于 Nacos">Nacos</a>
+</div>
 
+    <span><a href="/2022/04/28/Nacos/" title="Nacos">Nacos</a></span>
+  </li>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Git/" title="分类于 Git">Git</a>
+</div>
 
+    <span><a href="/2021/12/16/Git/" title="Git">Git</a></span>
+  </li>
 
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Spring/" title="分类于 Spring">Spring</a>
+</div>
 
+    <span><a href="/2022/01/16/Spring/" title="Spring">Spring</a></span>
+  </li>
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/OpenFeign/" title="分类于 OpenFeign">OpenFeign</a>
+</div>
 
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
+    <span><a href="/2022/05/11/OpenFeign/" title="OpenFeign">OpenFeign</a></span>
+  </li>
 
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/docker/" title="分类于 docker">docker</a>
+</div>
+
+    <span><a href="/2024/04/25/Docker/" title="Docker">Docker</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ElasticSearch/" title="分类于 ElasticSearch">ElasticSearch</a>
+</div>
+
+    <span><a href="/2022/06/12/ElasticSearch/" title="ElasticSearch">ElasticSearch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E9%9D%A2%E8%AF%95%E9%A2%98/" title="分类于 Java虚拟机, 面试题">Java虚拟机, 面试题</a>
+</div>
+
+    <span><a href="/2024/02/24/jvm/" title="Jvm">Jvm</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Redis/" title="分类于 Redis">Redis</a>
+</div>
+
+    <span><a href="/2023/09/15/Redis/" title="Redis">Redis</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="分类于 Java虚拟机">Java虚拟机</a>
+</div>
+
+    <span><a href="/2024/02/13/Jvms/" title="Jvms">Jvms</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">myHikari @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/04/25/Docker/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
       }
-    });
-  });
+    ]
+  };
 </script>
 
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/app.js?v=0.2.5"></script>
 
 
 
 
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 </body>
 </html>

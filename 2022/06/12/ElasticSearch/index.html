@@ -1,327 +1,159 @@
 
 
+
+
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/ico/go.ico">
-  <link rel="icon" href="/images/ico/go.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="myHikari">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="ElasticSearch 官方使用文档：网址  1、初识 ES1.1、了解 es Elasticsearch 是一个开源的分布式搜索和分析引擎，主要用于实时搜索、分析大数据、日志和监控数据等。它构建于 Apache Lucene 基础之上，并提供了简单易用的 RESTful API 接口，使得用户可以方便地进行数据的索引、搜索和分析。  1.1.1、Elasticsearch 的作用 搜索引擎：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ElasticSearch">
-<meta property="og:url" content="http://myhikari.github.io/2022/06/12/ElasticSearch/index.html">
-<meta property="og:site_name" content="myHikari">
-<meta property="og:description" content="ElasticSearch 官方使用文档：网址  1、初识 ES1.1、了解 es Elasticsearch 是一个开源的分布式搜索和分析引擎，主要用于实时搜索、分析大数据、日志和监控数据等。它构建于 Apache Lucene 基础之上，并提供了简单易用的 RESTful API 接口，使得用户可以方便地进行数据的索引、搜索和分析。  1.1.1、Elasticsearch 的作用 搜索引擎：">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://myhikari.github.io/images/Es-EsAndMysql.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restapi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-resrclient-addDSL.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-getDSL.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-updateDSL.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-addbulkApi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-addBulkApiTest.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-Restclient-TF-IDF.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-BM25.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-TF-IDF-Compare-BM25.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-selectALG.png">
-<meta property="og:image" content="http://myhikari.github.io/images/elasticsearch-booleanFindCast">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-matchAll.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-requestSource.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-QueryBuilders.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-matchAllTest.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-matchSelect.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-singleAndMultiCompare.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-accurateFind.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-boolFind.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-sortAndPage.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-highLight.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-highLightAnaly.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-aggregation.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-aggregationAnaly.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-autoSuggestion.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-autoSuggestionResult.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-restclient-autoSuggesteHttpJson.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-dataTongBu.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-dataYiBu.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-dataJianTing-BinLog.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-dataTB-MqStructure.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-dataTB-crudMq.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-cluster">
-<meta property="og:image" content="http://myhikari.github.io/images/es-cluster1">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-identity.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-classic-Identity.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-naoLie1.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-naoLie2.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-naoLie3.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-addHash.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-add-liuCheng.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-select.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-guZhang1.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-guZhang2.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-guZhang3.png">
-<meta property="og:image" content="http://myhikari.github.io/images/es-JQ-guZhang4.png">
-<meta property="article:published_time" content="2022-06-12T10:00:43.000Z">
-<meta property="article:modified_time" content="2024-04-26T07:53:20.306Z">
-<meta property="article:author" content="myHikari">
-<meta property="article:tag" content="ElasticSearch">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://myhikari.github.io/images/Es-EsAndMysql.png">
-  
-  
-  
-  <title>ElasticSearch - myHikari</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 
+<link rel="alternate" type="application/rss+xml" title="myHikari" href="http://myhikari.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="myHikari" href="http://myhikari.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="myHikari" href="http://myhikari.github.io/feed.json" />
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"myhikari.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
+  <meta name="keywords" content="ElasticSearch" />
+
+
+<link rel="canonical" href="http://myhikari.github.io/2022/06/12/ElasticSearch/">
+
+
+
+  <title>
+ElasticSearch - ElasticSearch |
+Yume Shoka = myHikari = myHikari</title>
 <meta name="generator" content="Hexo 7.2.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>myHikari</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
     </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">ElasticSearch
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2022-06-12 18:00:43">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-06-12T18:00:43+08:00">2022-06-12</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
   </div>
 </nav>
 
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/images/bg/alice.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="ElasticSearch"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-12 18:00" pubdate>
-          2022年6月12日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          20k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          167 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
       </div>
-
-      
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeybxm1pj20zk0m8niv.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipexoj0moj20zk0m8kgu.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giph47e9vtj20zk0m8x6l.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giciryrr3rj20zk0m8nhk.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicljgocqbj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclip4jbpj20zk0m87cv.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
     </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
     
-      
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/ElasticSearch/" itemprop="item" rel="index" title="分类于 ElasticSearch"><span itemprop="name">ElasticSearch</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://myhikari.github.io/2022/06/12/ElasticSearch/">
 
-    </div>
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="myHikari">
+    <meta itemprop="description" content="myHikari, myHikari 个人博客">
+  </span>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">ElasticSearch</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h1><blockquote>
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="myHikari">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h1><blockquote>
 <p>官方使用文档：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html">网址</a></p>
 </blockquote>
 <h2 id="1、初识-ES"><a href="#1、初识-ES" class="headerlink" title="1、初识 ES"></a>1、初识 ES</h2><h3 id="1-1、了解-es"><a href="#1-1、了解-es" class="headerlink" title="1.1、了解 es"></a>1.1、了解 es</h3><blockquote>
@@ -462,7 +294,7 @@
 <li>对查询性能要求较高的搜索需求，使用 elasticsearch 实现</li>
 <li>两者再基于某种方式，实现数据的同步，保证一致性</li>
 </ul>
-<p><img src="/images/Es-EsAndMysql.png" srcset="/img/loading.gif" lazyload alt="ES与MySQL"></p>
+<p><img src="/images/Es-EsAndMysql.png" alt="ES与MySQL"></p>
 <h3 id="1-4、安装-es、kibana"><a href="#1-4、安装-es、kibana" class="headerlink" title="1.4、安装 es、kibana"></a>1.4、安装 es、kibana</h3><h4 id="1-4-1-安装-es、kibana"><a href="#1-4-1-安装-es、kibana" class="headerlink" title="1.4.1.安装 es、kibana"></a>1.4.1.安装 es、kibana</h4><h5 id="1-4-1-1、创建网络"><a href="#1-4-1-1、创建网络" class="headerlink" title="1.4.1.1、创建网络"></a>1.4.1.1、创建网络</h5><p>由于需要让 es 和 kibana 容器互联，因此需先创建一个网络</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker network create es-net<br></code></pre></td></tr></table></figure>
 
@@ -753,7 +585,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.http.HttpHost;<br><span class="hljs-keyword">import</span> org.elasticsearch.client.RestHighLevelClient;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.AfterEach;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.BeforeEach;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HotelIndexTest</span> &#123;<br>    <span class="hljs-keyword">private</span> RestHighLevelClient client;<br><br>    <span class="hljs-meta">@BeforeEach</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUp</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">this</span>.client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestHighLevelClient</span>(RestClient.builder(<br>                HttpHost.create(<span class="hljs-string">&quot;http://192.168.150.101:9200&quot;</span>)<br>        ));<br>    &#125;<br><br>    <span class="hljs-meta">@AfterEach</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">tearDown</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-built_in">this</span>.client.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="4-1、创建索引库"><a href="#4-1、创建索引库" class="headerlink" title="4.1、创建索引库"></a>4.1、创建索引库</h3><h4 id="4-1-1、代码解读"><a href="#4-1-1、代码解读" class="headerlink" title="4.1.1、代码解读"></a>4.1.1、代码解读</h4><p>创建索引库的 API 如下：</p>
-<p><img src="/images/es-restapi.png" srcset="/img/loading.gif" lazyload alt="RestApi"></p>
+<p><img src="/images/es-restapi.png" alt="RestApi"></p>
 <p>代码分为三步：</p>
 <ul>
 <li>1）创建 Request 对象。因为是创建索引库的操作，因此 Request 是 CreateIndexRequest。</li>
@@ -825,7 +657,7 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json">POST /<span class="hljs-punctuation">&#123;</span>索引库名<span class="hljs-punctuation">&#125;</span>/_doc/<span class="hljs-number">1</span><br><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jack&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">21</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p>对应的 java 代码如图：</p>
-<p><img src="/images/es-resrclient-addDSL.png" srcset="/img/loading.gif" lazyload alt="新增文档的DSL语句"></p>
+<p><img src="/images/es-resrclient-addDSL.png" alt="新增文档的DSL语句"></p>
 <p>与创建索引库类似，同样是三个步骤：</p>
 <ul>
 <li>1）创建 Request 对象</li>
@@ -860,7 +692,7 @@
 <li>发送请求</li>
 </ul>
 <p>不过查询的目的是得到结果，解析为 HotelDoc，因此难点是结果的解析。完整代码如下：</p>
-<p><img src="/images/es-restclient-getDSL.png" srcset="/img/loading.gif" lazyload alt="查询的DSL语句"></p>
+<p><img src="/images/es-restclient-getDSL.png" alt="查询的DSL语句"></p>
 <p>可以看到，结果是一个 JSON，其中文档放在一个<code>_source</code>属性中，因此解析就是拿到<code>_source</code>，反序列化为 Java 对象即可。</p>
 <p>与之前类似，也是三步走：</p>
 <ul>
@@ -894,7 +726,7 @@
 <li>如果新增时，ID 不存在，则新增</li>
 </ul>
 <p>代码示例如图：</p>
-<p><img src="/images/es-restclient-updateDSL.png" srcset="/img/loading.gif" lazyload alt="修改的DSL语句"></p>
+<p><img src="/images/es-restclient-updateDSL.png" alt="修改的DSL语句"></p>
 <p>与之前类似，也是三步走：</p>
 <ul>
 <li>1）准备 Request 对象。这次是修改，所以是 UpdateRequest</li>
@@ -916,7 +748,7 @@
 </ul>
 <h4 id="5-5-1、语法说明"><a href="#5-5-1、语法说明" class="headerlink" title="5.5.1、语法说明"></a>5.5.1、语法说明</h4><p>批量处理 BulkRequest，其本质就是将多个普通的 CRUD 请求组合在一起发送。</p>
 <p>其中提供了一个 add 方法，用来添加其他请求：</p>
-<p><img src="/images/es-restclient-addbulkApi.png" srcset="/img/loading.gif" lazyload alt="addBulk"></p>
+<p><img src="/images/es-restclient-addbulkApi.png" alt="addBulk"></p>
 <p>可以看到，能添加的请求包括：</p>
 <ul>
 <li>IndexRequest，也就是新增</li>
@@ -924,7 +756,7 @@
 <li>DeleteRequest，也就是删除</li>
 </ul>
 <p>因此 Bulk 中添加了多个 IndexRequest，就是批量新增功能。示例：</p>
-<p><img src="/images/es-restclient-addBulkApiTest.png" srcset="/img/loading.gif" lazyload alt="addBulkApiTest"></p>
+<p><img src="/images/es-restclient-addBulkApiTest.png" alt="addBulkApiTest"></p>
 <p>其实还是三步走：</p>
 <ul>
 <li>1）创建 Request 对象。这里是 BulkRequest</li>
@@ -1059,11 +891,11 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">[</span><br>  <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;_score&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">17.850193</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;_source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;虹桥如家酒店真不错&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;_score&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">12.259849</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;_source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;外滩如家酒店真不错&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;_score&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">11.91091</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;_source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;迪士尼如家酒店真不错&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
 
 <p>在 elasticsearch 中，早期使用的打分算法是 TF-IDF 算法，公式如下：</p>
-<p><img src="/images/es-Restclient-TF-IDF.png" srcset="/img/loading.gif" lazyload alt="TF-IDF"></p>
+<p><img src="/images/es-Restclient-TF-IDF.png" alt="TF-IDF"></p>
 <p>在后来的 5.1 版本升级中，elasticsearch 将算法改进为 BM25 算法，公式如下：</p>
-<p><img src="/images/es-restclient-BM25.png" srcset="/img/loading.gif" lazyload alt="BM25"></p>
+<p><img src="/images/es-restclient-BM25.png" alt="BM25"></p>
 <p>TF-IDF 算法有一各缺陷，就是词条频率越高，文档得分也会越高，单个词条对文档影响较大。而 BM25 则会让单个词条的算分有一个上限，曲线更加平滑：</p>
-<p><img src="/images/es-TF-IDF-Compare-BM25.png" srcset="/img/loading.gif" lazyload alt="Compare"></p>
+<p><img src="/images/es-TF-IDF-Compare-BM25.png" alt="Compare"></p>
 <p>小结：elasticsearch 会根据词条和文档的相关度做打分，算法由两种：</p>
 <ul>
 <li>TF-IDF 算法</li>
@@ -1072,7 +904,7 @@
 <h4 id="6-5-2、算分函数查询"><a href="#6-5-2、算分函数查询" class="headerlink" title="6.5.2、算分函数查询"></a>6.5.2、算分函数查询</h4><p>根据相关度打分是比较合理的需求，但<strong>合理的不一定是产品经理需要</strong>的。</p>
 <p>以百度为例，搜索的结果中并不是相关度越高排名越靠前，而是谁掏的钱多排名就越靠前。</p>
 <p>1）语法说明</p>
-<p><img src="/images/es-selectALG.png" srcset="/img/loading.gif" lazyload alt="算法函数查询"></p>
+<p><img src="/images/es-selectALG.png" alt="算法函数查询"></p>
 <p>function score 查询中包含四部分内容：</p>
 <ul>
 <li><strong>原始查询</strong>条件：query 部分，基于这个条件搜索文档，并且基于 BM25 算法给文档打分，<strong>原始算分</strong>（query score)</li>
@@ -1146,7 +978,7 @@
 <li>价格不高于 400，用 range 查询，属于过滤条件，不参与算分。放到 must_not 中</li>
 <li>周围 10km 范围内，用 geo_distance 查询，属于过滤条件，不参与算分。放到 filter 中</li>
 </ul>
-<p><img src="/images/elasticsearch-booleanFindCast" srcset="/img/loading.gif" lazyload alt="image-20210721194744183"></p>
+<p><img src="/images/elasticsearch-booleanFindCast" alt="image-20210721194744183"></p>
 <p>3）小结</p>
 <p>bool 查询有几种逻辑关系？</p>
 <ul>
@@ -1246,7 +1078,7 @@
 <li>3）发起请求</li>
 <li>4）解析响应</li>
 </ul>
-<h3 id="8-1、快速入门"><a href="#8-1、快速入门" class="headerlink" title="8.1、快速入门"></a>8.1、快速入门</h3><h4 id="8-1-1、发起查询请求"><a href="#8-1-1、发起查询请求" class="headerlink" title="8.1.1、发起查询请求"></a>8.1.1、发起查询请求</h4><p><img src="/images/es-restclient-matchAll.png" srcset="/img/loading.gif" lazyload alt="matchAll"></p>
+<h3 id="8-1、快速入门"><a href="#8-1、快速入门" class="headerlink" title="8.1、快速入门"></a>8.1、快速入门</h3><h4 id="8-1-1、发起查询请求"><a href="#8-1-1、发起查询请求" class="headerlink" title="8.1.1、发起查询请求"></a>8.1.1、发起查询请求</h4><p><img src="/images/es-restclient-matchAll.png" alt="matchAll"></p>
 <p>代码解读：</p>
 <ul>
 <li><p>第一步，创建<code>SearchRequest</code>对象，指定索引库名</p>
@@ -1262,12 +1094,12 @@
 <blockquote>
 <p><strong>关键的两个 API</strong></p>
 <p>一个是<code>request.source()</code>，其中包含了查询、排序、分页、高亮等所有功能：</p>
-<p><img src="/images/es-restclient-requestSource.png" srcset="/img/loading.gif" lazyload alt="requestSource"></p>
+<p><img src="/images/es-restclient-requestSource.png" alt="requestSource"></p>
 <p>另一个是<code>QueryBuilders</code>，其中包含 match、term、function_score、bool 等各种查询：</p>
-<p><img src="/images/es-restclient-QueryBuilders.png" srcset="/img/loading.gif" lazyload alt="QueryBuilders"></p>
+<p><img src="/images/es-restclient-QueryBuilders.png" alt="QueryBuilders"></p>
 </blockquote>
 <h4 id="8-1-2、解析响应"><a href="#8-1-2、解析响应" class="headerlink" title="8.1.2、解析响应"></a>8.1.2、解析响应</h4><p>响应结果的解析：</p>
-<p><img src="/images/es-restclient-matchAllTest.png" srcset="/img/loading.gif" lazyload alt="matchAllTest"></p>
+<p><img src="/images/es-restclient-matchAllTest.png" alt="matchAllTest"></p>
 <p>elasticsearch 返回的结果是一个 JSON 字符串，结构包含：</p>
 <ul>
 <li><code>hits</code>：命中的结果<ul>
@@ -1308,10 +1140,10 @@
 </li>
 </ol>
 <h3 id="8-2、match-查询"><a href="#8-2、match-查询" class="headerlink" title="8.2、match 查询"></a>8.2、match 查询</h3><p>全文检索的 match 和 multi_match 查询与 match_all 的 API 基本一致。差别是查询条件，也就是 query 的部分。</p>
-<p><img src="/images/es-restclient-matchSelect.png" srcset="/img/loading.gif" lazyload alt="match查询"></p>
+<p><img src="/images/es-restclient-matchSelect.png" alt="match查询"></p>
 <p>Java 代码上的差异主要是 request.source().query()中的参数。</p>
 <p>同样是利用 QueryBuilders 提供的方法：</p>
-<p><img src="/images/es-restclient-singleAndMultiCompare.png" srcset="/img/loading.gif" lazyload alt="singleAndMulti"></p>
+<p><img src="/images/es-restclient-singleAndMultiCompare.png" alt="singleAndMulti"></p>
 <p>完整代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">testMatch</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>    <span class="hljs-comment">// 1.准备Request</span><br>    <span class="hljs-type">SearchRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SearchRequest</span>(<span class="hljs-string">&quot;hotel&quot;</span>);<br>    <span class="hljs-comment">// 2.准备DSL</span><br>    request.source()<br>        .query(QueryBuilders.matchQuery(<span class="hljs-string">&quot;all&quot;</span>, <span class="hljs-string">&quot;如家&quot;</span>));<br>    <span class="hljs-comment">// 3.发送请求</span><br>    <span class="hljs-type">SearchResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> client.search(request, RequestOptions.DEFAULT);<br>    <span class="hljs-comment">// 4.解析响应</span><br>    handleResponse(response);<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -1322,15 +1154,15 @@
 </ul>
 <p>与之前的查询相比，差异同样在查询条件，其它都一样。</p>
 <p>查询条件构造的 API 如下：</p>
-<p><img src="/images/es-restclient-accurateFind.png" srcset="/img/loading.gif" lazyload alt="精确查询"></p>
+<p><img src="/images/es-restclient-accurateFind.png" alt="精确查询"></p>
 <h3 id="8-4、布尔查询"><a href="#8-4、布尔查询" class="headerlink" title="8.4、布尔查询"></a>8.4、布尔查询</h3><p>布尔查询是用 must、must_not、filter 等方式组合其它查询，代码示例如下：</p>
-<p><img src="/images/es-restclient-boolFind.png" srcset="/img/loading.gif" lazyload alt="布尔查询"></p>
+<p><img src="/images/es-restclient-boolFind.png" alt="布尔查询"></p>
 <p>完整代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">testBool</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>    <span class="hljs-comment">// 1.准备Request</span><br>    <span class="hljs-type">SearchRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SearchRequest</span>(<span class="hljs-string">&quot;hotel&quot;</span>);<br>    <span class="hljs-comment">// 2.准备DSL</span><br>    <span class="hljs-comment">// 2.1.准备BooleanQuery</span><br>    <span class="hljs-type">BoolQueryBuilder</span> <span class="hljs-variable">boolQuery</span> <span class="hljs-operator">=</span> QueryBuilders.boolQuery();<br>    <span class="hljs-comment">// 2.2.添加term</span><br>    boolQuery.must(QueryBuilders.termQuery(<span class="hljs-string">&quot;city&quot;</span>, <span class="hljs-string">&quot;杭州&quot;</span>));<br>    <span class="hljs-comment">// 2.3.添加range</span><br>    boolQuery.filter(QueryBuilders.rangeQuery(<span class="hljs-string">&quot;price&quot;</span>).lte(<span class="hljs-number">250</span>));<br><br>    request.source().query(boolQuery);<br>    <span class="hljs-comment">// 3.发送请求</span><br>    <span class="hljs-type">SearchResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> client.search(request, RequestOptions.DEFAULT);<br>    <span class="hljs-comment">// 4.解析响应</span><br>    handleResponse(response);<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="8-5、排序、分页"><a href="#8-5、排序、分页" class="headerlink" title="8.5、排序、分页"></a>8.5、排序、分页</h3><p>搜索结果的排序和分页是与 query 同级的参数，因此同样是使用 request.source()来设置。</p>
 <p>对应的 API 如下：</p>
-<p><img src="/images/es-restclient-sortAndPage.png" srcset="/img/loading.gif" lazyload alt="排序、分页"></p>
+<p><img src="/images/es-restclient-sortAndPage.png" alt="排序、分页"></p>
 <p>完整代码示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">testPageAndSort</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>    <span class="hljs-comment">// 页码，每页大小</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">page</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>, size = <span class="hljs-number">5</span>;<br><br>    <span class="hljs-comment">// 1.准备Request</span><br>    <span class="hljs-type">SearchRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SearchRequest</span>(<span class="hljs-string">&quot;hotel&quot;</span>);<br>    <span class="hljs-comment">// 2.准备DSL</span><br>    <span class="hljs-comment">// 2.1.query</span><br>    request.source().query(QueryBuilders.matchAllQuery());<br>    <span class="hljs-comment">// 2.2.排序 sort</span><br>    request.source().sort(<span class="hljs-string">&quot;price&quot;</span>, SortOrder.ASC);<br>    <span class="hljs-comment">// 2.3.分页 from、size</span><br>    request.source().from((page - <span class="hljs-number">1</span>) * size).size(<span class="hljs-number">5</span>);<br>    <span class="hljs-comment">// 3.发送请求</span><br>    <span class="hljs-type">SearchResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> client.search(request, RequestOptions.DEFAULT);<br>    <span class="hljs-comment">// 4.解析响应</span><br>    handleResponse(response);<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -1340,7 +1172,7 @@
 <li>结果解析：结果除了要解析_source 文档数据，还要解析高亮结果</li>
 </ul>
 <h4 id="8-6-1、高亮请求构建"><a href="#8-6-1、高亮请求构建" class="headerlink" title="8.6.1、高亮请求构建"></a>8.6.1、高亮请求构建</h4><p>高亮请求的构建 API 如下：</p>
-<p><img src="/images/es-restclient-highLight.png" srcset="/img/loading.gif" lazyload alt="高亮请求"></p>
+<p><img src="/images/es-restclient-highLight.png" alt="高亮请求"></p>
 <blockquote>
 <p>⚠️<strong>高亮查询必须使用全文检索查询，并且要有搜索关键字，将来才可以对关键字高亮。</strong></p>
 </blockquote>
@@ -1349,7 +1181,7 @@
 
 <h4 id="8-6-2、高亮结果解析"><a href="#8-6-2、高亮结果解析" class="headerlink" title="8.6.2、高亮结果解析"></a>8.6.2、高亮结果解析</h4><p>高亮的结果与查询的文档结果默认是分离的，并不在一起。</p>
 <p>因此解析高亮的代码需要额外处理：</p>
-<p><img src="/images/es-restclient-highLightAnaly.png" srcset="/img/loading.gif" lazyload alt="高亮结果解析"></p>
+<p><img src="/images/es-restclient-highLightAnaly.png" alt="高亮结果解析"></p>
 <p>代码解读：</p>
 <ul>
 <li>第一步：从结果中获取 source。hit.getSourceAsString()，这部分是非高亮结果，json 字符串。还需要反序列为 HotelDoc 对象</li>
@@ -1424,10 +1256,10 @@
 </ul>
 <h3 id="9-3、RestAPI-实现聚合"><a href="#9-3、RestAPI-实现聚合" class="headerlink" title="9.3、RestAPI 实现聚合"></a>9.3、RestAPI 实现聚合</h3><h4 id="9-3-1、API-语法"><a href="#9-3-1、API-语法" class="headerlink" title="9.3.1、API 语法"></a>9.3.1、API 语法</h4><p>聚合条件与 query 条件同级别，因此需要使用 request.source()来指定聚合条件。</p>
 <p>聚合条件的语法：</p>
-<p><img src="/images/es-restclient-aggregation.png" srcset="/img/loading.gif" lazyload alt="聚合"></p>
+<p><img src="/images/es-restclient-aggregation.png" alt="聚合"></p>
 <p>聚合的结果也与查询结果不同，API 也比较特殊。</p>
 <p>不过同样是 JSON 逐层解析：</p>
-<p><img src="/images/es-restclient-aggregationAnaly.png" srcset="/img/loading.gif" lazyload alt="聚合分析"></p>
+<p><img src="/images/es-restclient-aggregationAnaly.png" alt="聚合分析"></p>
 <h4 id="9-3-2、业务需求"><a href="#9-3-2、业务需求" class="headerlink" title="9.3.2、业务需求"></a>9.3.2、业务需求</h4><p>需求：搜索页面的品牌、城市等信息不应该是在页面写死，而是通过聚合索引库中的酒店数据得来的：</p>
 <p>分析：</p>
 <p>搜索页面的城市列表、星级列表、品牌列表都是写死的，并不会随着搜索结果的变化而变化。但是用户搜索条件改变时，搜索结果会跟着变化。</p>
@@ -1536,11 +1368,11 @@
 
 <h4 id="10-4-3、重新导入"><a href="#10-4-3、重新导入" class="headerlink" title="10.4.3、重新导入"></a>10.4.3、重新导入</h4><p>重新执行之前编写的导入数据功能，可以看到新的酒店数据中已包含 suggestion。</p>
 <h4 id="10-4-4、自动补全查询的-JavaAPI"><a href="#10-4-4、自动补全查询的-JavaAPI" class="headerlink" title="10.4.4、自动补全查询的 JavaAPI"></a>10.4.4、自动补全查询的 JavaAPI</h4><p>自动补全查询 DSL 对应的 JavaAPI</p>
-<p><img src="/images/es-restclient-autoSuggestion.png" srcset="/img/loading.gif" lazyload alt="自动补全查询的JavaAPI"></p>
+<p><img src="/images/es-restclient-autoSuggestion.png" alt="自动补全查询的JavaAPI"></p>
 <p>解析自动补全结果的代码如下：</p>
-<p><img src="/images/es-restclient-autoSuggestionResult.png" srcset="/img/loading.gif" lazyload alt="解析自动补全结果"></p>
+<p><img src="/images/es-restclient-autoSuggestionResult.png" alt="解析自动补全结果"></p>
 <h4 id="10-4-5、实现搜索框自动补全"><a href="#10-4-5、实现搜索框自动补全" class="headerlink" title="10.4.5、实现搜索框自动补全"></a>10.4.5、实现搜索框自动补全</h4><p>在前端页面输入框键入时会发起 ajax 请求：</p>
-<p><img src="/images/es-restclient-autoSuggesteHttpJson.png" srcset="/img/loading.gif" lazyload alt="前端页面"></p>
+<p><img src="/images/es-restclient-autoSuggesteHttpJson.png" alt="前端页面"></p>
 <p>返回值是补全词条的集合，类型为<code>List&lt;String&gt;</code></p>
 <p>1）在<code>com.goes.hotel.web</code>包下的<code>HotelController</code>中添加新接口，接收新的请求：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;suggestion&quot;)</span><br><span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title function_">getSuggestions</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;key&quot;)</span> String prefix)</span> &#123;<br>    <span class="hljs-keyword">return</span> hotelService.getSuggestions(prefix);<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -1559,21 +1391,21 @@
 <li>监听 binlog</li>
 </ul>
 <h4 id="11-1-1、同步调用"><a href="#11-1-1、同步调用" class="headerlink" title="11.1.1、同步调用"></a>11.1.1、同步调用</h4><p>方案一：同步调用</p>
-<p><img src="/images/es-dataTongBu.png" srcset="/img/loading.gif" lazyload alt="同步调用"></p>
+<p><img src="/images/es-dataTongBu.png" alt="同步调用"></p>
 <p>基本步骤如下：</p>
 <ul>
 <li>hotel-demo 对外提供接口，用来修改 elasticsearch 中的数据</li>
 <li>酒店管理服务在完成数据库操作后，直接调用 hotel-demo 提供的接口，</li>
 </ul>
 <h4 id="11-1-2、异步通知"><a href="#11-1-2、异步通知" class="headerlink" title="11.1.2、异步通知"></a>11.1.2、异步通知</h4><p>方案二：异步通知</p>
-<p><img src="/images/es-dataYiBu.png" srcset="/img/loading.gif" lazyload alt="异步通知"></p>
+<p><img src="/images/es-dataYiBu.png" alt="异步通知"></p>
 <p>流程如下：</p>
 <ul>
 <li>hotel-admin 对 mysql 数据库数据完成增、删、改后，发送 MQ 消息</li>
 <li>hotel-demo 监听 MQ，接收到消息后完成 elasticsearch 数据修改</li>
 </ul>
 <h4 id="11-1-3、监听-binlog"><a href="#11-1-3、监听-binlog" class="headerlink" title="11.1.3、监听 binlog"></a>11.1.3、监听 binlog</h4><p>方案三：监听 binlog</p>
-<p><img src="/images/es-dataJianTing-BinLog.png" srcset="/img/loading.gif" lazyload alt="监听binlog"></p>
+<p><img src="/images/es-dataJianTing-BinLog.png" alt="监听binlog"></p>
 <p>流程如下：</p>
 <ul>
 <li>给 mysql 开启 binlog 功能</li>
@@ -1610,7 +1442,7 @@
 </li>
 </ul>
 <h4 id="11-2-2、创建项目"><a href="#11-2-2、创建项目" class="headerlink" title="11.2.2、创建项目"></a>11.2.2、创建项目</h4><h4 id="11-2-3、声明交换机、队列"><a href="#11-2-3、声明交换机、队列" class="headerlink" title="11.2.3、声明交换机、队列"></a>11.2.3、声明交换机、队列</h4><p>MQ 结构如图：</p>
-<p><img src="/images/es-dataTB-MqStructure.png" srcset="/img/loading.gif" lazyload alt="MQ结构"></p>
+<p><img src="/images/es-dataTB-MqStructure.png" alt="MQ结构"></p>
 <p>1）引入依赖</p>
 <p>在项目引入 rabbitmq 的依赖：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--amqp--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
@@ -1624,7 +1456,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.goes.hotel.constants.MqConstants;<br><span class="hljs-keyword">import</span> org.springframework.amqp.core.Binding;<br><span class="hljs-keyword">import</span> org.springframework.amqp.core.BindingBuilder;<br><span class="hljs-keyword">import</span> org.springframework.amqp.core.Queue;<br><span class="hljs-keyword">import</span> org.springframework.amqp.core.TopicExchange;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MqConfig</span> &#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> TopicExchange <span class="hljs-title function_">topicExchange</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TopicExchange</span>(MqConstants.HOTEL_EXCHANGE, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Queue <span class="hljs-title function_">insertQueue</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Queue</span>(MqConstants.HOTEL_INSERT_QUEUE, <span class="hljs-literal">true</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Queue <span class="hljs-title function_">deleteQueue</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Queue</span>(MqConstants.HOTEL_DELETE_QUEUE, <span class="hljs-literal">true</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Binding <span class="hljs-title function_">insertQueueBinding</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> BindingBuilder.bind(insertQueue()).to(topicExchange()).with(MqConstants.HOTEL_INSERT_KEY);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Binding <span class="hljs-title function_">deleteQueueBinding</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> BindingBuilder.bind(deleteQueue()).to(topicExchange()).with(MqConstants.HOTEL_DELETE_KEY);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h4 id="11-2-4、发送-MQ-消息"><a href="#11-2-4、发送-MQ-消息" class="headerlink" title="11.2.4、发送 MQ 消息"></a>11.2.4、发送 MQ 消息</h4><p>在 hotel-admin 中的增、删、改业务中分别发送 MQ 消息：</p>
-<p><img src="/images/es-dataTB-crudMq.png" srcset="/img/loading.gif" lazyload alt="增、删、改业务中分别发送MQ消息"></p>
+<p><img src="/images/es-dataTB-crudMq.png" alt="增、删、改业务中分别发送MQ消息"></p>
 <h4 id="11-2-5、接收-MQ-消息"><a href="#11-2-5、接收-MQ-消息" class="headerlink" title="11.2.5、接收 MQ 消息"></a>11.2.5、接收 MQ 消息</h4><p>hotel-demo 接收到 MQ 消息要做的事情包括：</p>
 <ul>
 <li>新增消息：根据传递的 hotel 的 id 查询 hotel 信息，然后新增一条数据到索引库</li>
@@ -1653,7 +1485,7 @@
 </li>
 <li><p><font color="red">分片（shard）</font>：索引可以被拆分为不同的部分进行存储，称为分片。在集群环境下，一个索引的不同分片可以拆分到不同的节点中</p>
 <p>解决问题：数据量太大，单点存储量有限的问题。</p>
-<p><img src="/images/es-cluster" srcset="/img/loading.gif" lazyload alt="image-20200104124440086"></p>
+<p><img src="/images/es-cluster" alt="image-20200104124440086"></p>
 <blockquote>
 <p>此处，我们把数据分成 3 片：shard0、shard1、shard2</p>
 </blockquote>
@@ -1671,7 +1503,7 @@
 <li>然后对每个分片进行备份，放到对方节点，完成互相备份</li>
 </ul>
 <p>这样可以大大减少所需要的服务节点数量，如图，我们以 3 分片，每个分片备份一份为例：</p>
-<p><img src="/images/es-cluster1" srcset="/img/loading.gif" lazyload alt="image-20200104124551912"></p>
+<p><img src="/images/es-cluster1" alt="image-20200104124551912"></p>
 <p>现在，每个分片都有 1 个备份，存储在 3 个节点：</p>
 <ul>
 <li>node0：保存了分片 0 和 1</li>
@@ -1686,7 +1518,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker-compose up<br></code></pre></td></tr></table></figure>
 
 <h3 id="12-2、集群脑裂问题"><a href="#12-2、集群脑裂问题" class="headerlink" title="12.2、集群脑裂问题"></a>12.2、集群脑裂问题</h3><h4 id="12-2-1、集群职责划分"><a href="#12-2-1、集群职责划分" class="headerlink" title="12.2.1、集群职责划分"></a>12.2.1、集群职责划分</h4><p>elasticsearch 中集群节点有不同的职责划分：</p>
-<p><img src="/images/es-JQ-identity.png" srcset="/img/loading.gif" lazyload alt="集群职责划分"></p>
+<p><img src="/images/es-JQ-identity.png" alt="集群职责划分"></p>
 <p>默认情况下，集群中的任何一个节点都同时具备上述四种角色。</p>
 <p>但是真实的集群一定要将集群职责分离：</p>
 <ul>
@@ -1696,15 +1528,15 @@
 </ul>
 <p>职责分离可以让我们根据不同节点的需求分配不同的硬件去部署。而且避免业务之间的互相干扰。</p>
 <p>一个典型的 es 集群职责划分如图：</p>
-<p><img src="/images/es-JQ-classic-Identity.png" srcset="/img/loading.gif" lazyload alt="典型的es集群职责划分"></p>
+<p><img src="/images/es-JQ-classic-Identity.png" alt="典型的es集群职责划分"></p>
 <h4 id="12-2-2、脑裂问题"><a href="#12-2-2、脑裂问题" class="headerlink" title="12.2.2、脑裂问题"></a>12.2.2、脑裂问题</h4><p>脑裂是因为集群中的节点失联导致的。</p>
 <p>例如一个集群中，主节点与其它节点失联：</p>
-<p><img src="/images/es-JQ-naoLie1.png" srcset="/img/loading.gif" lazyload alt="es-JQ-naoLie1"></p>
+<p><img src="/images/es-JQ-naoLie1.png" alt="es-JQ-naoLie1"></p>
 <p>此时，node2 和 node3 认为 node1 宕机，就会重新选主：</p>
-<p><img src="/images/es-JQ-naoLie2.png" srcset="/img/loading.gif" lazyload alt="es-JQ-naoLie2"></p>
+<p><img src="/images/es-JQ-naoLie2.png" alt="es-JQ-naoLie2"></p>
 <p>当 node3 当选后，集群继续对外提供服务，node2 和 node3 自成集群，node1 自成集群，两个集群数据不同步，出现数据差异。</p>
 <p>当网络恢复后，因为集群中有两个 master 节点，集群状态的不一致，出现脑裂的情况：</p>
-<p><img src="/images/es-JQ-naoLie3.png" srcset="/img/loading.gif" lazyload alt="es-JQ-naoLie3"></p>
+<p><img src="/images/es-JQ-naoLie3.png" alt="es-JQ-naoLie3"></p>
 <p>解决脑裂的方案是，要求选票超过 ( eligible 节点数量 + 1 ）&#x2F; 2 才能当选为主，因此 eligible 节点数量最好是奇数。对应配置项是 discovery.zen.minimum_master_nodes，在 es7.0 以后，已经成为默认配置，因此一般不会发生脑裂问题</p>
 <p>例如：3 个节点形成的集群，选票必须超过 （3 + 1） &#x2F; 2 ，也就是 2 票。node3 得到 node2 和 node3 的选票，当选为主。node1 只有自己 1 票，没有当选。集群中依然只有 1 个主节点，没有出现脑裂。</p>
 <h4 id="12-2-3、小结"><a href="#12-2-3、小结" class="headerlink" title="12.2.3、小结"></a>12.2.3、小结</h4><p>master eligible 节点的作用是什么？</p>
@@ -1728,14 +1560,14 @@
 <p>随便添加一些数据到 ES</p>
 </blockquote>
 <h4 id="12-3-2、分片存储原理"><a href="#12-3-2、分片存储原理" class="headerlink" title="12.3.2、分片存储原理"></a>12.3.2、分片存储原理</h4><p>elasticsearch 会通过 hash 算法来计算文档应该存储到哪个分片：</p>
-<p><img src="/images/es-JQ-addHash.png" srcset="/img/loading.gif" lazyload alt="分片存储原理"></p>
+<p><img src="/images/es-JQ-addHash.png" alt="分片存储原理"></p>
 <p>说明：</p>
 <ul>
 <li>_routing 默认是文档的 id</li>
 <li>算法与分片数量有关，因此索引库一旦创建，分片数量不能修改！</li>
 </ul>
 <p>新增文档的流程如下：</p>
-<p><img src="/images/es-JQ-add-liuCheng.png" srcset="/img/loading.gif" lazyload alt="新增文档的流程"></p>
+<p><img src="/images/es-JQ-add-liuCheng.png" alt="新增文档的流程"></p>
 <p>解读：</p>
 <ul>
 <li>1）新增一个 id&#x3D;1 的文档</li>
@@ -1752,384 +1584,355 @@
 <li><p>gather phase：聚集阶段，coordinating node 汇总 data node 的搜索结果，并处理为最终结果集返回给用户</p>
 </li>
 </ul>
-<p><img src="/images/es-JQ-select.png" srcset="/img/loading.gif" lazyload alt="集群分布式查询"></p>
+<p><img src="/images/es-JQ-select.png" alt="集群分布式查询"></p>
 <h3 id="12-5、集群故障转移"><a href="#12-5、集群故障转移" class="headerlink" title="12.5、集群故障转移"></a>12.5、集群故障转移</h3><p>集群的 master 节点会监控集群中的节点状态，如果发现有节点宕机，会立即将宕机节点的分片数据迁移到其它节点，确保数据安全，这个叫做故障转移。</p>
 <p>1）例如一个集群结构如图：</p>
-<p><img src="/images/es-JQ-guZhang1.png" srcset="/img/loading.gif" lazyload alt="es-JQ-guZhang1"></p>
+<p><img src="/images/es-JQ-guZhang1.png" alt="es-JQ-guZhang1"></p>
 <p>现在，node1 是主节点，其它两个节点是从节点。</p>
 <p>2）突然，node1 发生了故障：</p>
-<p><img src="/images/es-JQ-guZhang2.png" srcset="/img/loading.gif" lazyload alt="es-JQ-guZhang2"></p>
+<p><img src="/images/es-JQ-guZhang2.png" alt="es-JQ-guZhang2"></p>
 <p>宕机后的第一件事，需要重新选主，例如选中了 node2：</p>
-<p><img src="/images/es-JQ-guZhang3.png" srcset="/img/loading.gif" lazyload alt="es-JQ-guZhang3"></p>
+<p><img src="/images/es-JQ-guZhang3.png" alt="es-JQ-guZhang3"></p>
 <p>node2 成为主节点后，会检测集群监控状态，发现：shard-1、shard-0 没有副本节点。因此需要将 node1 上的数据迁移到 node2、node3：</p>
-<p><img src="/images/es-JQ-guZhang4.png" srcset="/img/loading.gif" lazyload alt="es-JQ-guZhang4"></p>
+<p><img src="/images/es-JQ-guZhang4.png" alt="es-JQ-guZhang4"></p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/ElasticSearch/" class="category-chain-item">ElasticSearch</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/ElasticSearch/" class="print-no-link">#ElasticSearch</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>ElasticSearch</div>
-      <div>http://myhikari.github.io/2022/06/12/ElasticSearch/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>myHikari</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2022年6月12日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
+      <div class="tags">
+          <a href="/tags/ElasticSearch/" rel="tag"><i class="ic i-tag"></i> ElasticSearch</a>
+      </div>
   </div>
 
+   <footer>
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2022/07/06/Zuul-Gateway/" title="Zuul-Gateway">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Zuul-Gateway</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2022/05/29/ZookKeeper/" title="ZookKeeper">
-                        <span class="hidden-mobile">ZookKeeper</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-04-26 15:53:20" itemprop="dateModified" datetime="2024-04-26T15:53:20+08:00">2024-04-26</time>
+  </span>
 </div>
 
-
-
-  </aside>
-
-
-    </div>
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> 赞赏</button>
+  <p>请我喝[茶]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="myHikari 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="myHikari 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="myHikari 贝宝">
+        <p>贝宝</p>
+      </div>
   </div>
 </div>
 
+      
 
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>myHikari <i class="ic i-at"><em>@</em></i>myHikari
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://myhikari.github.io/2022/06/12/ElasticSearch/" title="ElasticSearch">http://myhikari.github.io/2022/06/12/ElasticSearch/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
   </footer>
 
-  <!-- Scripts -->
+</article>
+
+  </div>
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
+<div class="post-nav">
+    <div class="item left">
       
-        typing(text);
+
+  <a href="/2022/05/29/ZookKeeper/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclimtf7dj20zk0m8qav.jpg" title="ZookKeeper">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> ZookKeeper</span>
+  <h3>ZookKeeper</h3>
+  </a>
+
+    </div>
+    <div class="item right">
       
-    })(window, document);
-  </script>
 
+  <a href="/2022/07/06/Zuul-Gateway/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeyvx1d4j20zk0m8hdt.jpg" title="Zuul-Gateway">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Spring</span>
+  <h3>Zuul-Gateway</h3>
+  </a>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
+    </div>
+</div>
 
   
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
+  <div class="wrap" id="comments"></div>
 
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
 
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ElasticSearch"><span class="toc-number">1.</span> <span class="toc-text">ElasticSearch</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%88%9D%E8%AF%86-ES"><span class="toc-number">1.1.</span> <span class="toc-text">1、初识 ES</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81%E4%BA%86%E8%A7%A3-es"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1、了解 es</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1%E3%80%81Elasticsearch-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1.1、Elasticsearch 的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2%E3%80%81Elasticsearch-%E5%92%8C-Lucene"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">1.1.2、Elasticsearch 和 Lucene</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-3%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">1.1.3、总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2.倒排索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1%E3%80%81%E6%AD%A3%E5%90%91%E7%B4%A2%E5%BC%95"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.2.1、正向索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2%E3%80%81%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">1.2.2、倒排索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3%E3%80%81%E6%AD%A3%E5%90%91%E5%92%8C%E5%80%92%E6%8E%92"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">1.2.3、正向和倒排</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3%E3%80%81es-%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3、es 的一些概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1%E3%80%81%E6%96%87%E6%A1%A3%E5%92%8C%E5%AD%97%E6%AE%B5"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">1.3.1、文档和字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2%E3%80%81%E7%B4%A2%E5%BC%95%E5%92%8C%E6%98%A0%E5%B0%84"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">1.3.2、索引和映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3%E3%80%81mysql-%E4%B8%8E-elasticsearch"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">1.3.3、mysql 与 elasticsearch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4%E3%80%81%E5%AE%89%E8%A3%85-es%E3%80%81kibana"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.4、安装 es、kibana</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E5%AE%89%E8%A3%85-es%E3%80%81kibana"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">1.4.1.安装 es、kibana</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-1-1%E3%80%81%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.4.1.1.</span> <span class="toc-text">1.4.1.1、创建网络</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-1-2%E3%80%81%E5%8A%A0%E8%BD%BD%E9%95%9C%E5%83%8F"><span class="toc-number">1.1.4.1.2.</span> <span class="toc-text">1.4.1.2、加载镜像</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-1-3%E3%80%81%E8%BF%90%E8%A1%8C"><span class="toc-number">1.1.4.1.3.</span> <span class="toc-text">1.4.1.3、运行</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2%E3%80%81%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">1.4.2、分词器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-2-1%E3%80%81%E5%9C%A8%E7%BA%BF%E5%AE%89%E8%A3%85-ik-%E6%8F%92%E4%BB%B6%EF%BC%88%E8%BE%83%E6%85%A2%EF%BC%89"><span class="toc-number">1.1.4.2.1.</span> <span class="toc-text">1.4.2.1、在线安装 ik 插件（较慢）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-2-2%E3%80%81%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85-ik-%E6%8F%92%E4%BB%B6%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-number">1.1.4.2.2.</span> <span class="toc-text">1.4.2.2、离线安装 ik 插件（推荐）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1%EF%BC%89%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.4.2.2.1.</span> <span class="toc-text">1）查看数据卷目录</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2%EF%BC%89%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%88%86%E8%AF%8D%E5%99%A8%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">1.1.4.2.2.2.</span> <span class="toc-text">2）解压缩分词器安装包</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3%EF%BC%89%E4%B8%8A%E4%BC%A0%E5%88%B0-es-%E5%AE%B9%E5%99%A8%E7%9A%84%E6%8F%92%E4%BB%B6%E6%95%B0%E6%8D%AE%E5%8D%B7%E4%B8%AD"><span class="toc-number">1.1.4.2.2.3.</span> <span class="toc-text">3）上传到 es 容器的插件数据卷中</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4%EF%BC%89%E9%87%8D%E5%90%AF%E5%AE%B9%E5%99%A8"><span class="toc-number">1.1.4.2.2.4.</span> <span class="toc-text">4）重启容器</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-2-3%E3%80%81%E6%89%A9%E5%B1%95%E8%AF%8D%E8%AF%8D%E5%85%B8"><span class="toc-number">1.1.4.2.3.</span> <span class="toc-text">1.4.2.3、扩展词词典</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-2-4%E3%80%81-%E5%81%9C%E7%94%A8%E8%AF%8D%E8%AF%8D%E5%85%B8"><span class="toc-number">1.1.4.2.4.</span> <span class="toc-text">1.4.2.4、 停用词词典</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">1.4.3、总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">2、索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81mapping-%E6%98%A0%E5%B0%84%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1、mapping 映射属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81%E7%B4%A2%E5%BC%95%E5%BA%93%E7%9A%84-CRUD"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2、索引库的 CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1%E3%80%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%BA%93%E5%92%8C%E6%98%A0%E5%B0%84"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">2.2.1、创建索引库和映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%9F%A5%E8%AF%A2%E7%B4%A2%E5%BC%95%E5%BA%93"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2.2.2.查询索引库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3%E3%80%81%E4%BF%AE%E6%94%B9%E7%B4%A2%E5%BC%95%E5%BA%93"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">2.2.3、修改索引库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95%E5%BA%93"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">2.2.4.删除索引库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">2.2.5.总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">3、文档操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81%E6%96%B0%E5%A2%9E%E6%96%87%E6%A1%A3"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1、新增文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2、查询文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E3%80%81%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3、删除文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4%E3%80%81%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4、修改文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-1%E3%80%81%E5%85%A8%E9%87%8F%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">3.4.1、全量修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-2%E3%80%81%E5%A2%9E%E9%87%8F%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">3.4.2、增量修改</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.5.总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81RestAPI"><span class="toc-number">1.4.</span> <span class="toc-text">4、RestAPI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-0%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.0、准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-0-1%E3%80%81%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E3%80%81%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">4.0.1、创建数据库并导入数据、创建项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-0-2%E3%80%81mapping-%E6%98%A0%E5%B0%84%E5%88%86%E6%9E%90"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">4.0.2、mapping 映射分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-0-3%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96-RestClient"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">4.0.3、初始化 RestClient</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%BA%93"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.1、创建索引库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1%E3%80%81%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">4.1.1、代码解读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2%E3%80%81%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">4.1.2、完整示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95%E5%BA%93"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.2、删除索引库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3%E3%80%81%E5%88%A4%E6%96%AD%E7%B4%A2%E5%BC%95%E5%BA%93%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.3、判断索引库是否存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.4、总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81RestClient-%E6%93%8D%E4%BD%9C%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.</span> <span class="toc-text">5、RestClient 操作文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1%E3%80%81%E6%96%B0%E5%A2%9E%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1、新增文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-1%E3%80%81%E7%B4%A2%E5%BC%95%E5%BA%93%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">5.1.1、索引库实体类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-2%E3%80%81%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">5.1.2、语法说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-3%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">5.1.3、完整代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2%E3%80%81%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2、查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1%E3%80%81%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">5.2.1、语法说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">5.2.2、完整代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3%E3%80%81%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.3.</span> <span class="toc-text">5.3、删除文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4%E3%80%81%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.4.</span> <span class="toc-text">5.4、修改文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-1%E3%80%81%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">5.4.1、语法说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-2%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">5.4.2、完整代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5%E3%80%81%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E6%96%87%E6%A1%A3"><span class="toc-number">1.5.5.</span> <span class="toc-text">5.5、批量导入文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1%E3%80%81%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">5.5.1、语法说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-2%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">5.5.2、完整代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.5.6.</span> <span class="toc-text">5.6、小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81DSL-%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-number">1.6.</span> <span class="toc-text">6、DSL 查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1%E3%80%81DSL-%E6%9F%A5%E8%AF%A2%E5%88%86%E7%B1%BB"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1、DSL 查询分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2%E3%80%81%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2、全文检索查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-1%E3%80%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">6.2.1、使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-2%E3%80%81%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">6.2.2、基本语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-3%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.2.3.</span> <span class="toc-text">6.2.3、总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3%E3%80%81%E7%B2%BE%E5%87%86%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.3.</span> <span class="toc-text">6.3、精准查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-1%E3%80%81term-%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">6.3.1、term 查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-2%E3%80%81range-%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">6.3.2、range 查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-3%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.3.3.</span> <span class="toc-text">6.3.3、总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4%E3%80%81%E5%9C%B0%E7%90%86%E5%9D%90%E6%A0%87%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.4.</span> <span class="toc-text">6.4、地理坐标查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-1%E3%80%81%E7%9F%A9%E5%BD%A2%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.4.1.</span> <span class="toc-text">6.4.1、矩形范围查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-2%E3%80%81%E9%99%84%E8%BF%91%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.4.2.</span> <span class="toc-text">6.4.2、附近查询</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5%E3%80%81%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.5.</span> <span class="toc-text">6.5、复合查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-1%E3%80%81%E7%9B%B8%E5%85%B3%E6%80%A7%E7%AE%97%E5%88%86"><span class="toc-number">1.6.5.1.</span> <span class="toc-text">6.5.1、相关性算分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-2%E3%80%81%E7%AE%97%E5%88%86%E5%87%BD%E6%95%B0%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.5.2.</span> <span class="toc-text">6.5.2、算分函数查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-3%E3%80%81%E5%B8%83%E5%B0%94%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.6.5.3.</span> <span class="toc-text">6.5.3、布尔查询</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-number">1.7.</span> <span class="toc-text">7、搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1%E3%80%81%E6%8E%92%E5%BA%8F"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.1、排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-1%E3%80%81%E6%99%AE%E9%80%9A%E5%AD%97%E6%AE%B5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">7.1.1、普通字段排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-2%E3%80%81%E5%9C%B0%E7%90%86%E5%9D%90%E6%A0%87%E6%8E%92%E5%BA%8F"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">7.1.2、地理坐标排序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2%E3%80%81%E5%88%86%E9%A1%B5"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2、分页</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-1%E3%80%81%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%88%86%E9%A1%B5"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">7.2.1、基本的分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-2%E3%80%81%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E9%97%AE%E9%A2%98"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">7.2.2、深度分页问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-3%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.7.2.3.</span> <span class="toc-text">7.2.3、小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3%E3%80%81%E9%AB%98%E4%BA%AE"><span class="toc-number">1.7.3.</span> <span class="toc-text">7.3、高亮</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-1%E3%80%81%E9%AB%98%E4%BA%AE%E5%8E%9F%E7%90%86"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">7.3.1、高亮原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-2%E3%80%81%E5%AE%9E%E7%8E%B0%E9%AB%98%E4%BA%AE"><span class="toc-number">1.7.3.2.</span> <span class="toc-text">7.3.2、实现高亮</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.7.4.</span> <span class="toc-text">7.4、总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8%E3%80%81RestClient-%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-number">1.8.</span> <span class="toc-text">8、RestClient 查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1%E3%80%81%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-number">1.8.1.</span> <span class="toc-text">8.1、快速入门</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-1%E3%80%81%E5%8F%91%E8%B5%B7%E6%9F%A5%E8%AF%A2%E8%AF%B7%E6%B1%82"><span class="toc-number">1.8.1.1.</span> <span class="toc-text">8.1.1、发起查询请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-2%E3%80%81%E8%A7%A3%E6%9E%90%E5%93%8D%E5%BA%94"><span class="toc-number">1.8.1.2.</span> <span class="toc-text">8.1.2、解析响应</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-3%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.8.1.3.</span> <span class="toc-text">8.1.3、完整代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-4%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.8.1.4.</span> <span class="toc-text">8.1.4、小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2%E3%80%81match-%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.8.2.</span> <span class="toc-text">8.2、match 查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3%E3%80%81%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.8.3.</span> <span class="toc-text">8.3、精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4%E3%80%81%E5%B8%83%E5%B0%94%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.8.4.</span> <span class="toc-text">8.4、布尔查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5%E3%80%81%E6%8E%92%E5%BA%8F%E3%80%81%E5%88%86%E9%A1%B5"><span class="toc-number">1.8.5.</span> <span class="toc-text">8.5、排序、分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-6%E3%80%81%E9%AB%98%E4%BA%AE"><span class="toc-number">1.8.6.</span> <span class="toc-text">8.6、高亮</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-6-1%E3%80%81%E9%AB%98%E4%BA%AE%E8%AF%B7%E6%B1%82%E6%9E%84%E5%BB%BA"><span class="toc-number">1.8.6.1.</span> <span class="toc-text">8.6.1、高亮请求构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-6-2%E3%80%81%E9%AB%98%E4%BA%AE%E7%BB%93%E6%9E%9C%E8%A7%A3%E6%9E%90"><span class="toc-number">1.8.6.2.</span> <span class="toc-text">8.6.2、高亮结果解析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9%E3%80%81%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-number">1.9.</span> <span class="toc-text">9、数据聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1%E3%80%81%E8%81%9A%E5%90%88%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.9.1.</span> <span class="toc-text">9.1、聚合的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2%E3%80%81DSL-%E5%AE%9E%E7%8E%B0%E8%81%9A%E5%90%88"><span class="toc-number">1.9.2.</span> <span class="toc-text">9.2、DSL 实现聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-1%E3%80%81Bucket-%E8%81%9A%E5%90%88%E8%AF%AD%E6%B3%95"><span class="toc-number">1.9.2.1.</span> <span class="toc-text">9.2.1、Bucket 聚合语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-2%E3%80%81%E8%81%9A%E5%90%88%E7%BB%93%E6%9E%9C%E6%8E%92%E5%BA%8F"><span class="toc-number">1.9.2.2.</span> <span class="toc-text">9.2.2、聚合结果排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-3%E3%80%81%E9%99%90%E5%AE%9A%E8%81%9A%E5%90%88%E8%8C%83%E5%9B%B4"><span class="toc-number">1.9.2.3.</span> <span class="toc-text">9.2.3、限定聚合范围</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-4%E3%80%81Metric-%E8%81%9A%E5%90%88%E8%AF%AD%E6%B3%95"><span class="toc-number">1.9.2.4.</span> <span class="toc-text">9.2.4、Metric 聚合语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-5%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.9.2.5.</span> <span class="toc-text">9.2.5、小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3%E3%80%81RestAPI-%E5%AE%9E%E7%8E%B0%E8%81%9A%E5%90%88"><span class="toc-number">1.9.3.</span> <span class="toc-text">9.3、RestAPI 实现聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-1%E3%80%81API-%E8%AF%AD%E6%B3%95"><span class="toc-number">1.9.3.1.</span> <span class="toc-text">9.3.1、API 语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-2%E3%80%81%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82"><span class="toc-number">1.9.3.2.</span> <span class="toc-text">9.3.2、业务需求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-3%E3%80%81%E4%B8%9A%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.9.3.3.</span> <span class="toc-text">9.3.3、业务实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10%E3%80%81%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-number">1.10.</span> <span class="toc-text">10、自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1%E3%80%81%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">1.10.1.</span> <span class="toc-text">10.1、拼音分词器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">1.10.2.</span> <span class="toc-text">10.2、自定义分词器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3%E3%80%81%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.10.3.</span> <span class="toc-text">10.3、自动补全查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-4%E3%80%81%E5%AE%9E%E7%8E%B0%E6%90%9C%E7%B4%A2%E6%A1%86%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-number">1.10.4.</span> <span class="toc-text">10.4、实现搜索框自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-1%E3%80%81%E4%BF%AE%E6%94%B9%E9%85%92%E5%BA%97%E6%98%A0%E5%B0%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.10.4.1.</span> <span class="toc-text">10.4.1、修改酒店映射结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-2%E3%80%81%E4%BF%AE%E6%94%B9-HotelDoc-%E5%AE%9E%E4%BD%93"><span class="toc-number">1.10.4.2.</span> <span class="toc-text">10.4.2、修改 HotelDoc 实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-3%E3%80%81%E9%87%8D%E6%96%B0%E5%AF%BC%E5%85%A5"><span class="toc-number">1.10.4.3.</span> <span class="toc-text">10.4.3、重新导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-4%E3%80%81%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%9F%A5%E8%AF%A2%E7%9A%84-JavaAPI"><span class="toc-number">1.10.4.4.</span> <span class="toc-text">10.4.4、自动补全查询的 JavaAPI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-4-5%E3%80%81%E5%AE%9E%E7%8E%B0%E6%90%9C%E7%B4%A2%E6%A1%86%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-number">1.10.4.5.</span> <span class="toc-text">10.4.5、实现搜索框自动补全</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11%E3%80%81%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-number">1.11.</span> <span class="toc-text">11、数据同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1%E3%80%81%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="toc-number">1.11.1.</span> <span class="toc-text">11.1、思路分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-1%E3%80%81%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8"><span class="toc-number">1.11.1.1.</span> <span class="toc-text">11.1.1、同步调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-2%E3%80%81%E5%BC%82%E6%AD%A5%E9%80%9A%E7%9F%A5"><span class="toc-number">1.11.1.2.</span> <span class="toc-text">11.1.2、异步通知</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-3%E3%80%81%E7%9B%91%E5%90%AC-binlog"><span class="toc-number">1.11.1.3.</span> <span class="toc-text">11.1.3、监听 binlog</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-4%E3%80%81%E9%80%89%E6%8B%A9"><span class="toc-number">1.11.1.4.</span> <span class="toc-text">11.1.4、选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2%E3%80%81%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-number">1.11.2.</span> <span class="toc-text">11.2、实现数据同步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#11-2-1%E3%80%81%E6%80%9D%E8%B7%AF"><span class="toc-number">1.11.2.1.</span> <span class="toc-text">11.2.1、思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-2-2%E3%80%81%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.11.2.2.</span> <span class="toc-text">11.2.2、创建项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-2-3%E3%80%81%E5%A3%B0%E6%98%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA%E3%80%81%E9%98%9F%E5%88%97"><span class="toc-number">1.11.2.3.</span> <span class="toc-text">11.2.3、声明交换机、队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-2-4%E3%80%81%E5%8F%91%E9%80%81-MQ-%E6%B6%88%E6%81%AF"><span class="toc-number">1.11.2.4.</span> <span class="toc-text">11.2.4、发送 MQ 消息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-2-5%E3%80%81%E6%8E%A5%E6%94%B6-MQ-%E6%B6%88%E6%81%AF"><span class="toc-number">1.11.2.5.</span> <span class="toc-text">11.2.5、接收 MQ 消息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12%E3%80%81%E9%9B%86%E7%BE%A4"><span class="toc-number">1.12.</span> <span class="toc-text">12、集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-1%E3%80%81%E6%90%AD%E5%BB%BA-ES-%E9%9B%86%E7%BE%A4"><span class="toc-number">1.12.1.</span> <span class="toc-text">12.1、搭建 ES 集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-2%E3%80%81%E9%9B%86%E7%BE%A4%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98"><span class="toc-number">1.12.2.</span> <span class="toc-text">12.2、集群脑裂问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-1%E3%80%81%E9%9B%86%E7%BE%A4%E8%81%8C%E8%B4%A3%E5%88%92%E5%88%86"><span class="toc-number">1.12.2.1.</span> <span class="toc-text">12.2.1、集群职责划分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-2%E3%80%81%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98"><span class="toc-number">1.12.2.2.</span> <span class="toc-text">12.2.2、脑裂问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-3%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.12.2.3.</span> <span class="toc-text">12.2.3、小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-3%E3%80%81%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-number">1.12.3.</span> <span class="toc-text">12.3、集群分布式存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-3-1%E3%80%81%E5%88%86%E7%89%87%E5%AD%98%E5%82%A8%E6%B5%8B%E8%AF%95"><span class="toc-number">1.12.3.1.</span> <span class="toc-text">12.3.1、分片存储测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-3-2%E3%80%81%E5%88%86%E7%89%87%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86"><span class="toc-number">1.12.3.2.</span> <span class="toc-text">12.3.2、分片存储原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-4%E3%80%81%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.12.4.</span> <span class="toc-text">12.4、集群分布式查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-5%E3%80%81%E9%9B%86%E7%BE%A4%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="toc-number">1.12.5.</span> <span class="toc-text">12.5、集群故障转移</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li class="active"><a href="/2022/06/12/ElasticSearch/" rel="bookmark" title="ElasticSearch">ElasticSearch</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="myHikari"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">myHikari</p>
+  <div class="description" itemprop="description">myHikari 个人博客</div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">15</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">14</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">15</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2022/05/29/ZookKeeper/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2022/07/06/Zuul-Gateway/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Spring/" title="分类于 Spring">Spring</a>
+</div>
+
+    <span><a href="/2022/07/06/Zuul-Gateway/" title="Zuul-Gateway">Zuul-Gateway</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Nacos/" title="分类于 Nacos">Nacos</a>
+</div>
+
+    <span><a href="/2022/04/28/Nacos/" title="Nacos">Nacos</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/docker/" title="分类于 docker">docker</a>
+</div>
+
+    <span><a href="/2024/04/25/Docker/" title="Docker">Docker</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Git/" title="分类于 Git">Git</a>
+</div>
+
+    <span><a href="/2021/12/16/Git/" title="Git">Git</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ElasticSearch/" title="分类于 ElasticSearch">ElasticSearch</a>
+</div>
+
+    <span><a href="/2022/06/12/ElasticSearch/" title="ElasticSearch">ElasticSearch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Spring/" title="分类于 Spring">Spring</a>
+</div>
+
+    <span><a href="/2022/01/16/Spring/" title="Spring">Spring</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="分类于 设计模式">设计模式</a>
+</div>
+
+    <span><a href="/2024/04/25/designModel/" title="designModel">designModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="分类于 Java虚拟机">Java虚拟机</a>
+</div>
+
+    <span><a href="/2024/02/13/Jvms/" title="Jvms">Jvms</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ZookKeeper/" title="分类于 ZookKeeper">ZookKeeper</a>
+</div>
+
+    <span><a href="/2022/05/29/ZookKeeper/" title="ZookKeeper">ZookKeeper</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/OpenFeign/" title="分类于 OpenFeign">OpenFeign</a>
+</div>
+
+    <span><a href="/2022/05/11/OpenFeign/" title="OpenFeign">OpenFeign</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">myHikari @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/06/12/ElasticSearch/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
       }
-    });
-  });
+    ]
+  };
 </script>
 
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/app.js?v=0.2.5"></script>
 
 
 
 
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 </body>
 </html>

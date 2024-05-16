@@ -1,297 +1,160 @@
 
 
+
+
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/ico/go.ico">
-  <link rel="icon" href="/images/ico/go.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="myHikari">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="Nacos Nacos 运行机制 Nacos 与 Eureka 的区别  Nacos 与 eureka 的共同点  都支持服务注册和服务拉取 都支持服务提供者心跳方式做健康检测   Nacos 与 Eureka 的区别  Nacos 支持服务端主动检测提供者状态：临时实例采用心跳模式，非临时实例采用主动检测模式 临时实例心跳不正常会被剔除，非临时实例则不会被剔除 Nacos 支持服务列表变更的消息">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Nacos">
-<meta property="og:url" content="http://myhikari.github.io/2022/04/28/Nacos/index.html">
-<meta property="og:site_name" content="myHikari">
-<meta property="og:description" content="Nacos Nacos 运行机制 Nacos 与 Eureka 的区别  Nacos 与 eureka 的共同点  都支持服务注册和服务拉取 都支持服务提供者心跳方式做健康检测   Nacos 与 Eureka 的区别  Nacos 支持服务端主动检测提供者状态：临时实例采用心跳模式，非临时实例采用主动检测模式 临时实例心跳不正常会被剔除，非临时实例则不会被剔除 Nacos 支持服务列表变更的消息">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-FenJi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-GeLi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-PeiZhi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-addpeizhi1.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-addpeizhi2.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-bootstrap.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-jiazai-peizhi.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-peizhi-share.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-peizhi-prior.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-jiqun.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-JiQunJieGou.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-download.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-conf-cluster.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nocos-nocosGroupFiles.png">
-<meta property="og:image" content="http://myhikari.github.io/images/nacos-nginxFiles.png">
-<meta property="article:published_time" content="2022-04-28T09:53:42.000Z">
-<meta property="article:modified_time" content="2024-04-26T07:54:29.687Z">
-<meta property="article:author" content="myHikari">
-<meta property="article:tag" content="Nacos">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://myhikari.github.io/images/nacos.png">
-  
-  
-  
-  <title>Nacos - myHikari</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 
+<link rel="alternate" type="application/rss+xml" title="myHikari" href="http://myhikari.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="myHikari" href="http://myhikari.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="myHikari" href="http://myhikari.github.io/feed.json" />
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"myhikari.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
+  <meta name="keywords" content="Nacos" />
+
+
+<link rel="canonical" href="http://myhikari.github.io/2022/04/28/Nacos/">
+
+
+
+  <title>
+Nacos - Nacos |
+Yume Shoka = myHikari = myHikari</title>
 <meta name="generator" content="Hexo 7.2.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>myHikari</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
     </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Nacos
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2022-04-28 17:53:42">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-04-28T17:53:42+08:00">2022-04-28</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
   </div>
 </nav>
 
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/images/bg/alice.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Nacos"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-04-28 17:53" pubdate>
-          2022年4月28日 下午
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          3.2k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          27 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
       </div>
-
-      
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeyonbf9j20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclg5ms2rj20zk0m8u0x.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclfdu6exj20zk0m87hw.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipevgoki5j20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giciub8ja1j20zk0m81ky.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipey0a334j20zk0m8qpt.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
     </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
     
-      
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/Nacos/" itemprop="item" rel="index" title="分类于 Nacos"><span itemprop="name">Nacos</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://myhikari.github.io/2022/04/28/Nacos/">
 
-    </div>
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="myHikari">
+    <meta itemprop="description" content="myHikari, myHikari 个人博客">
+  </span>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Nacos</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h1><blockquote>
-<h4 id="Nacos-运行机制"><a href="#Nacos-运行机制" class="headerlink" title="Nacos 运行机制"></a>Nacos 运行机制</h4><p><img src="/images/nacos.png" srcset="/img/loading.gif" lazyload alt="nacos"></p>
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="myHikari">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h1><blockquote>
+<h4 id="Nacos-运行机制"><a href="#Nacos-运行机制" class="headerlink" title="Nacos 运行机制"></a>Nacos 运行机制</h4><p><img src="/images/nacos.png" alt="nacos"></p>
 <h3 id="Nacos-与-Eureka-的区别"><a href="#Nacos-与-Eureka-的区别" class="headerlink" title="Nacos 与 Eureka 的区别"></a>Nacos 与 Eureka 的区别</h3><blockquote>
 <ul>
 <li><p>Nacos 与 eureka 的共同点</p>
@@ -349,7 +212,7 @@
 <h3 id="2-3、服务分级存储模型"><a href="#2-3、服务分级存储模型" class="headerlink" title="2.3、服务分级存储模型"></a>2.3、服务分级存储模型</h3><blockquote>
 <p>一个<strong>服务</strong>可以有多个<strong>实例</strong>，且分布在不同<strong>地区</strong></p>
 </blockquote>
-<p><img src="/images/nacos-FenJi.png" srcset="/img/loading.gif" lazyload alt="集群"></p>
+<p><img src="/images/nacos-FenJi.png" alt="集群"></p>
 <p>在 application.yml 中添加集群配置：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">discovery:</span><br>        <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">HZ</span> <span class="hljs-comment"># 集群名称</span><br></code></pre></td></tr></table></figure>
 
@@ -376,25 +239,25 @@
 <li>namespace 下可以有 group、service 等</li>
 <li>不同 namespace 之间相互隔离，例如不同 namespace 的服务互相不可见</li>
 </ul>
-<p><img src="/images/nacos-GeLi.png" srcset="/img/loading.gif" lazyload alt="隔离"></p>
+<p><img src="/images/nacos-GeLi.png" alt="隔离"></p>
 <h3 id="给微服务配置-namespace"><a href="#给微服务配置-namespace" class="headerlink" title="给微服务配置 namespace"></a>给微服务配置 namespace</h3><p>在 application.yml 文件中添加 namespace</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">discovery:</span><br>        <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">HZ</span><br>        <span class="hljs-attr">namespace:</span> <span class="hljs-string">492a7d5d-237b-46a1-a99a-fa8e98e4b0f9</span> <span class="hljs-comment"># 命名空间 =&gt; 填ID</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="4、配置管理"><a href="#4、配置管理" class="headerlink" title="4、配置管理"></a>4、配置管理</h2><h3 id="4-1、统一配置管理"><a href="#4-1、统一配置管理" class="headerlink" title="4.1、统一配置管理"></a>4.1、统一配置管理</h3><p>Nacos 一方面可以将配置集中管理，另一方可以在配置变更时，及时通知微服务，实现配置的热更新。</p>
-<p><img src="/images/nacos-PeiZhi.png" srcset="/img/loading.gif" lazyload alt="配置"></p>
+<p><img src="/images/nacos-PeiZhi.png" alt="配置"></p>
 <blockquote>
 <p>注意 ⚠️：项目的核心配置、需要热更新的配置才有放到 nacos 管理的必要，基本不会变更的配置仍保存在微服务本地。</p>
 </blockquote>
 <h3 id="4-2、从微服务拉取配置"><a href="#4-2、从微服务拉取配置" class="headerlink" title="4.2、从微服务拉取配置"></a>4.2、从微服务拉取配置</h3><blockquote>
 <p>Nacos 添加配置</p>
 <ol>
-<li><img src="/images/nacos-addpeizhi1.png" srcset="/img/loading.gif" lazyload alt="配置1"></li>
-<li><img src="/images/nacos-addpeizhi2.png" srcset="/img/loading.gif" lazyload></li>
+<li><img src="/images/nacos-addpeizhi1.png" alt="配置1"></li>
+<li><img src="/images/nacos-addpeizhi2.png"></li>
 </ol>
 </blockquote>
 <p>微服务要拉取 nacos 中管理的配置，并且与本地的 application.yml 配置合并，才能完成项目启动。</p>
 <p>Spring 引入一种新的配置文件：bootstrap.yaml 文件，会在 application.yml 之前被读取，流程如下：</p>
-<p><img src="/images/nacos-bootstrap.png" srcset="/img/loading.gif" lazyload alt="bootstrap"></p>
+<p><img src="/images/nacos-bootstrap.png" alt="bootstrap"></p>
 <h4 id="1）引入-nacos-config-依赖"><a href="#1）引入-nacos-config-依赖" class="headerlink" title="1）引入 nacos-config 依赖"></a>1）引入 nacos-config 依赖</h4><p>在 service 服务中，引入 nacos-config 的客户端依赖：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--nacos配置管理依赖--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
@@ -403,7 +266,7 @@
 
 <p>加载配置时会根据 spring.cloud.nacos.server-addr 获取 nacos 地址，再根据<code>$&#123;spring.application.name&#125;-$&#123;spring.profiles.active&#125;.$&#123;spring.cloud.nacos.config.file-extension&#125;</code>作为文件 id，来读取配置。</p>
 <p>本例中，就是去读取<code>userservice-dev.yaml</code>：</p>
-<p><img src="/images/nacos-jiazai-peizhi.png" srcset="/img/loading.gif" lazyload alt="加载"></p>
+<p><img src="/images/nacos-jiazai-peizhi.png" alt="加载"></p>
 <h4 id="3）读取-nacos-配置"><a href="#3）读取-nacos-配置" class="headerlink" title="3）读取 nacos 配置"></a>3）读取 nacos 配置</h4><p>在 service 中的 Controller 中添加业务逻辑，读取 <code>pattern.dateformat</code> 配置：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&quot;/xxx&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Controller</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;pattern.dateformat&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String dateformat;<br><br>    <span class="hljs-meta">@GetMapping(&quot;now&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">now</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateformat));<br>    &#125;<br>    <span class="hljs-comment">// ...略</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -427,7 +290,7 @@
 </li>
 </ul>
 <p>而<code>[spring.application.name].yaml</code>不包含环境，因此可以被多个环境共享。</p>
-<h4 id="4-4-1、添加一个环境共享配置"><a href="#4-4-1、添加一个环境共享配置" class="headerlink" title="4.4.1、添加一个环境共享配置"></a>4.4.1、添加一个环境共享配置</h4><p><img src="/images/nacos-peizhi-share.png" srcset="/img/loading.gif" lazyload alt="share"></p>
+<h4 id="4-4-1、添加一个环境共享配置"><a href="#4-4-1、添加一个环境共享配置" class="headerlink" title="4.4.1、添加一个环境共享配置"></a>4.4.1、添加一个环境共享配置</h4><p><img src="/images/nacos-peizhi-share.png" alt="share"></p>
 <h4 id="4-4-2、读取共享配置"><a href="#4-4-2、读取共享配置" class="headerlink" title="4.4.2、读取共享配置"></a>4.4.2、读取共享配置</h4><p>修改 PatternProperties 类，读取新添加的属性</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;pattern&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PatternProperties</span> &#123;<br>    <span class="hljs-keyword">private</span> String dateformat;<br>    <span class="hljs-keyword">private</span> String envShareValue;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -439,11 +302,11 @@
 <blockquote>
 <h2 id="⚠️-不管是-dev，还是-test-环境，都读取到-envSharedValue-属性的值"><a href="#⚠️-不管是-dev，还是-test-环境，都读取到-envSharedValue-属性的值" class="headerlink" title="⚠️ 不管是 dev，还是 test 环境，都读取到 envSharedValue 属性的值"></a>⚠️ 不管是 dev，还是 test 环境，都读取到 envSharedValue 属性的值</h2></blockquote>
 <h3 id="4-5、配置共享的优先级"><a href="#4-5、配置共享的优先级" class="headerlink" title="4.5、配置共享的优先级"></a>4.5、配置共享的优先级</h3><p>⚠️ 当 nacos、服务本地同时出现相同属性时，优先级有高低之分：</p>
-<p><img src="/images/nacos-peizhi-prior.png" srcset="/img/loading.gif" lazyload alt="prior"></p>
+<p><img src="/images/nacos-peizhi-prior.png" alt="prior"></p>
 <h2 id="5、搭建集群"><a href="#5、搭建集群" class="headerlink" title="5、搭建集群"></a>5、搭建集群</h2><p><strong>官方 Nacos 集群图：</strong></p>
-<p><img src="/images/nacos-jiqun.png" srcset="/img/loading.gif" lazyload alt="集群"></p>
+<p><img src="/images/nacos-jiqun.png" alt="集群"></p>
 <p><strong>搭建的集群结构:</strong></p>
-<p><img src="/images/nacos-JiQunJieGou.png" srcset="/img/loading.gif" lazyload alt="集群结构"></p>
+<p><img src="/images/nacos-JiQunJieGou.png" alt="集群结构"></p>
 <blockquote>
 <p>🔔<strong>搭建集群的基本步骤：</strong></p>
 <ul>
@@ -461,9 +324,9 @@
 
 <h3 id="5-2-下载-nacos"><a href="#5-2-下载-nacos" class="headerlink" title="5.2.下载 nacos"></a>5.2.下载 nacos</h3><p>nacos 在 GitHub 上有下载地址：<a target="_blank" rel="noopener" href="https://github.com/alibaba/nacos/tags%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E4%BB%BB%E6%84%8F%E7%89%88%E6%9C%AC%E4%B8%8B%E8%BD%BD%E3%80%82">https://github.com/alibaba/nacos/tags，可以选择任意版本下载。</a></p>
 <p>本例中才用 1.4.1 版本：</p>
-<p><img src="/images/nacos-download.png" srcset="/img/loading.gif" lazyload alt="image-20210409212119411"></p>
+<p><img src="/images/nacos-download.png" alt="image-20210409212119411"></p>
 <h3 id="5-3-配置-Nacos"><a href="#5-3-配置-Nacos" class="headerlink" title="5.3.配置 Nacos"></a>5.3.配置 Nacos</h3><p>进入 nacos 的 conf 目录，修改配置文件 cluster.conf.example，重命名为 cluster.conf：</p>
-<p><img src="/images/nacos-conf-cluster.png" srcset="/img/loading.gif" lazyload alt="image-20210409212459292"></p>
+<p><img src="/images/nacos-conf-cluster.png" alt="image-20210409212459292"></p>
 <p>然后添加内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs conf">127.0.0.1:8845<br>127.0.0.1.8846<br>127.0.0.1.8847<br></code></pre></td></tr></table></figure>
 
@@ -471,7 +334,7 @@
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.datasource.platform</span>=<span class="hljs-string">mysql</span><br><br><span class="hljs-attr">db.num</span>=<span class="hljs-string">1</span><br><br><span class="hljs-attr">db.url.0</span>=<span class="hljs-string">jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=UTC</span><br><span class="hljs-attr">db.user.0</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">db.password.0</span>=<span class="hljs-string">123</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="5-4-启动"><a href="#5-4-启动" class="headerlink" title="5.4.启动"></a>5.4.启动</h3><p>将 nacos 文件夹复制三份，分别命名为：nacos1、nacos2、nacos3</p>
-<p><img src="/images/nocos-nocosGroupFiles.png" srcset="/img/loading.gif" lazyload alt="image-20210409213335538"></p>
+<p><img src="/images/nocos-nocosGroupFiles.png" alt="image-20210409213335538"></p>
 <p>然后分别修改三个文件夹中的 application.properties，</p>
 <p>nacos1:</p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">server.port</span>=<span class="hljs-string">8845</span><br></code></pre></td></tr></table></figure>
@@ -486,7 +349,7 @@
 <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos">startup.<span class="hljs-built_in">cmd</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="5-5-nginx-反向代理"><a href="#5-5-nginx-反向代理" class="headerlink" title="5.5.nginx 反向代理"></a>5.5.nginx 反向代理</h3><p>下载 nginx 解压到任意非中文目录下：</p>
-<p><img src="/images/nacos-nginxFiles.png" srcset="/img/loading.gif" lazyload alt="image-20210410103322874"></p>
+<p><img src="/images/nacos-nginxFiles.png" alt="image-20210410103322874"></p>
 <p>修改 conf&#x2F;nginx.conf 文件，配置如下：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> nacos-cluster &#123;<br>    <span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8845</span>;<br>	<span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8846</span>;<br>	<span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8847</span>;<br>&#125;<br><br><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span>       <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span>  localhost;<br><br>    <span class="hljs-section">location</span> /nacos &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://nacos-cluster;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -494,372 +357,343 @@
 <p>项目中的 application.yml 文件配置如下：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:80</span> <span class="hljs-comment"># Nacos地址</span><br></code></pre></td></tr></table></figure>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Nacos/" class="category-chain-item">Nacos</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Nacos/" class="print-no-link">#Nacos</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Nacos</div>
-      <div>http://myhikari.github.io/2022/04/28/Nacos/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>myHikari</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2022年4月28日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
+      <div class="tags">
+          <a href="/tags/Nacos/" rel="tag"><i class="ic i-tag"></i> Nacos</a>
+      </div>
   </div>
 
+   <footer>
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2022/05/11/OpenFeign/" title="OpenFeign">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OpenFeign</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2022/02/15/Eureka/" title="Eureka">
-                        <span class="hidden-mobile">Eureka</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-04-26 15:54:29" itemprop="dateModified" datetime="2024-04-26T15:54:29+08:00">2024-04-26</time>
+  </span>
 </div>
 
-
-
-  </aside>
-
-
-    </div>
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> 赞赏</button>
+  <p>请我喝[茶]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="myHikari 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="myHikari 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="myHikari 贝宝">
+        <p>贝宝</p>
+      </div>
   </div>
 </div>
 
+      
 
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>myHikari <i class="ic i-at"><em>@</em></i>myHikari
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://myhikari.github.io/2022/04/28/Nacos/" title="Nacos">http://myhikari.github.io/2022/04/28/Nacos/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
   </footer>
 
-  <!-- Scripts -->
+</article>
+
+  </div>
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
+<div class="post-nav">
+    <div class="item left">
       
-        typing(text);
+
+  <a href="/2022/02/15/Eureka/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclgi503lj20zk0m8hdt.jpg" title="Eureka">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Eureka</span>
+  <h3>Eureka</h3>
+  </a>
+
+    </div>
+    <div class="item right">
       
-    })(window, document);
-  </script>
 
+  <a href="/2022/05/11/OpenFeign/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeyonbf9j20zk0m8e81.jpg" title="OpenFeign">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> OpenFeign</span>
+  <h3>OpenFeign</h3>
+  </a>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
+    </div>
+</div>
 
   
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
+  <div class="wrap" id="comments"></div>
 
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
 
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nacos"><span class="toc-number">1.</span> <span class="toc-text">Nacos</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Nacos-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Nacos 运行机制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E4%B8%8E-Eureka-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.0.1.</span> <span class="toc-text">Nacos 与 Eureka 的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">1、安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81window"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1、window</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E3%80%81Linux"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2、Linux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2、快速入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1、引入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81%E9%85%8D%E7%BD%AE-nacos-%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2、配置 nacos 地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81%E6%9C%8D%E5%8A%A1%E5%88%86%E7%BA%A7%E5%AD%98%E5%82%A8%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3、服务分级存储模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E3%80%81%E5%90%8C%E9%9B%86%E7%BE%A4%E4%BC%98%E5%85%88%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4、同集群优先的负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5%E3%80%81%E6%9D%83%E9%87%8D%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5、权重配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB"><span class="toc-number">1.3.</span> <span class="toc-text">3、环境隔离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE-namespace"><span class="toc-number">1.3.1.</span> <span class="toc-text">给微服务配置 namespace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">4、配置管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E7%BB%9F%E4%B8%80%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1、统一配置管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81%E4%BB%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8B%89%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2、从微服务拉取配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%89%E5%BC%95%E5%85%A5-nacos-config-%E4%BE%9D%E8%B5%96"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">1）引入 nacos-config 依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%89%E6%B7%BB%E5%8A%A0-bootstrap-yaml"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">2）添加 bootstrap.yaml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%EF%BC%89%E8%AF%BB%E5%8F%96-nacos-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">3）读取 nacos 配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3%E3%80%81%E9%85%8D%E7%BD%AE%E7%83%AD%E6%9B%B4%E6%96%B0"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3、配置热更新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">方式二</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4%E3%80%81%E9%85%8D%E7%BD%AE%E5%85%B1%E4%BA%AB"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4、配置共享</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-1%E3%80%81%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%8E%AF%E5%A2%83%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">4.4.1、添加一个环境共享配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-2%E3%80%81%E8%AF%BB%E5%8F%96%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.4.2.</span> <span class="toc-text">4.4.2、读取共享配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-3%E3%80%81%E8%BF%90%E8%A1%8C%E4%B8%A4%E4%B8%AA-XXXApplication%EF%BC%8C%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84-profile-dev%E3%80%81test"><span class="toc-number">1.4.4.3.</span> <span class="toc-text">4.4.3、运行两个 XXXApplication，使用不同的 profile(dev、test)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E4%B8%8D%E7%AE%A1%E6%98%AF-dev%EF%BC%8C%E8%BF%98%E6%98%AF-test-%E7%8E%AF%E5%A2%83%EF%BC%8C%E9%83%BD%E8%AF%BB%E5%8F%96%E5%88%B0-envSharedValue-%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC"><span class="toc-number">1.5.</span> <span class="toc-text">⚠️ 不管是 dev，还是 test 环境，都读取到 envSharedValue 属性的值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5%E3%80%81%E9%85%8D%E7%BD%AE%E5%85%B1%E4%BA%AB%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.5、配置共享的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E6%90%AD%E5%BB%BA%E9%9B%86%E7%BE%A4"><span class="toc-number">1.6.</span> <span class="toc-text">5、搭建集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.6.1.</span> <span class="toc-text">5.1.初始化数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E4%B8%8B%E8%BD%BD-nacos"><span class="toc-number">1.6.2.</span> <span class="toc-text">5.2.下载 nacos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E9%85%8D%E7%BD%AE-Nacos"><span class="toc-number">1.6.3.</span> <span class="toc-text">5.3.配置 Nacos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E5%90%AF%E5%8A%A8"><span class="toc-number">1.6.4.</span> <span class="toc-text">5.4.启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">1.6.5.</span> <span class="toc-text">5.5.nginx 反向代理</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li class="active"><a href="/2022/04/28/Nacos/" rel="bookmark" title="Nacos">Nacos</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="myHikari"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">myHikari</p>
+  <div class="description" itemprop="description">myHikari 个人博客</div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">15</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">14</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">15</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2022/02/15/Eureka/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2022/05/11/OpenFeign/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Eureka/" title="分类于 Eureka">Eureka</a>
+</div>
+
+    <span><a href="/2022/02/15/Eureka/" title="Eureka">Eureka</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Spring/" title="分类于 Spring">Spring</a>
+</div>
+
+    <span><a href="/2022/01/16/Spring/" title="Spring">Spring</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="分类于 Java虚拟机">Java虚拟机</a>
+</div>
+
+    <span><a href="/2024/02/13/Jvms/" title="Jvms">Jvms</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/docker/" title="分类于 docker">docker</a>
+</div>
+
+    <span><a href="/2024/04/25/Docker/" title="Docker">Docker</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Dubbo/" title="分类于 Dubbo">Dubbo</a>
+</div>
+
+    <span><a href="/2023/09/21/Dubbo/" title="Dubbo">Dubbo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E9%9D%A2%E8%AF%95%E9%A2%98/" title="分类于 Java虚拟机, 面试题">Java虚拟机, 面试题</a>
+</div>
+
+    <span><a href="/2024/02/24/jvm/" title="Jvm">Jvm</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="分类于 设计模式">设计模式</a>
+</div>
+
+    <span><a href="/2024/04/25/designModel/" title="designModel">designModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ElasticSearch/" title="分类于 ElasticSearch">ElasticSearch</a>
+</div>
+
+    <span><a href="/2022/06/12/ElasticSearch/" title="ElasticSearch">ElasticSearch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/ZookKeeper/" title="分类于 ZookKeeper">ZookKeeper</a>
+</div>
+
+    <span><a href="/2022/05/29/ZookKeeper/" title="ZookKeeper">ZookKeeper</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Nacos/" title="分类于 Nacos">Nacos</a>
+</div>
+
+    <span><a href="/2022/04/28/Nacos/" title="Nacos">Nacos</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">myHikari @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/04/28/Nacos/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
       }
-    });
-  });
+    ]
+  };
 </script>
 
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/app.js?v=0.2.5"></script>
 
 
 
 
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 </body>
 </html>
